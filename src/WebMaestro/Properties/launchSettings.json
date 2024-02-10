@@ -3,13 +3,6 @@
     "WebMaestro": {
       "commandName": "Project",
       "environmentVariables": {
-        "WEBMAESTRO_LICENSED": "FALSE"
-      }
-    },
-    "WebMaestro (Licensed)": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "WEBMAESTRO_LICENSED": "TRUE"
       }
     }
   }

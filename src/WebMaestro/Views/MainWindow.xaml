@@ -119,8 +119,6 @@
                     <fluent:Button LargeIcon="Resources\Images\icons8-download-from-the-cloud-32.png" Click="CheckForUpdates">Check for updates</fluent:Button>
                     <fluent:Button LargeIcon="Resources\Images\icons8-online-store-32.png" Click="VisitWebsite">Visit website</fluent:Button>
                     <fluent:Button LargeIcon="Resources\Images\icons8-technical-support-32.png" Click="GotoSupport" >Support</fluent:Button>
-                    <fluent:Button LargeIcon="Resources\Images\icons8-barcode-32.png" IsEnabled="{Binding IsLicensed, Converter={converters:InverseBooleanConverter}}"
-                                   Command="{Binding CheckLicenseCommand}">Enter serial key</fluent:Button>
                     <fluent:Button LargeIcon="Resources\Images\icons8-about-32.png" Click="MenuItem_Click">About</fluent:Button>
                 </fluent:RibbonGroupBox>
             </fluent:RibbonTabItem>
@@ -131,12 +129,6 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Background="#fffeeb" Visibility="{Binding ShowLicenseInfo, Converter={StaticResource boolToVisibility}}" Height="24">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Resources/Images/StatusInformation_16x.png" Margin="5,0,0,0" Height="16" Width="16" />
-                    <TextBlock Text="{Binding LicenseText}" Margin="5,2,0,0" d:Text="">Welcome to WebMaestro Pesonal Edition. For commercial use please get a license for WebMaestro Professional Edition. Click <Hyperlink Click="Hyperlink_Click">here</Hyperlink> to purchase a license.</TextBlock>
-                </StackPanel>
-            </Border>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MinWidth="200" Width="250" />

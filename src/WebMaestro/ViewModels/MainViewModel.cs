@@ -63,19 +63,10 @@ namespace WebMaestro.ViewModels
         private bool isServerStarted;
 
         [ObservableProperty]
-        private bool isLicensed;
-
-        [ObservableProperty]
         private int selectedTabItemIndex = -1;
 
         [ObservableProperty]
         private TabItemViewModel selectedTabItem;
-
-        [ObservableProperty]
-        private string licenseText;
-
-        [ObservableProperty]
-        private bool showLicenseInfo;
 
         [ObservableProperty]
         private string publicIPAddress = "Getting IP address...";
@@ -84,23 +75,6 @@ namespace WebMaestro.ViewModels
         private void Init()
         {
 
-            var licensed = System.Environment.GetEnvironmentVariable("WEBMAESTRO_LICENSED")?.Equals("TRUE", System.StringComparison.InvariantCultureIgnoreCase);
-            this.IsLicensed = licensed == true;
-            this.ShowLicenseInfo = licensed is null || licensed == false;
-
-            //var license = LicenseManager.Check();
-            //this.IsLicensed =  license.Status == LicenseStatus.OK ? false : true;
-
-            //if (license.Status == LicenseStatus.Trial)
-            //{
-            //    this.LicenseText = $"This trial of WebMaestro Pro Edition expires in { license.DaysLeft } days. After the trial has expired you can continue to use WebMaestro Community Edition.";
-            //    this.ShowLicenseInfo = true;
-            //}
-            //else if (license.Status == LicenseStatus.TrialExpired)
-            //{
-            //    this.LicenseText = "Welcome to WebMaestro Pesonal Edition. For commercial use please get a license for WebMaestro Professional Edition.";
-            //    this.ShowLicenseInfo = true;
-            //}
         }
 
         [RelayCommand]
@@ -124,19 +98,6 @@ namespace WebMaestro.ViewModels
         private void NewServer()
         {
             this.ViewModels.Add(new WebServerViewModel());
-        }
-
-        [RelayCommand]
-        private void CheckLicense()
-        {
-            var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-            
-            var vm = new LicenseCheckerViewModel();
-
-            if (dialogService.ShowDialog(this, vm) == true)
-            {
-
-            }
         }
 
         [RelayCommand]
