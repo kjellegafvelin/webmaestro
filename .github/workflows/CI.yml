@@ -1,0 +1,28 @@
+name: CI
+
+on: [push, pull_request, pull_request_review]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with: 
+        fetch-depth: 0
+        
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 8.0.x
+        
+    - name: Ensure NuGet Source
+      uses: fabriciomurta/ensure-nuget-source@v1
+      
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build -c debug WebMaestro\WebMaestro.csproj
+
