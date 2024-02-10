@@ -1,0 +1,166 @@
+﻿{
+  Collection: {
+    Environments: [
+      {
+        Name: TempConvertSoap,
+        Url: http://www.w3schools.com/xml/tempconvert.asmx
+      },
+      {
+        Name: TempConvertSoap12,
+        Url: http://www.w3schools.com/xml/tempconvert.asmx
+      }
+    ],
+    Id: Guid_1,
+    Name: TempConvert
+  },
+  Requests: [
+    {
+      Name: TempConvertSoap_FahrenheitToCelsius,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: SOAPAction,
+          Value: https://www.w3schools.com/xml/FahrenheitToCelsius,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: text/xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    },
+    {
+      Name: TempConvertSoap_CelsiusToFahrenheit,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: SOAPAction,
+          Value: https://www.w3schools.com/xml/CelsiusToFahrenheit,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: text/xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    },
+    {
+      Name: TempConvertSoap12_FahrenheitToCelsius,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: https://www.w3schools.com/xml/FahrenheitToCelsius,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    },
+    {
+      Name: TempConvertSoap12_CelsiusToFahrenheit,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: https://www.w3schools.com/xml/CelsiusToFahrenheit,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    }
+  ]
+}

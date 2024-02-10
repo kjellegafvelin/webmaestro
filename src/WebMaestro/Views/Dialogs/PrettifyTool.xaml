@@ -1,0 +1,63 @@
+﻿<Window x:Class="WebMaestro.Views.Dialogs.PrettifyTool"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:viewModels="clr-namespace:WebMaestro.ViewModels.Dialogs"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" 
+        md:DialogServiceViews.IsRegistered="True"
+        xmlns:dialogs="clr-namespace:WebMaestro.ViewModels.Dialogs"
+        d:DataContext="{d:DesignInstance Type=dialogs:PrettifyToolViewModel}"
+        mc:Ignorable="d"
+        Title="Prettify Tool" Width="600" WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="Height" Loaded="Window_Loaded">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"></WindowChrome>
+    </WindowChrome.WindowChrome>
+    <Window.Resources>
+        <ObjectDataProvider x:Key="prettifyTypes" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="viewModels:PrettifyTypes" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+        
+    <Grid Margin="24,32,24,24">
+        <StackPanel>
+            <StackPanel>
+                <TextBlock Text="Prettify" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,24,0,0">
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,6,0,0" Height="24">Type</TextBlock>
+                <ComboBox Height="24" Width="80" Margin="16,0,0,0" SelectedItem="{Binding PrettifyType}">
+                    <ComboBox.ItemsSource>
+                        <Binding Source="{StaticResource prettifyTypes}"/>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0,24,0,0">
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Height="24">Source</TextBlock>
+                <Border BorderThickness="1" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}">
+                    <avalonedit:TextEditor x:Name="txtSource" ShowLineNumbers="True" HorizontalAlignment="Stretch" Height="200" FontFamily="Consolas" LostFocus="Source_LostFocus" />
+                </Border>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                <Button IsDefault="True" Width="80" FontSize="14" Height="24" Command="{Binding PrettifyCommand}">Prettify</Button>
+            </StackPanel>
+            <StackPanel Margin="0,0,0,0">
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Height="24">Target</TextBlock>
+                <Border BorderThickness="1" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}">
+                    <avalonedit:TextEditor x:Name="txtTarget" ShowLineNumbers="True" HorizontalAlignment="Stretch" Height="200" FontFamily="Consolas" />
+                </Border>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                <Button IsDefault="True" Command="{Binding CopyCommand}" Padding="8,0,8,0" FontSize="14" Height="24">Copy to Clipboard</Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+                <Button IsDefault="True" Width="80" FontSize="14" Height="24" Command="{Binding ExitCommand}">Exit</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

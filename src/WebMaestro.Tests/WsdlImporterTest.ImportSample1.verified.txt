@@ -1,0 +1,347 @@
+﻿{
+  Collection: {
+    Environments: [
+      {
+        Name: SweaWebServiceHttpSoap12Endpoint,
+        Url: https://swea.riksbank.se:443/sweaWS/services/SweaWebServiceHttpSoap12Endpoint
+      }
+    ],
+    Id: Guid_1,
+    Name: SweaWebService
+  },
+  Requests: [
+    {
+      Name: SweaWebServiceSoap12Binding_getInterestAndExchangeNames,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getInterestAndExchangeNames,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    },
+    {
+      Name: SweaWebServiceSoap12Binding_getMonthlyAverageExchangeRates,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getMonthlyAverageExchangeRates,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    },
+    {
+      Name: SweaWebServiceSoap12Binding_getLatestInterestAndExchangeRates,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getLatestInterestAndExchangeRates,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    },
+    {
+      Name: SweaWebServiceSoap12Binding_getInterestAndExchangeGroupNames,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getInterestAndExchangeGroupNames,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    },
+    {
+      Name: SweaWebServiceSoap12Binding_getCrossRates,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getCrossRates,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    },
+    {
+      Name: SweaWebServiceSoap12Binding_getAllCrossNames,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getAllCrossNames,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    },
+    {
+      Name: SweaWebServiceSoap12Binding_getCalendarDays,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getCalendarDays,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    },
+    {
+      Name: SweaWebServiceSoap12Binding_getAnnualAverageExchangeRates,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getAnnualAverageExchangeRates,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    },
+    {
+      Name: SweaWebServiceSoap12Binding_getInterestAndExchangeRates,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getInterestAndExchangeRates,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    }
+  ]
+}

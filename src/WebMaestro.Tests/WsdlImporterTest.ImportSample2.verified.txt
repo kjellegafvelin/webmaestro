@@ -1,0 +1,51 @@
+﻿{
+  Collection: {
+    Environments: [
+      {
+        Name: StockQuotePort,
+        Url: http://example.com/stockquote
+      }
+    ],
+    Id: Guid_1,
+    Name: StockQuoteService
+  },
+  Requests: [
+    {
+      Name: StockQuoteSoapBinding_GetLastTradePrice,
+      Url: ,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: SOAPAction,
+          Value: http://example.com/GetLastTradePrice,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: text/xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      }
+    }
+  ]
+}

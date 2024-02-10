@@ -1,0 +1,15 @@
+﻿<Window x:Class="WebMaestro.Dialogs.AboutDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WebMaestro.Dialogs"
+        mc:Ignorable="d"
+        Title="WebMaestro" Height="269" Width="676" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="60" Margin="50,50,0,0" VerticalAlignment="Top" Width="60" Source="/WebMaestro;component/Resources/Images/icons8-anonymous-mask-64.png"/>
+        <TextBlock FontWeight="Bold" FontSize="56" Margin="128,39,27,109"><Run Name="txtTitle" Text="WebMaestro 1.0"/></TextBlock>
+        <TextBlock Margin="267,129,242,68" FontSize="16">Brightray Software</TextBlock>
+        <Button Margin="255,184,255,20" Click="Button_Click">Close</Button>
+    </Grid>
+</Window>

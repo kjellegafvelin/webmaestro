@@ -1,0 +1,30 @@
+﻿<Window x:Class="WebMaestro.Views.Dialogs.SaveRequest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WebMaestro.Views.Dialogs"
+        xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" 
+        xmlns:dialogs="clr-namespace:WebMaestro.ViewModels.Dialogs"
+        md:DialogServiceViews.IsRegistered="True"
+        d:DataContext="{d:DesignInstance Type=dialogs:SaveRequestViewModel}"
+        mc:Ignorable="d"
+        Title="Save Request" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False" Width="450" SizeToContent="Height">
+    <Grid Margin="12" FocusManager.FocusedElement="{Binding ElementName=collections}">
+        <StackPanel>
+            <Label>Select collection:</Label>
+            <StackPanel Orientation="Horizontal" >
+                <ComboBox Name="collections" Width="250" Height="22" HorizontalAlignment="Left" ItemsSource="{Binding Collections}" DisplayMemberPath="Name" SelectedItem="{Binding Collection}"/>
+                <TextBlock Margin="12,0,0,0">
+                    <Hyperlink Command="{Binding CreateNewCollectionCommand}">Create new collection</Hyperlink>
+                </TextBlock>
+            </StackPanel>
+            <Label>Name:</Label>
+            <TextBox Width="auto" Height="22" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,22,0,0">
+                <Button Width="80" Command="{Binding OkCommand}" IsDefault="True">OK</Button>
+                <Button Width="80" Margin="8,0,0,0" IsCancel="True">Cancel</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

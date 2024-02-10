@@ -1,0 +1,49 @@
+﻿<Window x:Class="WebMaestro.Views.Dialogs.ImportOpenApiRequests"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+        xmlns:dialogs="clr-namespace:WebMaestro.ViewModels.Dialogs" xmlns:converters="clr-namespace:WebMaestro.Converters"
+        md:DialogServiceViews.IsRegistered="True"
+        d:DataContext="{d:DesignInstance Type=dialogs:ImportOpenApiRequestsViewModel}"
+        mc:Ignorable="d"
+        Title="Import Open API" Width="600" WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="Height">
+    <Window.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="inverseBool" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"></WindowChrome>
+    </WindowChrome.WindowChrome>
+    <Grid Margin="24,32,24,24">
+        <StackPanel>
+            <StackPanel>
+                <TextBlock Text="Import Open API" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            </StackPanel>
+            <StackPanel Margin="0,24,0,0">
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Height="24">Select source to import from</TextBlock>
+                <RadioButton GroupName="import" Content="Import from URL" IsChecked="{Binding IsUrl}" FontSize="14" Height="24"/>
+                <TextBox Text="{Binding Url}" IsEnabled="{Binding IsUrl}" Margin="20,0,0,10" Height="24" FontSize="14"/>
+                <RadioButton GroupName="import" Content="Import from file" FontSize="14" Height="24"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" IsEnabled="{Binding IsUrl, Converter={StaticResource inverseBool}}">
+                    <TextBox Text="{Binding Path}" Width="500" Margin="20,0,0,0"/>
+                    <Button FontSize="14" Height="24" Margin="8,0,0,0" Width="24" Command="{Binding BrowseForFileCommand}">...</Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Margin="0,24,0,0">
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Height="24">Location to save collection</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Text="{Binding Location}" Width="520" />
+                    <Button Margin="8,0,0,0" Width="24" FontSize="14" Height="24" ToolTip="Browse" Command="{Binding BrowseForFolderCommand}">...</Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,48,0,0">
+                <Button IsDefault="True" Command="{Binding OkCommand}" Width="80" FontSize="14" Height="24">OK</Button>
+                <Button IsCancel="True" Margin="8,0,0,0" Width="80" FontSize="14" Height="24">Cancel</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

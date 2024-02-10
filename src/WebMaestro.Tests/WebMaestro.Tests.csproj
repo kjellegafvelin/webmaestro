@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>WebMaestro.Tests.snk</AssemblyOriginatorKeyFile>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Http_Get.txt" />
+    <None Remove="Resources\Http_Get_FullUrl.txt" />
+    <None Remove="Resources\Http_Post.txt" />
+    <None Remove="Resources\Wsdl Sample 1.xml" />
+    <None Remove="Resources\Wsdl Sample 2.xml" />
+    <None Remove="Resources\Wsdl Sample 3.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Http_Get_FullUrl.txt" />
+    <EmbeddedResource Include="Resources\Http_Post.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Http_Get.txt" />
+    <EmbeddedResource Include="Resources\Wsdl Sample 1.xml" />
+    <EmbeddedResource Include="Resources\Wsdl Sample 2.xml" />
+    <EmbeddedResource Include="Resources\Wsdl Sample 3.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="Verify.ClipboardAccept" Version="17.1.6" />
+    <PackageReference Include="Verify.Xunit" Version="17.1.6" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.1.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebMaestro\WebMaestro.csproj" />
+  </ItemGroup>
+
+</Project>

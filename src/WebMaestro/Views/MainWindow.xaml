@@ -1,0 +1,190 @@
+﻿<fluent:RibbonWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:WebMaestro.Controls"
+        xmlns:views="clr-namespace:WebMaestro.Views"
+        xmlns:fluent="urn:fluent-ribbon"
+        xmlns:cmds="clr-namespace:WebMaestro.Commands"
+        xmlns:converters="clr-namespace:WebMaestro.Converters"
+        xmlns:vm="clr-namespace:WebMaestro.ViewModels"
+        xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:selectors="clr-namespace:WebMaestro.Selectors" xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    md:DialogServiceViews.IsRegistered="True"
+        x:Class="WebMaestro.Views.MainWindow"
+        mc:Ignorable="d"
+        DataContext="{Binding Source={StaticResource Locator}, Path=MainView}"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        Title="WebMaestro" Height="800" Width="1280" MinWidth="800" MinHeight="600" WindowState="Maximized">
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Loaded">
+            <b:InvokeCommandAction Command="{Binding InitCommand}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
+    <Window.CommandBindings>
+        <CommandBinding Command="cmds:WindowCommands.SaveToCollection" Executed="SaveToCollectionExecuted" CanExecute="SaveToCollectionCanExecute" />
+        <CommandBinding Command="cmds:WindowCommands.SendRequest" Executed="SendRequestExecuted" CanExecute="SendRequestCanExecute" />
+        <CommandBinding Command="cmds:WindowCommands.CancelRequest" Executed="CancelRequestExecuted" CanExecute="CancelRequestCanExecute"/>
+        <CommandBinding Command="cmds:WindowCommands.StartServer" Executed="StartServerExecuted" CanExecute="StartServerCanExecute" />
+        <CommandBinding Command="cmds:WindowCommands.SendRequest" Executed="StopServerExecuted" CanExecute="StopServerCanExecute" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Gesture="CTRL+N" Command="{Binding NewRequestCommand}" />
+        <KeyBinding Gesture="CTRL+M" Command="{Binding NewServerCommand}" />
+        <KeyBinding Gesture="ALT+F4" Command="{Binding ExitCommand}" />
+        <KeyBinding Gesture="CTRL+S" Command="{Binding SaveCommand}" />
+    </Window.InputBindings>
+    <Window.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="boolToVisibility" />
+            <converters:TabItemConverter x:Key="tabItem" />
+
+            <Style x:Key="RequestStyle" TargetType="{x:Type controls:CloseableTabItem}">
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background" Value="#3B88C6"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#4299E1" />
+                        <Setter Property="Foreground" Value="White" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="#4299E1" />
+                        <Setter Property="Foreground" Value="White" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="ServerStyle" TargetType="{x:Type controls:CloseableTabItem}">
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background" Value="#255696"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#2C65B1" />
+                        <Setter Property="Foreground" Value="White" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="#2C65B1" />
+                        <Setter Property="Foreground" Value="White" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <selectors:TabItemStyleSelector x:Key="tabItemStyleSelector"
+                                            RequestStyle="{StaticResource RequestStyle}"
+                                            ServerStyle="{StaticResource ServerStyle}"/>
+
+        </ResourceDictionary>
+    </Window.Resources>
+    <DockPanel>
+        <fluent:Ribbon DockPanel.Dock="Top" IsQuickAccessToolBarVisible="False">
+            <fluent:Ribbon.Menu>
+                <fluent:Backstage>
+                    <fluent:BackstageTabControl>
+                        <fluent:Button Header="Exit" Command="cmds:WindowCommands.Exit" />
+                    </fluent:BackstageTabControl>
+                </fluent:Backstage>
+            </fluent:Ribbon.Menu>
+            <fluent:RibbonTabItem Header="Home">
+                <fluent:RibbonGroupBox Header="New">
+                    <fluent:Button Header="New Request" Command="{Binding NewRequestCommand}" LargeIcon="Resources\Images\icons8-individual-server-32.png" />
+                    <fluent:Button Header="Import Raw Http" Command="{Binding ImportRawHttpCommand}" LargeIcon="Resources\Images\icons8-individual-server-32.png" />
+                    <fluent:Button Header="New Mock API" Command="{Binding NewServerCommand}" LargeIcon="Resources\Images\icons8-stack-32.png" />
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Header="Save">
+                    <fluent:Button Header="Save" LargeIcon="Resources\Images\icons8-save-32.png" Command="{Binding SaveCommand}" IsEnabled="{Binding SelectedTabItem.Observer.IsModified, FallbackValue=false}" />
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Header="Request" Visibility="Hidden">
+                    <fluent:Button Header="Send" LargeIcon="Resources\Images\icons8-send-32.png" Command="cmds:WindowCommands.SendRequest"/>
+                    <fluent:Button Header="Cancel" LargeIcon="Resources\Images\icons8-cancel-32.png" Command="cmds:WindowCommands.CancelRequest"/>
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Header="Mock API" Visibility="Hidden">
+                    <fluent:Button Header="Start Server" LargeIcon="Resources\Images\icons8-start-32.png" Command="cmds:WindowCommands.StartServer"/>
+
+
+                    <fluent:Button Header="Stop Server" LargeIcon="Resources\Images\icons8-stop-32.png" Command="cmds:WindowCommands.StopServer"/>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+            <fluent:RibbonTabItem Header="Tools">
+                <fluent:RibbonGroupBox Header="Minification">
+                    <fluent:Button ToolTip="Prettify minified XML or JSON content" Command="{Binding PrettifyCommand}" LargeIcon="Resources\Images\icons8-swiss-army-knife-open-32.png" >Prettify</fluent:Button>
+                    <fluent:Button IsEnabled="False" ToolTip="Minify XML or JSON content" LargeIcon="Resources\Images\icons8-swiss-army-knife-32.png" >Minify</fluent:Button>
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Header="Encoding">
+                    <fluent:Button IsEnabled="False" ToolTip="Encode content using BASE64 or URL encoding" LargeIcon="Resources\Images\icons8-lock-32.png">Encode</fluent:Button>
+                    <fluent:Button IsEnabled="False" ToolTip="Decode content using BASE64 or URL encoding" LargeIcon="Resources\Images\icons8-unlock-32.png">Decode</fluent:Button>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+            <fluent:RibbonTabItem Header="Help">
+                <fluent:RibbonGroupBox Header="Help">
+                    <fluent:Button LargeIcon="Resources\Images\icons8-download-from-the-cloud-32.png" Click="CheckForUpdates">Check for updates</fluent:Button>
+                    <fluent:Button LargeIcon="Resources\Images\icons8-online-store-32.png" Click="VisitWebsite">Visit website</fluent:Button>
+                    <fluent:Button LargeIcon="Resources\Images\icons8-technical-support-32.png" Click="GotoSupport" >Support</fluent:Button>
+                    <fluent:Button LargeIcon="Resources\Images\icons8-barcode-32.png" IsEnabled="{Binding IsLicensed, Converter={converters:InverseBooleanConverter}}"
+                                   Command="{Binding CheckLicenseCommand}">Enter serial key</fluent:Button>
+                    <fluent:Button LargeIcon="Resources\Images\icons8-about-32.png" Click="MenuItem_Click">About</fluent:Button>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+        </fluent:Ribbon>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"  />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Background="#fffeeb" Visibility="{Binding ShowLicenseInfo, Converter={StaticResource boolToVisibility}}" Height="24">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Images/StatusInformation_16x.png" Margin="5,0,0,0" Height="16" Width="16" />
+                    <TextBlock Text="{Binding LicenseText}" Margin="5,2,0,0" d:Text="">Welcome to WebMaestro Pesonal Edition. For commercial use please get a license for WebMaestro Professional Edition. Click <Hyperlink Click="Hyperlink_Click">here</Hyperlink> to purchase a license.</TextBlock>
+                </StackPanel>
+            </Border>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="200" Width="250" />
+                    <ColumnDefinition Width="3" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <views:ExplorerView Grid.Column="0"></views:ExplorerView>
+
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="3"/>
+
+                <controls:CloseableTabControl Grid.Column="2" x:Name="tabs" ItemsSource="{Binding ViewModels}" SelectedItem="{Binding SelectedTabItem, Converter={StaticResource tabItem}}" ItemContainerStyleSelector="{StaticResource tabItemStyleSelector}" AllowAddNew="False">
+                    <controls:CloseableTabControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" ToolTip="{Binding Name}">
+                                <TextBlock FontWeight="SemiBold" FontSize="14" Text="{Binding Name}" MaxWidth="210" TextTrimming="CharacterEllipsis" />
+                                <TextBlock FontWeight="SemiBold" FontSize="14" Visibility="{Binding Observer.IsModified, Converter={StaticResource boolToVisibility}}" Text=" *"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </controls:CloseableTabControl.ItemTemplate>
+                    <controls:CloseableTabControl.Resources>
+                        <DataTemplate DataType="{x:Type vm:WebViewModel}">
+                            <views:WebView DataContext="{Binding}"></views:WebView>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type vm:WebServerViewModel}">
+                            <views:WebServerView DataContext="{Binding}"></views:WebServerView>
+                        </DataTemplate>
+                    </controls:CloseableTabControl.Resources>
+                </controls:CloseableTabControl>
+            </Grid>
+            <fluent:StatusBar Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                <fluent:StatusBarItem Title="IP Address" Value="{Binding PublicIPAddress}" HorizontalAlignment="Left">
+                    <fluent:StatusBarItem.ContextMenu>
+                        <fluent:ContextMenu>
+                            <fluent:MenuItem Header="Copy to clipboard" Command="{Binding CopyPublicIPAddressCommand}">
+                                <fluent:MenuItem.Icon>
+                                    <Image Source="/Resources/Images/Copy_16x.png" Width="16" Height="16" />
+                                </fluent:MenuItem.Icon>
+                            </fluent:MenuItem>
+                        </fluent:ContextMenu>
+                    </fluent:StatusBarItem.ContextMenu>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Public IP Address:" Margin="10,0"/>
+                        <TextBlock Text="{Binding PublicIPAddress}"/>
+                    </StackPanel>
+                </fluent:StatusBarItem>
+            </fluent:StatusBar>
+        </Grid>
+    </DockPanel>
+    
+</fluent:RibbonWindow>

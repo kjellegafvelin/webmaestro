@@ -1,0 +1,18 @@
+﻿<Window x:Class="WebMaestro.Views.Dialogs.AddVariable"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:conv="clr-namespace:WebMaestro.Converters"
+        xmlns:dialogs="clr-namespace:WebMaestro.ViewModels.Dialogs" d:DataContext="{d:DesignInstance Type=dialogs:AddVariableViewModel}"
+        mc:Ignorable="d"
+        Title="Add Variable" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
+    <Grid HorizontalAlignment="Left" Margin="0,0,10,10" FocusManager.FocusedElement="{Binding ElementName=txtName}">
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.81,0.738"/>
+        <TextBox Name="txtName" Text="{Binding Name}" IsEnabled="{Binding IsEditing, Converter={conv:InverseBooleanConverter}}" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"/>
+        <TextBox Text="{Binding Value}" HorizontalAlignment="Left" Height="23" Margin="200,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"/>
+        <Label Content="Value:" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.81,0.738"/>
+        <Button Content="OK" Command="{Binding OkCommand}" HorizontalAlignment="Left" Margin="200,80,0,0" VerticalAlignment="Top" Width="75" IsDefault="True"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="285,80,0,0" VerticalAlignment="Top" Width="75" IsCancel="True"/>
+    </Grid>
+</Window>
