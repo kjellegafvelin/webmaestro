@@ -1,6 +1,9 @@
 name: CI
 
-on: [push, pull_request, pull_request_review]
+on:
+  push:
+    paths:
+    - 'src/**'
 
 jobs:
   build:
