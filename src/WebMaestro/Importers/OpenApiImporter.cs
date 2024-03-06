@@ -2,11 +2,8 @@
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebMaestro.Models;
 using WebMaestro.ViewModels;
 
@@ -29,32 +26,76 @@ namespace WebMaestro.Importers
         {
             var openApi = new OpenApiStreamReader().Read(stream, out var diagnostic);
 
+            var isOpenApi2 = diagnostic.SpecificationVersion == Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0;
+
             this.Collection.Name = openApi.Info.Title;
 
-            foreach (var server in openApi.Servers)
+            if (isOpenApi2)
             {
-                var url = server.Url;
+                openApi.Extensions.TryGetValue("x-servers", out var servers);
 
-                if (url.StartsWith('/'))
+                if (servers is not null)
                 {
-                    url = baseUrl + url;
+                    var basePath = new Uri(openApi.Servers.First().Url).AbsolutePath;
+                    
+                    var serverList = (OpenApiArray)servers;
+
+                    foreach (var server in serverList)
+                    {
+                        var url = ((OpenApiObject)server).TryGetValue("url", out var urlTemp) 
+                            ? (urlTemp as OpenApiString).Value : string.Empty;
+
+                        var description = ((OpenApiObject)server).TryGetValue("description", out var descTemp)
+                            ? (descTemp as OpenApiString).Value : url;
+
+
+                        var env = new EnvironmentModel()
+                        {
+                            Name = description ,
+                            Url = url + basePath
+                        };
+
+                        this.Collection.Environments.Add(env);
+                    }
                 }
-
-                url = url.Replace("{", "${");
-
-                var env = new EnvironmentModel()
+                else
                 {
-                    Name = server.Description ?? url,
-                    Url = url
-                };
+                    var env = new EnvironmentModel()
+                    {
+                        Name = openApi.Info.Title,
+                        Url = baseUrl
+                    };
 
-                foreach ((string key, OpenApiServerVariable value) in server.Variables)
-                {
-                    var variable = new VariableModel(key, value.Default, value.Description);
-                    env.Variables.Add(variable);
+                    this.Collection.Environments.Add(env);
                 }
+            }
+            else
+            {
+                foreach (var server in openApi.Servers)
+                {
+                    var url = server.Url;
 
-                this.Collection.Environments.Add(env);
+                    if (url.StartsWith('/'))
+                    {
+                        url = baseUrl + url;
+                    }
+
+                    url = url.Replace("{", "${");
+
+                    var env = new EnvironmentModel()
+                    {
+                        Name = server.Description ?? url,
+                        Url = url
+                    };
+
+                    foreach ((string key, OpenApiServerVariable value) in server.Variables)
+                    {
+                        var variable = new VariableModel(key, value.Default, value.Description);
+                        env.Variables.Add(variable);
+                    }
+
+                    this.Collection.Environments.Add(env);
+                }
             }
 
             if (this.Collection.Environments.Count == 0)
@@ -76,14 +117,14 @@ namespace WebMaestro.Importers
                     {
                         continue;
                     }
-                    
+
                     var req = new RequestModel()
                     {
-                        Name = operationInfo.Summary ?? $"{ operationType.ToString().ToLowerInvariant() }-{ path.Replace('/', '-').ToLowerInvariant() }",
+                        Name = operationInfo.Summary ?? $"{operationType.ToString().ToLowerInvariant()}-{path.Replace('/', '-').ToLowerInvariant()}",
                         Url = path.Replace("{", "${"),
                         HttpMethod = ConvertToHttpMethod(operationType)
                     };
-                    
+
                     foreach (var parameter in operationInfo.Parameters)
                     {
                         if (parameter.Deprecated)
