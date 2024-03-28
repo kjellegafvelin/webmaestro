@@ -528,6 +528,20 @@ namespace WebMaestro.ViewModels
             this.Request.Headers.Add(newHeader);
         }
 
+        [RelayCommand]
+        private void CopyHeader(HeaderModel parameter)
+        {
+            var value = $"{parameter.Name}: {parameter.Value}";
+
+            Clipboard.SetText(value, TextDataFormat.Text);
+        }
+
+        [RelayCommand]
+        private void CopyHeaderValue(HeaderModel parameter)
+        {
+            Clipboard.SetText(parameter.Value, TextDataFormat.Text);
+        }
+
         private void Request_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(this.Request.Url))

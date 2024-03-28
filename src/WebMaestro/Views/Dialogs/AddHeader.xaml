@@ -20,7 +20,52 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Content="Name:" VerticalAlignment="Top" Height="26" />
-        <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtName" Text="{Binding Name}" IsEnabled="{Binding IsEdit, Converter={converters:InverseBooleanConverter}}" Height="21" VerticalAlignment="Center" Width="300" />
+
+        <ComboBox  Grid.Row="0" Grid.Column="1" IsEditable="True" Name="cmbName" Height="21" VerticalAlignment="Center" Width="300" 
+                   IsEnabled="{Binding IsEdit, Converter={converters:InverseBooleanConverter}}" Text="{Binding Name}">
+            <ComboBoxItem Content="Accept" />
+            <ComboBoxItem Content="Accept-Charset" />
+            <ComboBoxItem Content="Accept-Datetime" />
+            <ComboBoxItem Content="Accept-Encoding" />
+            <ComboBoxItem Content="Accept-Language" />
+            <ComboBoxItem Content="Accept-Ranges" />
+            <ComboBoxItem Content="Access-Control-Request-Method" />
+            <ComboBoxItem Content="Access-Control-Request-Headers" />
+            <ComboBoxItem Content="Authorization" />
+            <ComboBoxItem Content="Cache-Control" />
+            <ComboBoxItem Content="Connection" />
+            <ComboBoxItem Content="Content-Encoding" />
+            <ComboBoxItem Content="Content-Length" />
+            <ComboBoxItem Content="Content-Type" />
+            <ComboBoxItem Content="Cookie" />
+            <ComboBoxItem Content="Date" />
+            <ComboBoxItem Content="Expect" />
+            <ComboBoxItem Content="Forwarded" />
+            <ComboBoxItem Content="From" />
+            <ComboBoxItem Content="Host" />
+            <ComboBoxItem Content="If-Match" />
+            <ComboBoxItem Content="If-Modified-Since" />
+            <ComboBoxItem Content="If-None-Match" />
+            <ComboBoxItem Content="If-Range" />
+            <ComboBoxItem Content="If-Unmodified-Since" />
+            <ComboBoxItem Content="Max-Forwards" />
+            <ComboBoxItem Content="Origin" />
+            <ComboBoxItem Content="Pragma" />
+            <ComboBoxItem Content="Prefer" />
+            <ComboBoxItem Content="Proxy-Authorization" />
+            <ComboBoxItem Content="Range" />
+            <ComboBoxItem Content="Referer" />
+            <ComboBoxItem Content="TE" />
+            <ComboBoxItem Content="Trailer" />
+            <ComboBoxItem Content="Transfer-Encoding" />
+            <ComboBoxItem Content="User-Agent" />
+            <ComboBoxItem Content="Upgrade" />
+            <ComboBoxItem Content="Via" />
+            <Separator />
+            <ComboBoxItem Content="Ocp-Apim-Subscription-Key" />
+            <ComboBoxItem Content="Ocp-Apim-Trace" />
+        </ComboBox>
+
         <Label Grid.Row="1" Grid.Column="0" Content="Value:" VerticalAlignment="Top" Height="26"/>
         <TextBox Grid.Row="1" Grid.Column="1" Name="txtValue" Text="{Binding Value}" Height="21" VerticalAlignment="Center" Width="300"/>
         <Label Grid.Row="2" Grid.Column="0" Content="Description:" VerticalAlignment="Top" Height="26"/>
