@@ -172,6 +172,16 @@ namespace WebMaestro.Services
                             msg.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         }
                         break;
+                    case HttpMethods.PUT:
+                        msg = new HttpRequestMessage(new HttpMethod("PUT"), url)
+                        {
+                            Content = CreateStringContent(request)
+                        };
+                        if (!string.IsNullOrWhiteSpace(contentType))
+                        {
+                            msg.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                        }
+                        break;
                 }
 
                 msg.Version = request.HttpVersion switch
