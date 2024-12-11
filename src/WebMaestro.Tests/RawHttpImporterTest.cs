@@ -8,7 +8,6 @@ using Xunit;
 
 namespace WebMaestro.Tests
 {
-    [UsesVerify]
     public class RawHttpImporterTest: VerifyBase
     {
         public RawHttpImporterTest() : base()

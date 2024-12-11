@@ -6,7 +6,6 @@ using Xunit;
 
 namespace WebMaestro.Tests
 {
-    [UsesVerify]
     public class WsdlImporterTest : VerifyBase
     {
         public WsdlImporterTest() : base()
