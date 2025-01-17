@@ -215,6 +215,12 @@ namespace WebMaestro.Models
         }
 
         [ObservableProperty]
+        private string filename;
+
+        [ObservableProperty]
+        private RequestBodyType bodyType = RequestBodyType.None;
+
+        [ObservableProperty]
         public int timeout = 120;
 
         [ObservableProperty]

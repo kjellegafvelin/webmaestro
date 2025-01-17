@@ -144,9 +144,6 @@ namespace WebMaestro.ViewModels
         private bool allowAutoRedirect = true;
 
         [ObservableProperty]
-        private RequestBodyType bodyType;
-
-        [ObservableProperty]
         private bool useSession;
 
         public Dictionary<string, int> Timeouts
@@ -656,6 +653,23 @@ namespace WebMaestro.ViewModels
 
             _ = this.dialogService.ShowDialog(this, vm);
         }
+
+        [RelayCommand]
+        private void OpenFileForRequest()
+        {
+            var settings = new OpenFileDialogSettings()
+            {
+                Filter = "All files (*.*)|*.*",
+                Title = "Open File"
+            };
+
+            if (this.dialogService.ShowOpenFileDialog(this, settings) == true)
+            {
+                Request.Filename = settings.FileName;
+            }
+
+        }
+
     }
 }
 

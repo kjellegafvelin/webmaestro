@@ -52,7 +52,7 @@
 
             <Style x:Key="defaultList" TargetType="{x:Type ListView}">
                 <Setter Property="BorderThickness" Value="0" />
-              
+
             </Style>
             <converters:BindingProxy x:Key="proxy" Data="{Binding}"/>
         </ResourceDictionary>
@@ -485,38 +485,38 @@
 
                         <GridSplitter Grid.Row="1" ResizeDirection="Rows" HorizontalAlignment="Stretch" Height="3"/>
 
-                            <Grid Grid.Row="2">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="40" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0" Margin="10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="60" />
-                                        <ColumnDefinition Width="60" />
-                                        <ColumnDefinition Width="60" />
-                                        <ColumnDefinition Width="60" />
-                                    </Grid.ColumnDefinitions>
-                                    <RadioButton Grid.Column="0" GroupName="BodyType" IsChecked="{Binding BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=None}" Content="None"/>
-                                <RadioButton IsEnabled="False" Grid.Column="1" GroupName="BodyType" IsChecked="{Binding BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Form}" Content="Form" />
-                                <RadioButton Grid.Column="2" GroupName="BodyType" IsChecked="{Binding BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Raw}" Content="Raw"/>
-                                <RadioButton IsEnabled="False" Grid.Column="3" GroupName="BodyType" IsChecked="{Binding BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Binary}" Content="Binary"/>
-                                </Grid>
-                            
-                                <TextBlock Grid.Row="1" Visibility="{Binding BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=None}" 
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="60" />
+                                </Grid.ColumnDefinitions>
+                                <RadioButton Grid.Column="0" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=None}" Content="None"/>
+                                <RadioButton IsEnabled="False" Grid.Column="1" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Form}" Content="Form" />
+                                <RadioButton Grid.Column="2" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Raw}" Content="Raw"/>
+                                <RadioButton Grid.Column="3" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Binary}" Content="Binary"/>
+                            </Grid>
+
+                            <TextBlock Grid.Row="1" Visibility="{Binding Reuqest.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=None}" 
                                            Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">This request has an empty body.</TextBlock>
 
-                            <ListView Grid.Row="1" Visibility="{Binding BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Form}" Style="{StaticResource defaultList}">
-                                    <ListView.View>
-                                        <GridView>
-                                            <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}"/>
-                                            <GridViewColumn Header="Value" Width="300" DisplayMemberBinding="{Binding Value}"/>
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
+                            <ListView Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Form}" Style="{StaticResource defaultList}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}"/>
+                                        <GridViewColumn Header="Value" Width="300" DisplayMemberBinding="{Binding Value}"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
 
                             <Border Grid.Row="1" BorderBrush="#ACACAC" BorderThickness="1">
-                                <DockPanel Grid.Row="1" Visibility="{Binding BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Raw}" >
+                                <DockPanel Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Raw}" >
                                     <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True"  Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
                                         <Button ToolTip="Open file" Command="{Binding OpenRequestBodyCommand}">
                                             <Image Source="/Resources/Images/OpenFile_16x.png" Width="16" Height="16" />
@@ -549,18 +549,22 @@
                                 </DockPanel>
                             </Border>
 
-                            <Grid Grid.Row="1" Visibility="{Binding BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Binary}">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="24"/>
-                                    </Grid.RowDefinitions>
+                            <Grid Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Binary}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="201*"/>
+                                    <ColumnDefinition Width="290*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34"/>
+                                </Grid.RowDefinitions>
 
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="File:"/>
-                                        <TextBox Width="200"/>
-                                        <Button Content="Select"/>
-                                    </StackPanel>
-                                </Grid>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Grid.ColumnSpan="2">
+                                    <Label Content="File:"/>
+                                    <TextBox Width="500" Text="{Binding Request.Filename}"/>
+                                    <Button Content="Select file" Command="{Binding OpenFileForRequestCommand}"/>
+                                </StackPanel>
                             </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
 

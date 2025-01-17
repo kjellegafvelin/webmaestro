@@ -155,8 +155,11 @@ namespace WebMaestro.Services
                     case HttpMethods.POST:
                         msg = new HttpRequestMessage(HttpMethod.Post, url)
                         {
-                            Content = CreateStringContent(request)
+                            Content = CreateContent(request)
                         };
+
+                        contentType = msg.Content is StreamContent ? "application/octet-stream" : contentType;
+
                         if (!string.IsNullOrWhiteSpace(contentType))
                         {
                             msg.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
@@ -165,8 +168,11 @@ namespace WebMaestro.Services
                     case HttpMethods.PATCH:
                         msg = new HttpRequestMessage(new HttpMethod("PATCH"), url)
                         {
-                            Content = CreateStringContent(request)
+                            Content = CreateContent(request)
                         };
+
+                        contentType = msg.Content is StreamContent ? "application/octet-stream" : contentType;
+
                         if (!string.IsNullOrWhiteSpace(contentType))
                         {
                             msg.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
@@ -175,8 +181,11 @@ namespace WebMaestro.Services
                     case HttpMethods.PUT:
                         msg = new HttpRequestMessage(new HttpMethod("PUT"), url)
                         {
-                            Content = CreateStringContent(request)
+                            Content = CreateContent(request)
                         };
+
+                        contentType = msg.Content is StreamContent ? "application/octet-stream" : contentType;
+
                         if (!string.IsNullOrWhiteSpace(contentType))
                         {
                             msg.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
@@ -334,13 +343,24 @@ namespace WebMaestro.Services
             return value;
         }
 
-        private StringContent CreateStringContent(RequestModel request)
+        private HttpContent CreateContent(RequestModel request)
         {
-            var body = request.Body ?? "";
+            switch (request.BodyType)
+            {
+                case RequestBodyType.Form:
+                    return null;
+                case RequestBodyType.Raw:
+                    var body = request.Body ?? "";
 
-            body = ApplyVariables(request, body);
+                    body = ApplyVariables(request, body);
 
-            return new StringContent(body, Encoding.UTF8);
+                    return new StringContent(body, Encoding.UTF8);
+                case RequestBodyType.Binary:
+                    FileStream file = File.OpenRead(request.Filename);
+                    return new StreamContent(file);
+                default:
+                    return null;
+            }
         }
 
         private void AddAuthentication(RequestModel request, HttpRequestHeaders headers, ref Uri url)
