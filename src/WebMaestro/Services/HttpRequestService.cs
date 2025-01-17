@@ -153,33 +153,9 @@ namespace WebMaestro.Services
                         msg = new HttpRequestMessage(HttpMethod.Get, url);
                         break;
                     case HttpMethods.POST:
-                        msg = new HttpRequestMessage(HttpMethod.Post, url)
-                        {
-                            Content = CreateContent(request)
-                        };
-
-                        contentType = msg.Content is StreamContent ? "application/octet-stream" : contentType;
-
-                        if (!string.IsNullOrWhiteSpace(contentType))
-                        {
-                            msg.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-                        }
-                        break;
                     case HttpMethods.PATCH:
-                        msg = new HttpRequestMessage(new HttpMethod("PATCH"), url)
-                        {
-                            Content = CreateContent(request)
-                        };
-
-                        contentType = msg.Content is StreamContent ? "application/octet-stream" : contentType;
-
-                        if (!string.IsNullOrWhiteSpace(contentType))
-                        {
-                            msg.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-                        }
-                        break;
                     case HttpMethods.PUT:
-                        msg = new HttpRequestMessage(new HttpMethod("PUT"), url)
+                        msg = new HttpRequestMessage(new HttpMethod(request.HttpMethod.ToString()), url)
                         {
                             Content = CreateContent(request)
                         };
