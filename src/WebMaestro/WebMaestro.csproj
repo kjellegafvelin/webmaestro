@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFrameworks>net9.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>icons8_anonymous_mask_64_8cW_icon.ico</ApplicationIcon>
     <PublishSingleFile Condition="'$(Configuration)' == 'Release'">true</PublishSingleFile>
