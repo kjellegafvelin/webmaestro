@@ -18,6 +18,7 @@ namespace WebMaestro.Views.Dialogs
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.vm = (ImportRawHttpViewModel)this.DataContext;
+            txtSource.Text = this.vm.Source;
         }
 
         private void Source_LostFocus(object sender, RoutedEventArgs e)

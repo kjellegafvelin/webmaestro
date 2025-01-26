@@ -6,6 +6,7 @@ using MvvmDialogs.FrameworkDialogs.MessageBox;
 using System;
 using WebMaestro.Importers;
 using WebMaestro.Models;
+using System.Windows;
 
 namespace WebMaestro.ViewModels.Dialogs
 {
@@ -13,14 +14,13 @@ namespace WebMaestro.ViewModels.Dialogs
     {
         public ImportRawHttpViewModel()
         {
-
         }
 
         [ObservableProperty]
         private bool? dialogResult;
 
         [ObservableProperty]
-        private string source;
+        private string source = Clipboard.GetText(TextDataFormat.Text);
 
         public RequestModel Request { get; set; }
 
