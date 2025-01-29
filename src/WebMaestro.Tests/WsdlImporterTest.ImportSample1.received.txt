@@ -1,0 +1,383 @@
+﻿{
+  Collection: {
+    Environments: [
+      {
+        Name: SweaWebServiceHttpSoap12Endpoint,
+        Url: https://swea.riksbank.se:443/sweaWS/services/SweaWebServiceHttpSoap12Endpoint
+      }
+    ],
+    Id: Guid_1,
+    Name: SweaWebService
+  },
+  Requests: [
+    {
+      timeout: 120,
+      Name: SweaWebServiceSoap12Binding_getInterestAndExchangeNames,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getInterestAndExchangeNames,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      },
+      Url: ,
+      Timeout: 120,
+      HttpVersionExact: false,
+      HasErrors: false
+    },
+    {
+      timeout: 120,
+      Name: SweaWebServiceSoap12Binding_getMonthlyAverageExchangeRates,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getMonthlyAverageExchangeRates,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      },
+      Url: ,
+      Timeout: 120,
+      HttpVersionExact: false,
+      HasErrors: false
+    },
+    {
+      timeout: 120,
+      Name: SweaWebServiceSoap12Binding_getLatestInterestAndExchangeRates,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getLatestInterestAndExchangeRates,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      },
+      Url: ,
+      Timeout: 120,
+      HttpVersionExact: false,
+      HasErrors: false
+    },
+    {
+      timeout: 120,
+      Name: SweaWebServiceSoap12Binding_getInterestAndExchangeGroupNames,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getInterestAndExchangeGroupNames,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      },
+      Url: ,
+      Timeout: 120,
+      HttpVersionExact: false,
+      HasErrors: false
+    },
+    {
+      timeout: 120,
+      Name: SweaWebServiceSoap12Binding_getCrossRates,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getCrossRates,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      },
+      Url: ,
+      Timeout: 120,
+      HttpVersionExact: false,
+      HasErrors: false
+    },
+    {
+      timeout: 120,
+      Name: SweaWebServiceSoap12Binding_getAllCrossNames,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getAllCrossNames,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      },
+      Url: ,
+      Timeout: 120,
+      HttpVersionExact: false,
+      HasErrors: false
+    },
+    {
+      timeout: 120,
+      Name: SweaWebServiceSoap12Binding_getCalendarDays,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getCalendarDays,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      },
+      Url: ,
+      Timeout: 120,
+      HttpVersionExact: false,
+      HasErrors: false
+    },
+    {
+      timeout: 120,
+      Name: SweaWebServiceSoap12Binding_getAnnualAverageExchangeRates,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getAnnualAverageExchangeRates,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      },
+      Url: ,
+      Timeout: 120,
+      HttpVersionExact: false,
+      HasErrors: false
+    },
+    {
+      timeout: 120,
+      Name: SweaWebServiceSoap12Binding_getInterestAndExchangeRates,
+      HttpMethod: POST,
+      Body:
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>,
+      Authentication: {
+        IsDirty: false
+      },
+      Headers: [
+        {
+          Name: Action,
+          Value: urn:getInterestAndExchangeRates,
+          IsEnabled: true
+        },
+        {
+          Name: Content-Type,
+          Value: application/soap+xml,
+          IsEnabled: true
+        }
+      ],
+      HttpsProtocols: {
+        UseDefault: true,
+        UseSsl20: false,
+        UseSsl30: false,
+        UseTls10: false,
+        UseTls11: false,
+        UseTls12: false,
+        UseTls13: false,
+        IsDirty: true
+      },
+      Url: ,
+      Timeout: 120,
+      HttpVersionExact: false,
+      HasErrors: false
+    }
+  ]
+}

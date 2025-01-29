@@ -129,9 +129,11 @@ namespace WebMaestro.ViewModels
             var vm = new ImportRawHttpViewModel();
             if (dialogService.ShowDialog(this, vm) == true)
             {
-                var wvm = new WebViewModel(System.Guid.Empty, vm.Request, System.Guid.Empty);
-
-                this.ViewModels.Add(wvm);
+                foreach (var req in vm.Requests)
+                {
+                    var wvm = new WebViewModel(System.Guid.Empty, req, System.Guid.Empty);
+                    this.ViewModels.Add(wvm);
+                }
             }
         }
 

@@ -1,0 +1,16 @@
+# A comment here
+@test=123456
+@test2=654321
+
+POST https://localhost:5001/api/values/{{test}}
+X-ApiKey: 123456
+X-ApiSecret: {{test2}}
+
+{
+    "id": 1,
+    "value": "{{test}}"
+}
+
+###
+
+DELETE https://localhost:5001/api/values/

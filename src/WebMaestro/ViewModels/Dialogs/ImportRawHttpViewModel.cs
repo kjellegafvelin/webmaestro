@@ -4,9 +4,11 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.MessageBox;
 using System;
-using WebMaestro.Importers;
 using WebMaestro.Models;
 using System.Windows;
+using WebMaestro.Serializers;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace WebMaestro.ViewModels.Dialogs
 {
@@ -22,16 +24,14 @@ namespace WebMaestro.ViewModels.Dialogs
         [ObservableProperty]
         private string source = Clipboard.GetText(TextDataFormat.Text);
 
-        public RequestModel Request { get; set; }
+        public List<RequestModel> Requests { get; set; }
 
         [RelayCommand]
-        private void Import()
+        private async Task Import()
         {
             try
             {
-                var importer = new RawHttpImporter();
-                this.Request = importer.Import(this.Source);
-
+                this.Requests = await RequestModelSerializer.DeserializeAsync(this.Source);
                 this.DialogResult = true;
             }
             catch(Exception)

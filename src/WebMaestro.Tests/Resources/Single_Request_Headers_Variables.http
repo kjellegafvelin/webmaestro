@@ -1,0 +1,7 @@
+# A comment here
+@test=123456
+@test2=654321
+
+GET https://localhost:5001/api/values/{{test}}
+X-ApiKey: 123456
+X-ApiSecret: {{test2}}

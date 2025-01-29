@@ -9,21 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Http_Get.txt" />
-    <None Remove="Resources\Http_Get_FullUrl.txt" />
-    <None Remove="Resources\Http_Post.txt" />
     <None Remove="Resources\Wsdl Sample 1.xml" />
     <None Remove="Resources\Wsdl Sample 2.xml" />
     <None Remove="Resources\Wsdl Sample 3.xml" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Http_Get_FullUrl.txt" />
-    <EmbeddedResource Include="Resources\Http_Post.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Http_Get.txt" />
     <EmbeddedResource Include="Resources\Wsdl Sample 1.xml" />
     <EmbeddedResource Include="Resources\Wsdl Sample 2.xml" />
     <EmbeddedResource Include="Resources\Wsdl Sample 3.xml" />
@@ -31,14 +22,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageReference Include="Verify.ClipboardAccept" Version="28.4.0" />
-    <PackageReference Include="Verify.Xunit" Version="28.4.0" />
-    <PackageReference Include="xunit" Version="2.9.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+    <PackageReference Include="Verify.ClipboardAccept" Version="28.9.0" />
+    <PackageReference Include="Verify.Xunit" Version="28.9.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="6.0.2">
+    <PackageReference Include="coverlet.collector" Version="6.0.4">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -46,6 +37,24 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebMaestro\WebMaestro.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\Single_Request_Headers_Variables_Body.http">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Multiple_Requests_Headers_Variables_Body.http">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Single_Request_Headers_Variables.http">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Single_Request_Headers.http">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Single_Request.http">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
