@@ -30,7 +30,6 @@ namespace WebMaestro.ViewModels
             dispatcherTimer.Tick += async (_, _) => await this.GetPublicIPAddress();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(5);
             dispatcherTimer.Start();
-            //this.ipCheckTimer = new Timer(GetPublicIPAddress, null, TimeSpan.FromSeconds(5), TimeSpan.FromMinutes(30));
         }
 
         private async Task GetPublicIPAddress()
