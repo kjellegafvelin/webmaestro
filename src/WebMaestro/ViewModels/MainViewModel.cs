@@ -7,8 +7,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -22,6 +20,7 @@ namespace WebMaestro.ViewModels
     internal partial class MainViewModel : ObservableObject
     {
         private readonly DispatcherTimer dispatcherTimer = new();
+        private readonly HttpClient httpClient = new();
 
         public MainViewModel()
         {
@@ -36,11 +35,9 @@ namespace WebMaestro.ViewModels
         {
             dispatcherTimer.Interval = TimeSpan.FromMinutes(30);
 
-            var client = new HttpClient();
-
             try
             {
-                var ipAddress = await client.GetStringAsync("https://api.getwebmaestro.com/GetCallerIP");
+                var ipAddress = await httpClient.GetStringAsync("https://api.getwebmaestro.com/GetCallerIP");
                 this.PublicIPAddress = ipAddress;
             }
             catch
@@ -71,16 +68,11 @@ namespace WebMaestro.ViewModels
         private int selectedTabItemIndex = -1;
 
         [ObservableProperty]
-        private TabItemViewModel selectedTabItem;
+        private TabItemViewModel? selectedTabItem;
 
         [ObservableProperty]
         private string publicIPAddress = "Getting IP address...";
 
-        [RelayCommand]
-        private void Init()
-        {
-
-        }
 
         [RelayCommand]
         private void NewRequest()
@@ -114,7 +106,7 @@ namespace WebMaestro.ViewModels
         [RelayCommand]
         private async Task Save()
         {
-            await this.SelectedTabItem.Save();
+            await this.SelectedTabItem!.Save();
         }
 
         [RelayCommand]
