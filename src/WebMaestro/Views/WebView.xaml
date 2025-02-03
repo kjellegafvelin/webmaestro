@@ -55,6 +55,12 @@
 
             </Style>
             <converters:BindingProxy x:Key="proxy" Data="{Binding}"/>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="FontSize" Value="14px"/>
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Width" Value="75"/>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -67,7 +73,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="1" MaxWidth="1000">
+            <Grid Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="85" />
                     <ColumnDefinition Width="*"/>
@@ -79,9 +85,9 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Environment" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Environment" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
                 <ComboBox Grid.Row="0" Grid.Column="1" Width="150" ItemsSource="{Binding Collection.Environments}" DisplayMemberPath="Name" 
-                          SelectedItem="{Binding SelectedEnvironment}" VerticalAlignment="Bottom" HorizontalAlignment="Left"    />
+                          SelectedItem="{Binding SelectedEnvironment}" VerticalAlignment="Center" HorizontalAlignment="Left"    />
 
                 <ComboBox Margin="0,0,5,0" Grid.Row="1" FontSize="14px" FontWeight="SemiBold" Grid.Column="0" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" HorizontalAlignment="Left" 
                           VerticalAlignment="Top" Width="67" Height="28" SelectedItem="{Binding Request.HttpMethod}" Style="{StaticResource ComboBoxEnabled}">
@@ -100,16 +106,16 @@
                         </Binding>
                     </TextBox.Text>
                 </ctrls:ExtendedTextBox>
-                <Button Margin="5,0,0,0" FontSize="14px" FontWeight="SemiBold" Grid.Row="1" Grid.Column="2" Content="Send" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding SendCommand}" 
-                        HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="75">
+                <Button Margin="5,0,0,0" Grid.Row="1" Grid.Column="2" Content="Send" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding SendCommand}" 
+                        HorizontalAlignment="Left" VerticalAlignment="Top" >
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Margin="5,0,0,0" FontSize="14px" FontWeight="SemiBold" Grid.Row="1" Grid.Column="3" Content="Test" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding TestCommand}" 
-                        HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="75">
+                <Button Margin="5,0,0,0" Grid.Row="1" Grid.Column="3" Content="Test" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding TestCommand}" 
+                        HorizontalAlignment="Left" VerticalAlignment="Top" >
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
@@ -117,8 +123,9 @@
                     </Button.Resources>
                 </Button>
             </Grid>
-        </Grid>
 
+        </Grid>
+ 
         <ctrls:BusyIndicator BusyContent="Sending..." DisplayAfter="00:00:01"  IsBusy="{Binding SendCommand.IsRunning}">
             <ctrls:BusyIndicator.BusyContentTemplate>
                 <DataTemplate>

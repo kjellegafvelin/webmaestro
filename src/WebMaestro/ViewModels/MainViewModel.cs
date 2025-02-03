@@ -11,6 +11,7 @@ using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using WebMaestro.Helpers;
 using WebMaestro.Messages;
 using WebMaestro.Models;
@@ -20,22 +21,27 @@ namespace WebMaestro.ViewModels
 {
     internal partial class MainViewModel : ObservableObject
     {
-        private Timer ipCheckTimer;
+        private readonly DispatcherTimer dispatcherTimer = new();
 
         public MainViewModel()
         {
             WeakReferenceMessenger.Default.Register<OpenRequestMessage>(this, HandleOpenRequestMessage);
-
-            this.ipCheckTimer = new Timer(GetPublicIPAddress, null, TimeSpan.FromSeconds(5), TimeSpan.FromMinutes(30));
+            
+            dispatcherTimer.Tick += async (_, _) => await this.GetPublicIPAddress();
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(5);
+            dispatcherTimer.Start();
+            //this.ipCheckTimer = new Timer(GetPublicIPAddress, null, TimeSpan.FromSeconds(5), TimeSpan.FromMinutes(30));
         }
 
-        private void GetPublicIPAddress(object state)
+        private async Task GetPublicIPAddress()
         {
+            dispatcherTimer.Interval = TimeSpan.FromMinutes(1);
+
             var client = new HttpClient();
 
             try
             {
-                var ipAddress = client.GetStringAsync("https://api64.ipify.org").GetAwaiter().GetResult();
+                var ipAddress = await client.GetStringAsync("https://api.getwebmaestro.com/GetCallerIP");
                 this.PublicIPAddress = ipAddress;
             }
             catch
