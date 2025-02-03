@@ -35,7 +35,7 @@ namespace WebMaestro.ViewModels
 
         private async Task GetPublicIPAddress()
         {
-            dispatcherTimer.Interval = TimeSpan.FromMinutes(1);
+            dispatcherTimer.Interval = TimeSpan.FromMinutes(30);
 
             var client = new HttpClient();
 
