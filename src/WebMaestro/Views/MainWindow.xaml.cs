@@ -2,8 +2,10 @@
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using WebMaestro.Controls;
 using WebMaestro.Dialogs;
 using WebMaestro.Helpers;
 using WebMaestro.Models;
@@ -23,6 +25,30 @@ namespace WebMaestro.Views
             InitializeComponent();
 
             this.vm = (MainViewModel)this.DataContext;
+
+            this.tabs.TabItemClosing += async (s, e) => {
+                TabItemViewModel vm = ((TabItemViewModel)e.TabItem.Content);
+
+                if (!vm.Observer.IsModified)
+                {
+                    return;
+                }
+
+                var result = MessageBox.Show("Save the changes made to the request?", "Save Changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        this.vm.SelectedTabItem = vm;
+                        await vm.Save();
+                        break;
+                    case MessageBoxResult.No:
+                        break;
+                    default:
+                        e.Cancel = true;
+                        break;
+                }
+            };
         }
 
         private void OpenRequestExecuted(object sender, ExecutedRoutedEventArgs e)

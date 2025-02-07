@@ -48,20 +48,13 @@ namespace WebMaestro.Controls
                 {
                     // get the parent tabcontrol
                     CloseableTabControl tc = Helper.FindParentControl<CloseableTabControl>(this);
-                    if (tc == null) return;
+                    if (tc == null)
+                    {
+                        return;
+                    }
 
-                    // remove this tabitem from the parent tabcontrol
-                    if (tc.IsUsingItemsSource)
-                    {
-                        if (tc.ItemsSource is IList list)
-                        {
-                            list.Remove(this.Content);
-                        }
-                    }
-                    else
-                    {
-                        tc.Items.Remove(this);
-                    }
+                    tc.RemoveTabItem(this);
+
                 };
             }
         }

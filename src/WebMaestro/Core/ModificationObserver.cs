@@ -48,18 +48,16 @@ namespace WebMaestro.Core
                     propValue.PropertyChanged += PropValue_PropertyChanged;
                     AttachProperties(propValue);
                 }
-
             }
-
         }
 
-        private void PropCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void PropCollection_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             this.IsModified = true;
 
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                foreach (var item in e.NewItems)
+                foreach (var item in e.NewItems!)
                 {
                     if (item is INotifyPropertyChanged observable)
                     {
@@ -68,15 +66,14 @@ namespace WebMaestro.Core
                     }
                 }
             }
-
         }
 
-        private void PropValue_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void PropValue_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             this.IsModified = true;
         }
 
-        private void Observable_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Observable_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             this.IsModified = true;
         }
