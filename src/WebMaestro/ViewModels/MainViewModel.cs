@@ -154,6 +154,15 @@ namespace WebMaestro.ViewModels
         }
 
         [RelayCommand]
+        private void EscapeJson()
+        {
+            var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+
+            var vm = new EscapeJsonToolViewModel();
+            dialogService.ShowDialog(this, vm);
+        }
+
+        [RelayCommand]
         private void ImportRawHttp()
         {
             var dialogService = Ioc.Default.GetRequiredService<IDialogService>();

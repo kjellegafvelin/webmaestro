@@ -95,8 +95,6 @@
                 </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="Mock API" Visibility="Hidden">
                     <fluent:Button Header="Start Server" LargeIcon="Resources\Images\icons8-start-32.png" Command="cmds:WindowCommands.StartServer"/>
-
-
                     <fluent:Button Header="Stop Server" LargeIcon="Resources\Images\icons8-stop-32.png" Command="cmds:WindowCommands.StopServer"/>
                 </fluent:RibbonGroupBox>
             </fluent:RibbonTabItem>
@@ -104,6 +102,9 @@
                 <fluent:RibbonGroupBox Header="Minification">
                     <fluent:Button ToolTip="Prettify minified XML or JSON content" Command="{Binding PrettifyCommand}" LargeIcon="Resources\Images\icons8-swiss-army-knife-open-32.png" >Prettify</fluent:Button>
                     <fluent:Button IsEnabled="False" ToolTip="Minify XML or JSON content" LargeIcon="Resources\Images\icons8-swiss-army-knife-32.png" >Minify</fluent:Button>
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Header="JSON Tools">
+                    <fluent:Button ToolTip="Escape JSON for use in string literals" Command="{Binding EscapeJsonCommand}" LargeIcon="Resources\Images\icons8-swiss-army-knife-open-32.png" >Escape JSON</fluent:Button>
                 </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="Encoding">
                     <fluent:Button IsEnabled="False" ToolTip="Encode content using BASE64 or URL encoding" LargeIcon="Resources\Images\icons8-lock-32.png">Encode</fluent:Button>
