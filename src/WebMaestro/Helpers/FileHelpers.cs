@@ -7,12 +7,18 @@ namespace WebMaestro.Helpers
 {
     internal static class FileHelpers
     {
-        public static T ReadJsonFile<T>(string filename)
+        public static T? ReadJsonFile<T>(string filename)
         {
             if (filename == null)
                 throw new ArgumentNullException(nameof(filename));
 
             var json = File.ReadAllText(filename);
+
+            if (string.IsNullOrEmpty(json))
+            {
+                return default;
+            }
+
             return JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 

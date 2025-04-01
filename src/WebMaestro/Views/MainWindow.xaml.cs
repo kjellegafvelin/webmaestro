@@ -1,6 +1,7 @@
 ﻿using Fluent;
 using Microsoft.Win32;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
@@ -49,6 +50,13 @@ namespace WebMaestro.Views
                         break;
                 }
             };
+
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            this.vm.AppState.MainWindowState = this.WindowState;
+            base.OnClosing(e);
         }
 
         private void OpenRequestExecuted(object sender, ExecutedRoutedEventArgs e)

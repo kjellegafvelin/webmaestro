@@ -5,15 +5,17 @@ using WebMaestro.Core;
 
 namespace WebMaestro.ViewModels
 {
-    public abstract class TabItemViewModel : ObservableObject
+    public abstract partial class TabItemViewModel : ObservableObject
     {
+        [ObservableProperty]
         private string name;
 
-        public string Name
-        {
-            get => this.name;
-            set => SetProperty(ref this.name, value);
-        }
+        [ObservableProperty]
+        private string filename;
+
+        [ObservableProperty]
+        private string tooltip;
+
         public Guid Id { get; internal set; }
 
         public ModificationObserver Observer { get; protected set; }
@@ -27,6 +29,6 @@ namespace WebMaestro.ViewModels
         }
 
         public abstract Task<bool> OnSave();
-     
+       
     }
 }

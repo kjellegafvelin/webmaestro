@@ -1,5 +1,9 @@
-﻿using ControlzEx.Theming;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using ControlzEx.Theming;
+using System.Linq;
 using System.Windows;
+using WebMaestro.Services;
+using WebMaestro.ViewModels;
 
 namespace WebMaestro
 {
@@ -18,6 +22,15 @@ namespace WebMaestro
 
         protected override void OnExit(ExitEventArgs e)
         {
+            MainViewModel? vm = Ioc.Default.GetService<MainViewModel>();
+            FileService? fileService = Ioc.Default.GetService<FileService>();
+
+            if (vm != null && fileService != null)
+            {
+                fileService.SaveAppState(vm.AppState);
+                fileService.SaveOpenTabs(vm.ViewModels.ToList());
+            }
+
             Settings.Save();
             base.OnExit(e);
         }

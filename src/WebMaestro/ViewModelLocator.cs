@@ -13,11 +13,12 @@ namespace WebMaestro
     {
         public ViewModelLocator()
         {
-            var mainVM = new MainViewModel();
+            //var mainVM = new MainViewModel();
             var options = OptionsModel.Create();
             
             var sp = new ServiceCollection()
-                .AddSingleton(mainVM)
+                .AddSingleton<MainViewModel>()
+                //.AddSingleton(mainVM)
                 .AddSingleton<ExplorerViewModel>()
                 .AddSingleton<IDialogService, DialogService>()
                 .AddSingleton<CollectionsService>()

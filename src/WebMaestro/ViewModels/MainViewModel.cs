@@ -13,6 +13,7 @@ using System.Windows.Threading;
 using WebMaestro.Helpers;
 using WebMaestro.Messages;
 using WebMaestro.Models;
+using WebMaestro.Services;
 using WebMaestro.ViewModels.Dialogs;
 
 namespace WebMaestro.ViewModels
@@ -21,14 +22,43 @@ namespace WebMaestro.ViewModels
     {
         private readonly DispatcherTimer dispatcherTimer = new();
         private readonly HttpClient httpClient = new();
+        private readonly FileService fileService;
 
-        public MainViewModel()
+        public MainViewModel(FileService fileService)
         {
+            this.fileService = fileService;
             WeakReferenceMessenger.Default.Register<OpenRequestMessage>(this, HandleOpenRequestMessage);
-            
+
             dispatcherTimer.Tick += async (_, _) => await this.GetPublicIPAddress();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(5);
             dispatcherTimer.Start();
+
+            this.Initialize();
+        }
+
+        private void Initialize()
+        {
+            this.AppState = this.fileService.LoadAppState();
+
+            Task.Run(() =>
+            {
+                var docs = this.fileService.LoadOpenTabs();
+                foreach (var doc in docs)
+                {
+                    if (doc.Type == nameof(WebViewModel))
+                    {
+                        var req = fileService.ReadTempFile<RequestModel>(doc.File);
+                        if (req != null)
+                        {
+                            this.ViewModels.Add(new WebViewModel(doc.Id, req, Guid.Empty));
+                        }
+                    }
+                    else if (doc.Type == nameof(WebServerViewModel))
+                    {
+                        this.ViewModels.Add(new WebServerViewModel());
+                    }
+                }
+            });
         }
 
         private async Task GetPublicIPAddress()
@@ -55,7 +85,11 @@ namespace WebMaestro.ViewModels
             else
             {
                 var req = FileHelpers.ReadJsonFile<RequestModel>(message.Filename);
-                this.ViewModels.Add(new WebViewModel(message.Id, req, message.CollectionId));
+                this.ViewModels.Add(new WebViewModel(message.Id, req!, message.CollectionId) 
+                { 
+                    Filename = message.Filename, 
+                    Tooltip = $"{message.CollectionId} - {message.Filename}" 
+                });
             }
         }
 
@@ -73,6 +107,7 @@ namespace WebMaestro.ViewModels
         [ObservableProperty]
         private string publicIPAddress = "Getting IP address...";
 
+        public AppStateModel AppState { get; set; } = new();
 
         [RelayCommand]
         private void NewRequest()
@@ -86,7 +121,7 @@ namespace WebMaestro.ViewModels
             req.Headers.Add(new HeaderModel("Accept-Encoding", "gzip, deflate"));
             req.Headers.Add(new HeaderModel("User-Agent", "WebMaestro"));
 
-            var wvm = new WebViewModel(System.Guid.Empty, req, System.Guid.Empty);
+            var wvm = new WebViewModel(); // System.Guid.Empty, req, System.Guid.Empty);
             
             this.ViewModels.Add(wvm);
         }
@@ -113,7 +148,7 @@ namespace WebMaestro.ViewModels
         private void Prettify()
         {
             var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-            
+
             var vm = new PrettifyToolViewModel();
             dialogService.ShowDialog(this, vm);
         }
