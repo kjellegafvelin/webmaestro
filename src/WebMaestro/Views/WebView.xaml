@@ -510,7 +510,7 @@
                                 <RadioButton Grid.Column="3" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Binary}" Content="Binary"/>
                             </Grid>
 
-                            <TextBlock Grid.Row="1" Visibility="{Binding Reuqest.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=None}" 
+                            <TextBlock Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=None}" 
                                            Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">This request has an empty body.</TextBlock>
 
                             <ListView Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Form}" Style="{StaticResource defaultList}">
