@@ -1,12 +1,10 @@
-﻿using Fluent;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using WebMaestro.Controls;
+using System.Windows.Shell;
 using WebMaestro.Dialogs;
 using WebMaestro.Helpers;
 using WebMaestro.Models;
@@ -17,7 +15,7 @@ namespace WebMaestro.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : RibbonWindow
+    public partial class MainWindow : Window
     {
         private readonly MainViewModel vm;
 
@@ -25,9 +23,25 @@ namespace WebMaestro.Views
         {
             InitializeComponent();
 
+            WindowChrome.SetWindowChrome(
+                this,
+                new WindowChrome
+                {
+                    CaptionHeight = 28,
+                    CornerRadius = new CornerRadius(12),
+                    GlassFrameThickness = new Thickness(-1),
+                    ResizeBorderThickness = ResizeMode == ResizeMode.NoResize ? default : new Thickness(4),
+                    UseAeroCaptionButtons = true,
+                    NonClientFrameEdges = SystemParameters.HighContrast ? NonClientFrameEdges.None :
+                        NonClientFrameEdges.Right | NonClientFrameEdges.Bottom | NonClientFrameEdges.Left
+                }
+            );
+
+
             this.vm = (MainViewModel)this.DataContext;
 
-            this.tabs.TabItemClosing += async (s, e) => {
+            this.tabs.TabItemClosing += async (s, e) =>
+            {
                 TabItemViewModel vm = ((TabItemViewModel)e.TabItem.Content);
 
                 if (!vm.Observer.IsModified)

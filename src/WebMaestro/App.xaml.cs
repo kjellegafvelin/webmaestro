@@ -14,7 +14,10 @@ namespace WebMaestro
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            ThemeManager.Current.ChangeTheme(Application.Current, "Light.Blue");
+            //ThemeManager.Current.ChangeTheme(Application.Current, "Light.Blue");
+
+            //ThemeManager.Current.ThemeSyncMode = ThemeSyncMode.SyncWithAppMode;
+            //ThemeManager.Current.SyncTheme();
 
             Settings.Load();
             base.OnStartup(e);

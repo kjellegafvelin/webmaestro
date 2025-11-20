@@ -209,7 +209,7 @@
                         <TabItem Header="Body">
                             <DockPanel>
                                 <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-                                    <Label>Format:</Label>
+                                    <Label Margin="8,6,8,0">Format:</Label>
                                     <ComboBox Name="cboReqContentType" Width="60" SelectionChanged="ContentTypeChanged"
                                               IsEnabled="{Binding SelectedItem, ElementName=lvwHistory, Converter={StaticResource nullToBool}, ConverterParameter=true}">
                                         <ComboBoxItem>Text</ComboBoxItem>

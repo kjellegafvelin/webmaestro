@@ -3,12 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.FolderBrowser;
 using MvvmDialogs.FrameworkDialogs.MessageBox;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using static System.Environment;
 
@@ -26,12 +23,29 @@ namespace WebMaestro.ViewModels.Dialogs
 
         private readonly IDialogService dialogService;
 
+        // Base location (Documents\WebMaestro)
+        private readonly string baseLocation;
+
+        // If true, the user has manually changed the Location (via UI or SelectFolder)
+        private bool locationManuallyChanged = false;
+
+        // Suppress marking manual change when setting Location programmatically
+        private bool suppressLocationManualFlag = false;
+
         public AddCollectionViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
 
             this.SelectFolderCommand = new RelayCommand(SelectFolder);
             this.OkCommand = new RelayCommand(Ok, CanExexuteOk);
+
+            // Initialize base location to Documents\WebMaestro
+            baseLocation = Path.Combine(GetFolderPath(SpecialFolder.MyDocuments), "WebMaestro");
+
+            // Set default Location to baseLocation without marking as manual
+            suppressLocationManualFlag = true;
+            this.Location = baseLocation;
+            suppressLocationManualFlag = false;
         }
 
         public ICommand SelectFolderCommand { get; }
@@ -46,6 +60,7 @@ namespace WebMaestro.ViewModels.Dialogs
 
             if (dialogService.ShowFolderBrowserDialog(this, settings) == true)
             {
+                // user selected a folder -> mark as manual via Location setter
                 this.Location = settings.SelectedPath;
             }
         }
@@ -89,6 +104,24 @@ namespace WebMaestro.ViewModels.Dialogs
             {
                 this.SetProperty(ref collectionName, value, true);
                 this.OkCommand.NotifyCanExecuteChanged();
+
+                // If location hasn't been manually changed by the user, update it to baseLocation\CollectionName
+                if (!locationManuallyChanged)
+                {
+                    if (!string.IsNullOrWhiteSpace(collectionName))
+                    {
+                        suppressLocationManualFlag = true;
+                        this.Location = Path.Combine(baseLocation, collectionName);
+                        suppressLocationManualFlag = false;
+                    }
+                    else
+                    {
+                        // if name is cleared, revert to baseLocation
+                        suppressLocationManualFlag = true;
+                        this.Location = baseLocation;
+                        suppressLocationManualFlag = false;
+                    }
+                }
             }
         }
 
@@ -101,6 +134,13 @@ namespace WebMaestro.ViewModels.Dialogs
             set
             {
                 this.SetProperty(ref location, value, true);
+
+                // If this assignment is not suppressed, consider it a manual change by the user
+                if (!suppressLocationManualFlag)
+                {
+                    locationManuallyChanged = true;
+                }
+
                 this.OkCommand.NotifyCanExecuteChanged();
             }
         }

@@ -15,7 +15,7 @@
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
              d:DataContext="{d:DesignInstance vm:WebViewModel}"
-             mc:Ignorable="d" Background="White" d:DesignHeight="600" d:DesignWidth="1024">
+             mc:Ignorable="d" Background="{DynamicResource LayerFillColorDefaultBrush}" d:DesignHeight="600" d:DesignWidth="1024">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -55,18 +55,18 @@
 
             </Style>
             <converters:BindingProxy x:Key="proxy" Data="{Binding}"/>
-            <Style TargetType="{x:Type Button}">
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                 <Setter Property="FontSize" Value="14px"/>
                 <Setter Property="FontWeight" Value="SemiBold" />
-                <Setter Property="Height" Value="25" />
-                <Setter Property="Width" Value="75"/>
+                <!--<Setter Property="Height" Value="25" />-->
+                <Setter Property="MinWidth" Value="75"/>
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <DockPanel Cursor="{Binding SendCommand.IsRunning, Converter={StaticResource busy}}" FocusManager.FocusedElement="{Binding ElementName=txtUrl}">
 
-        <Grid DockPanel.Dock="top" Height="100" Background="#4299E1">
+        <Grid DockPanel.Dock="top" Height="50" Background="#4299E1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="9" />
                 <ColumnDefinition MinWidth="500" MaxWidth="800" />
@@ -75,57 +75,61 @@
 
             <Grid Grid.Column="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="85" />
+                    <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="80" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Environment" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
-                <ComboBox Grid.Row="0" Grid.Column="1" Width="150" ItemsSource="{Binding Collection.Environments}" DisplayMemberPath="Name" 
-                          SelectedItem="{Binding SelectedEnvironment}" VerticalAlignment="Center" HorizontalAlignment="Left"    />
-
-                <ComboBox Margin="0,0,5,0" Grid.Row="1" FontSize="14px" FontWeight="SemiBold" Grid.Column="0" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" HorizontalAlignment="Left" 
-                          VerticalAlignment="Top" Width="67" Height="28" SelectedItem="{Binding Request.HttpMethod}" Style="{StaticResource ComboBoxEnabled}">
+                <ComboBox Margin="0,0,5,0" Grid.Row="0" FontSize="14px" FontWeight="SemiBold" Grid.Column="0" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" HorizontalAlignment="Left" 
+                          VerticalAlignment="Top" Width="110" Height="28" SelectedItem="{Binding Request.HttpMethod}" >
+                    <!--Style="{StaticResource ComboBoxEnabled}"-->
                     <ComboBox.ItemsSource>
                         <Binding Source="{StaticResource httpMethods}"/>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-                <ctrls:ExtendedTextBox PlaceHolder="Enter request URL" FontSize="14px" FontWeight="SemiBold" Grid.Row="1" BorderThickness="0,0,0,2" BorderBrush="White" Background="Transparent" Foreground="White" Grid.Column="1" x:Name="txtUrl" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" 
-                         HorizontalAlignment="Stretch" Margin="0,3,0,0" Height="24" TextWrapping="NoWrap" VerticalAlignment="Top">
-                    <!-- behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding History}" -->
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding SendCommand}" />
-                    </TextBox.InputBindings>
-                    <TextBox.Text>
-                        <Binding Path="Request.Url" UpdateSourceTrigger="PropertyChanged">
-                        </Binding>
-                    </TextBox.Text>
-                </ctrls:ExtendedTextBox>
-                <Button Margin="5,0,0,0" Grid.Row="1" Grid.Column="2" Content="Send" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding SendCommand}" 
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" >
+                    <ComboBox Visibility="Collapsed" Margin="0,-18,0,0" Width="150" ItemsSource="{Binding Collection.Environments}" DisplayMemberPath="Name" 
+                          SelectedItem="{Binding SelectedEnvironment}" />
+
+
+                    <ctrls:ExtendedTextBox PlaceHolder="Enter request URL" FontSize="14px" FontWeight="SemiBold" BorderThickness="0,0,0,2" BorderBrush="White" Background="Transparent" Foreground="White" x:Name="txtUrl" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" 
+                             HorizontalAlignment="Stretch" Margin="0,3,0,0" Height="24" TextWrapping="NoWrap" VerticalAlignment="Top">
+                        <!-- behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding History}" -->
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding SendCommand}" />
+                        </TextBox.InputBindings>
+                        <TextBox.Text>
+                            <Binding Path="Request.Url" UpdateSourceTrigger="PropertyChanged">
+                            </Binding>
+                        </TextBox.Text>
+                    </ctrls:ExtendedTextBox>
+                </StackPanel>
+
+                <Button Margin="5,0,0,0" Grid.Row="0" Grid.Column="2" Content="Send" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding SendCommand}" 
                         HorizontalAlignment="Left" VerticalAlignment="Top" >
-                    <Button.Resources>
+                    <!--<Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
                         </Style>
-                    </Button.Resources>
+                    </Button.Resources>-->
                 </Button>
-                <Button Margin="5,0,0,0" Grid.Row="1" Grid.Column="3" Content="Test" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding TestCommand}" 
+                <Button Margin="5,0,0,0" Grid.Row="0" Grid.Column="3" Content="Test" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding TestCommand}" 
                         HorizontalAlignment="Left" VerticalAlignment="Top" >
-                    <Button.Resources>
+                    <!--<Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
                         </Style>
-                    </Button.Resources>
+                    </Button.Resources>-->
                 </Button>
             </Grid>
 
         </Grid>
- 
+
         <ctrls:BusyIndicator BusyContent="Sending..." DisplayAfter="00:00:01"  IsBusy="{Binding SendCommand.IsRunning}">
             <ctrls:BusyIndicator.BusyContentTemplate>
                 <DataTemplate>
@@ -156,22 +160,23 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0" Margin="3,0,3,3">
+                <Border Margin="4,4,4,4" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" Grid.Column="0">
+                <Grid Margin="8,8,8,8">
                     <Grid.RowDefinitions>
                         <RowDefinition  Height="40"/>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" FontWeight="Regular" FontSize="20" Content="Request"/>
+                    <TextBlock Grid.Row="0" Style="{StaticResource TitleTextBlockStyle}" Text="Request"/>
 
-                    <Grid Grid.Row="1" Margin="6,0,6,0">
+                    <Grid Grid.Row="1" Margin="0,8,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="252"/>
                             <RowDefinition Height="5" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <TabControl Grid.Row="0" >
+                            <TabControl Grid.Row="0" BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}" BorderThickness="1">
                             <TabItem Header="Headers">
                                 <DockPanel>
                                     <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
@@ -494,15 +499,15 @@
 
                         <Grid Grid.Row="2">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
+                                <RowDefinition Height="50" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Margin="10">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="80" />
                                 </Grid.ColumnDefinitions>
                                 <RadioButton Grid.Column="0" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=None}" Content="None"/>
                                 <RadioButton IsEnabled="False" Grid.Column="1" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Form}" Content="Form" />
@@ -522,20 +527,22 @@
                                 </ListView.View>
                             </ListView>
 
-                            <Border Grid.Row="1" BorderBrush="#ACACAC" BorderThickness="1">
+                            <Border Grid.Row="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                                 <DockPanel Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Raw}" >
                                     <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True"  Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
                                         <Button ToolTip="Open file" Command="{Binding OpenRequestBodyCommand}">
                                             <Image Source="/Resources/Images/OpenFile_16x.png" Width="16" Height="16" />
                                         </Button>
                                         <Separator/>
-                                        <Label>Content-Type:</Label>
-                                        <ComboBox Name="cboReqContentType" Width="105" Margin="0" SelectionChanged="RequestContentTypeChanged">
-                                            <ComboBoxItem>text/plain</ComboBoxItem>
-                                            <ComboBoxItem>text/xml</ComboBoxItem>
-                                            <ComboBoxItem>application/xml</ComboBoxItem>
-                                            <ComboBoxItem>application/json</ComboBoxItem>
-                                        </ComboBox>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Margin="8,6,8,0">Content-Type:</Label>
+                                            <ComboBox Name="cboReqContentType" Width="150" Margin="0" SelectionChanged="RequestContentTypeChanged">
+                                                <ComboBoxItem>text/plain</ComboBoxItem>
+                                                <ComboBoxItem>text/xml</ComboBoxItem>
+                                                <ComboBoxItem>application/xml</ComboBoxItem>
+                                                <ComboBoxItem>application/json</ComboBoxItem>
+                                            </ComboBox>
+                                        </StackPanel>
                                         <Button Name="btnPrettyPrint" ToolTip="Prettify" Command="{Binding PrettifyRequestCommand}">
                                             <Image Source="/Resources/Images/FormatDocument_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
                                         </Button>
@@ -559,13 +566,14 @@
                             <Grid Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Binary}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="201*"/>
-                                    <ColumnDefinition Width="290*"/>
+                                    <ColumnDefinition Width="286*"/>
+                                    <ColumnDefinition Width="5*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="34"/>
                                 </Grid.RowDefinitions>
 
-                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Grid.ColumnSpan="2">
+                                <StackPanel Margin="0,10,-1,0" Grid.ColumnSpan="3" Orientation="Horizontal">
                                     <Label Content="File:"/>
                                     <TextBox Width="500" Text="{Binding Request.Filename}"/>
                                     <Button Content="Select file" Command="{Binding OpenFileForRequestCommand}"/>
@@ -574,6 +582,7 @@
                         </Grid>
                     </Grid>
                 </Grid>
+                </Border>
 
                 <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="3"/>
                 <Grid Grid.Column="2" Margin="9,0,3,3">
@@ -586,7 +595,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition/>
-                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="60" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40"/>
@@ -607,7 +616,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <ListView Grid.Row="0" ItemsSource="{Binding HistoryItems}" SelectedItem="{Binding SelectedHistoryItem}" SelectionMode="Single">
+                        <ListView Grid.Row="0" ItemsSource="{Binding HistoryItems}" SelectedItem="{Binding SelectedHistoryItem}" SelectionMode="Single" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Width="24">
@@ -700,12 +709,12 @@
 
                         <GridSplitter Grid.Row="1" ResizeDirection="Rows" HorizontalAlignment="Stretch" Height="3"/>
 
-                        <TabControl Grid.Row="2">
+                        <TabControl Grid.Row="2" BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}" BorderThickness="1">
                             <TabItem Header="Body">
                                 <DockPanel>
                                     <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-                                        <Label Content="Format:"/>
-                                        <ComboBox x:Name="cboContentType" Width="60" SelectionChanged="ContentTypeChanged"
+                                        <Label Margin="8,6,8,0" Content="Format:"/>
+                                        <ComboBox x:Name="cboContentType" Width="100" SelectionChanged="ContentTypeChanged"
                                               IsEnabled="{Binding SelectedHistoryItem, ConverterParameter=true, Converter={StaticResource nullToBool}}">
                                             <ComboBoxItem Content="Text"/>
                                             <ComboBoxItem Content="XML"/>
