@@ -1,13 +1,17 @@
-﻿using Microsoft.Win32;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shell;
 using WebMaestro.Dialogs;
 using WebMaestro.Helpers;
 using WebMaestro.Models;
+using WebMaestro.Services;
 using WebMaestro.ViewModels;
 
 namespace WebMaestro.Views
@@ -18,6 +22,7 @@ namespace WebMaestro.Views
     public partial class MainWindow : Window
     {
         private readonly MainViewModel vm;
+        private bool _isSavingState = false;
 
         public MainWindow()
         {
@@ -67,10 +72,54 @@ namespace WebMaestro.Views
 
         }
 
-        protected override void OnClosing(CancelEventArgs e)
+        protected override async void OnClosing(CancelEventArgs e)
         {
+            if (!_isSavingState)
+            {
+                e.Cancel = true;
+                _isSavingState = true;
+
+                try
+                {
+                    await SaveApplicationStateAsync();
+                }
+                catch (Exception ex)
+                {
+                    var result = MessageBox.Show(
+                        $"Failed to save application state: {ex.Message}\n\nDo you still want to close the application?",
+                        "Save Error",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Error);
+
+                    if (result == MessageBoxResult.No)
+                    {
+                        _isSavingState = false;
+                        return;
+                    }
+                }
+
+                base.OnClosing(e);
+                this.Close();
+            }
+        }
+
+        private async Task SaveApplicationStateAsync()
+        {
+            // Update window state before saving
+            if (this.WindowState == WindowState.Normal)
+            {
+                this.vm.AppState.MainWindowLeft = (int)this.Left;
+                this.vm.AppState.MainWindowTop = (int)this.Top;
+                this.vm.AppState.MainWindowWidth = (int)this.Width;
+                this.vm.AppState.MainWindowHeight = (int)this.Height;
+            }
+            
             this.vm.AppState.MainWindowState = this.WindowState;
-            base.OnClosing(e);
+
+            var fileService = Ioc.Default.GetRequiredService<FileService>();
+            
+            await fileService.SaveAppStateAsync(this.vm.AppState);
+            await fileService.SaveOpenTabsAsync(this.vm.ViewModels.ToList());
         }
 
         private void OpenRequestExecuted(object sender, ExecutedRoutedEventArgs e)

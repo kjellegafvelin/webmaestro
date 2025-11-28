@@ -32,12 +32,25 @@ namespace WebMaestro.Services
 
             var contexts = await FileHelpers.ReadJsonFileAsync<List<CollectionContext>>(filename);
 
-            contexts.ForEach(x =>
+            if (contexts == null)
             {
-                var collection = FileHelpers.ReadJsonFile<CollectionModel>(x.Filename);
-                collection.Path = x.Filename;
-                this.Collections.Add(collection);
-            });
+                return;
+            }
+
+            foreach (var context in contexts)
+            {
+                if (string.IsNullOrEmpty(context.Filename) || !File.Exists(context.Filename))
+                {
+                    continue;
+                }
+
+                var collection = await FileHelpers.ReadJsonFileAsync<CollectionModel>(context.Filename);
+                if (collection != null)
+                {
+                    collection.Path = context.Filename;
+                    this.Collections.Add(collection);
+                }
+            }
         }
 
         private async Task SaveCollectionsAsync()
@@ -45,7 +58,7 @@ namespace WebMaestro.Services
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WebMaestro");
             var filename = Path.Combine(path, "WebMaestro.collections");
 
-            _ = Directory.CreateDirectory(path);
+            Directory.CreateDirectory(path);
 
             var contexts = new List<CollectionContext>();
 
@@ -75,7 +88,7 @@ namespace WebMaestro.Services
         {
             var path = Path.Combine(location, collection.Name);
 
-            _ = Directory.CreateDirectory(path);
+            Directory.CreateDirectory(path);
 
             var filename = Path.Combine(path, collection.Name + ".coll");
 
@@ -93,6 +106,11 @@ namespace WebMaestro.Services
         public async Task LoadCollectionAsync(string filename)
         {
             var collection = await FileHelpers.ReadJsonFileAsync<CollectionModel>(filename);
+            if (collection == null)
+            {
+                return;
+            }
+
             collection.Path = filename;
 
             this.Collections.Add(collection);
@@ -112,7 +130,7 @@ namespace WebMaestro.Services
             await this.SaveCollectionsAsync();
         }
 
-        public async void DeleteRequestAsync(CollectionModel collectionModel, CollectionFileModel collectionFileModel)
+        public async Task DeleteRequestAsync(CollectionModel collectionModel, CollectionFileModel collectionFileModel)
         {
             File.Delete(collectionFileModel.FileName);
             collectionModel.Files.Remove(collectionFileModel);
@@ -142,7 +160,12 @@ namespace WebMaestro.Services
             };
 
             var path = Path.GetDirectoryName(collectionModel.Path);
-            var filename = Path.Combine(path, $"{ req.HttpMethod }-{ req.Name }.req");
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new InvalidOperationException("Collection path is invalid.");
+            }
+
+            var filename = Path.Combine(path, $"{req.HttpMethod}-{req.Name}.req");
             file.FileName = filename;
 
             await FileHelpers.SaveJsonFileAsync(filename, req);
@@ -155,8 +178,17 @@ namespace WebMaestro.Services
         public async Task AddExistingRequestAsync(CollectionModel collectionModel, string fileName)
         {
             var req = await FileHelpers.ReadJsonFileAsync<RequestModel>(fileName);
+            if (req == null)
+            {
+                return;
+            }
 
             var path = Path.GetDirectoryName(collectionModel.Path);
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new InvalidOperationException("Collection path is invalid.");
+            }
+
             var newFilename = Path.Combine(path, Path.GetFileName(fileName));
 
             var file = new CollectionFileModel()

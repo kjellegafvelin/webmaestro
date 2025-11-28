@@ -13,6 +13,10 @@ namespace WebMaestro
     {
         public ViewModelLocator()
         {
+        }
+
+        public static void Initialize()
+        { 
             //var mainVM = new MainViewModel();
             var options = OptionsModel.Create();
             
@@ -35,8 +39,8 @@ namespace WebMaestro
 
         }
 
-        public ExplorerViewModel ExplorerControl => Ioc.Default.GetService<ExplorerViewModel>();
+        public ExplorerViewModel ExplorerControl => Ioc.Default.GetService<ExplorerViewModel>()!;
         
-        public MainViewModel MainView => Ioc.Default.GetService<MainViewModel>();
+        public MainViewModel MainView => Ioc.Default.GetService<MainViewModel>()!;
     }
 }

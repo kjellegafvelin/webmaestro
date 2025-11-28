@@ -32,33 +32,26 @@ namespace WebMaestro.ViewModels
             dispatcherTimer.Tick += async (_, _) => await this.GetPublicIPAddress();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(5);
             dispatcherTimer.Start();
-
-            this.Initialize();
         }
 
-        private void Initialize()
+        public async Task LoadOpenTabsAsync()
         {
-            this.AppState = this.fileService.LoadAppState();
-
-            Task.Run(() =>
+            var docs = await this.fileService.LoadOpenTabsAsync();
+            foreach (var doc in docs)
             {
-                var docs = this.fileService.LoadOpenTabs();
-                foreach (var doc in docs)
+                if (doc.Type == nameof(WebViewModel))
                 {
-                    if (doc.Type == nameof(WebViewModel))
+                    var req = await fileService.ReadTempFileAsync<RequestModel>(doc.File);
+                    if (req != null)
                     {
-                        var req = fileService.ReadTempFile<RequestModel>(doc.File);
-                        if (req != null)
-                        {
-                            this.ViewModels.Add(new WebViewModel(doc.Id, req, Guid.Empty));
-                        }
-                    }
-                    else if (doc.Type == nameof(WebServerViewModel))
-                    {
-                        this.ViewModels.Add(new WebServerViewModel());
+                        this.ViewModels.Add(new WebViewModel(doc.Id, req, Guid.Empty));
                     }
                 }
-            });
+                else if (doc.Type == nameof(WebServerViewModel))
+                {
+                    this.ViewModels.Add(new WebServerViewModel());
+                }
+            }
         }
 
         private async Task GetPublicIPAddress()

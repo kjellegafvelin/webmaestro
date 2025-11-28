@@ -12,12 +12,23 @@ namespace WebMaestro.Services
 {
     internal class FileService
     {
+        private static readonly JsonSerializerOptions JsonOptions = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+        };
+
         private string WebMaestroFolderPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".webmaestro");
 
         public async Task SaveRequest(CollectionModel collection, System.Guid id, RequestModel request)
         {
             var path = Path.GetDirectoryName(collection.Path);
-            var filename = Path.Combine(path!, request.Name + ".req");
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new InvalidOperationException("Collection path is invalid.");
+            }
+
+            var filename = Path.Combine(path, request.Name + ".req");
 
             await FileHelpers.SaveJsonFileAsync(filename, request);
 
@@ -31,7 +42,7 @@ namespace WebMaestro.Services
             });
         }
 
-        internal void SaveOpenTabs(List<TabItemViewModel> tabs)
+        internal async Task SaveOpenTabsAsync(List<TabItemViewModel> tabs)
         {
             if (tabs.Count == 0)
             {
@@ -40,96 +51,75 @@ namespace WebMaestro.Services
 
             var path = WebMaestroFolderPath;
 
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            Directory.CreateDirectory(path);
 
-            // Delete all temp files
-            foreach (string file in Directory.GetFiles(path, "tmp_*.json"))
+            foreach (string file in Directory.EnumerateFiles(path, "tmp_*.json"))
             {
                 File.Delete(file);
             }
 
-            var docs = tabs.Where(x => x is WebViewModel).Select(x =>
+            var docs = new List<DocumentModel>();
+
+            foreach (var tab in tabs.OfType<WebViewModel>())
             {
-                var filename = $"tmp_{x.Id}.json";
-                File.WriteAllText(Path.Combine(path, filename), JsonSerializer.Serialize(((WebViewModel)x).Request));
+                var filename = $"tmp_{tab.Id}.json";
+                var fullPath = Path.Combine(path, filename);
+                await FileHelpers.SaveJsonFileAsync(fullPath, tab.Request);
 
-                return new DocumentModel()
+                docs.Add(new DocumentModel
                 {
-                    Id = x.Id,
-                    Type = x.GetType().Name,
+                    Id = tab.Id,
+                    Type = tab.GetType().Name,
                     File = filename,
-                };
-            }).ToList();
+                });
+            }
 
-            var json = JsonSerializer.Serialize(docs);
-
-            File.WriteAllText(Path.Combine(path, "openTabs.json"), json);
+            await FileHelpers.SaveJsonFileAsync(Path.Combine(path, "openTabs.json"), docs);
         }
 
-        internal List<DocumentModel> LoadOpenTabs()
+        internal async Task<List<DocumentModel>> LoadOpenTabsAsync()
         {
             var path = Path.Combine(WebMaestroFolderPath, "openTabs.json");
             if (!File.Exists(path))
             {
                 return new List<DocumentModel>();
             }
-            var json = File.ReadAllText(path);
 
-            if (string.IsNullOrEmpty(json))
-            {
-                return new List<DocumentModel>();
-            }
-
-            return JsonSerializer.Deserialize<List<DocumentModel>>(json) ?? new List<DocumentModel>();
+            return await FileHelpers.ReadJsonFileAsync<List<DocumentModel>>(path) ?? new List<DocumentModel>();
         }
 
-        internal T? ReadTempFile<T>(string filename)
+        internal async Task<T?> ReadTempFileAsync<T>(string filename)
         {
             var path = Path.Combine(WebMaestroFolderPath, filename);
             if (!File.Exists(path))
             {
                 return default;
             }
-            var json = File.ReadAllText(path);
 
-            if (string.IsNullOrEmpty(json))
-            {
-                return default;
-            }
-
-            return JsonSerializer.Deserialize<T>(json);
+            return await FileHelpers.ReadJsonFileAsync<T>(path);
         }
 
-        internal async Task SaveTempFile<T>(string filename, T obj)
+        internal async Task SaveTempFileAsync<T>(string filename, T obj)
         {
             var path = Path.Combine(WebMaestroFolderPath, filename);
-            await File.WriteAllTextAsync(path, JsonSerializer.Serialize(obj));
+            await FileHelpers.SaveJsonFileAsync(path, obj);
         }
 
-        internal AppStateModel LoadAppState()
+        internal async Task<AppStateModel> LoadAppStateAsync()
         {
             var path = Path.Combine(WebMaestroFolderPath, "appstate.json");
             if (!File.Exists(path))
             {
                 return new();
             }
-            var json = File.ReadAllText(path);
 
-            if (string.IsNullOrEmpty(json))
-            {
-                return new();
-            }
-
-            return JsonSerializer.Deserialize<AppStateModel>(json)!;
+            return await FileHelpers.ReadJsonFileAsync<AppStateModel>(path) ?? new();
         }
 
-        internal void SaveAppState(AppStateModel appState)
+        internal async Task SaveAppStateAsync(AppStateModel appState)
         {
             var path = Path.Combine(WebMaestroFolderPath, "appstate.json");
-            File.WriteAllText(path, JsonSerializer.Serialize(appState));
+            await FileHelpers.SaveJsonFileAsync(path, appState);
         }
     }
 }

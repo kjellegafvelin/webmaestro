@@ -53,10 +53,10 @@ namespace WebMaestro.ViewModels.Explorer
             _ = WeakReferenceMessenger.Default.Send(msg);
         }
 
-        private RelayCommand deleteCommand;
-        public RelayCommand DeleteCommand => this.deleteCommand ??= new(Delete);
+        private AsyncRelayCommand deleteCommand;
+        public AsyncRelayCommand DeleteCommand => this.deleteCommand ??= new(DeleteAsync);
 
-        private void Delete()
+        private async System.Threading.Tasks.Task DeleteAsync()
         {
             var settings = new MessageBoxSettings()
             {
@@ -68,7 +68,7 @@ namespace WebMaestro.ViewModels.Explorer
 
             if (this.dialogService.ShowMessageBox(this.explorer, settings) == System.Windows.MessageBoxResult.OK)
             {
-                this.collectionsService.DeleteRequestAsync(this.collectionModel, this.collectionFileModel);
+                await this.collectionsService.DeleteRequestAsync(this.collectionModel, this.collectionFileModel);
             }
         }
     }
