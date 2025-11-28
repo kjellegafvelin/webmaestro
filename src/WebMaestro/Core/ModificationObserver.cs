@@ -8,13 +8,19 @@ namespace WebMaestro.Core
 {
     public class ModificationObserver : ObservableObject
     {
-        public static ModificationObserver Create(INotifyPropertyChanged observable)
+        public static ModificationObserver Create(INotifyPropertyChanged observable, bool isModified = false)
         {
             var observer = new ModificationObserver();
 
             observable.PropertyChanged += observer.Observable_PropertyChanged;
 
             observer.AttachProperties(observable);
+
+            // Allows setting a dirty state from the beginning
+            if (isModified)
+            {
+                observer.IsModified = true;
+            }
 
             return observer;
         }

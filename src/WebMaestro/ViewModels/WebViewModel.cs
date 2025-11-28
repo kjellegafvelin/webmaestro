@@ -83,12 +83,12 @@ namespace WebMaestro.ViewModels
             {
                 request.Name = $"New Request [{ noOf++ }]";
             }
-            this.Observer = ModificationObserver.Create(request);
+            this.Observer = ModificationObserver.Create(request, collectionId == Guid.Empty);
 
             base.Name = request.Name;
 
             this.collection = this.collectionsService.Collections.FirstOrDefault(x => x.Id == collectionId);
-
+            
             this.request = request;
             this.Request.PropertyChanged += Request_PropertyChanged;
             BindingOperations.EnableCollectionSynchronization(this.HistoryItems, this.historyLock);
