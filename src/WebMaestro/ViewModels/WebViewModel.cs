@@ -540,16 +540,16 @@ namespace WebMaestro.ViewModels
 
         private void Request_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(this.Request.Url))
+        if (e.PropertyName == nameof(this.Request.Url))
+        {
+            try
             {
-                try
-                {
-                    this.SendCommand.NotifyCanExecuteChanged();
-                    
-                    ParseQueryString(this.Request);
-                }
-                catch (Exception) { }
+                this.SendCommand.NotifyCanExecuteChanged();
+                
+                ParseQueryString(this.Request);
             }
+            catch (Exception) { }
+        }
         }
 
         [RelayCommand]
@@ -627,6 +627,20 @@ namespace WebMaestro.ViewModels
             if (Collection is null)
             {
                 var vm = new SaveRequestViewModel();
+
+                // Prepopulate the name with the URL path (without query params) when available
+                try
+                {
+                    if (!string.IsNullOrWhiteSpace(this.Request.Url))
+                    {
+                        var uri = new Uri(this.Request.Url);
+                        vm.Name = uri.AbsolutePath;
+                    }
+                }
+                catch (Exception)
+                {
+                    // Ignore invalid URL and let the user provide a name
+                }
 
                 if (this.dialogService.ShowDialog(this, vm) != true)
                 {

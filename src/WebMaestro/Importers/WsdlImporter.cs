@@ -67,7 +67,14 @@ namespace WebMaestro.Importers
 
                 var uri = addressNode.Attributes["location"].Value;
 
-                Collection.Environments.Add(new() { Name = name, Url = uri });
+                var environment = new EnvironmentModel
+                {
+                    Name = name
+                };
+
+                environment.Variables.Add(new VariableModel("baseUrl", uri, "Base URL for the service"));
+
+                Collection.Environments.Add(environment);
 
                 var bindingNode = definitionsNode.SelectSingleNode($"wsdl:binding[@name='{ bindingName }']", nsmgr);
                 var bindingTypeName = bindingNode.Attributes["type"].Value[(tnsPrefix.Length + 1)..];

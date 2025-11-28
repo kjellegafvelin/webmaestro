@@ -3,7 +3,9 @@ using System.IO;
 using System.Threading.Tasks;
 using WebMaestro.Models;
 using WebMaestro.Serializers;
+using WebMaestro.Services;
 using Xunit;
+using System.Collections.ObjectModel;
 
 namespace WebMaestro.Tests
 {
@@ -109,6 +111,28 @@ namespace WebMaestro.Tests
             Assert.Empty(requests[1].Variables);
             Assert.Empty(requests[1].Headers);
             Assert.Empty(requests[1].Body);
+        }
+
+        [Fact]
+        public void ApplyVariables_Environment_And_Request_Merge_Test()
+        {
+            var env = new EnvironmentModel()
+            {
+                Name = "env1",
+                Variables = new ObservableCollection<VariableModel>
+                {
+                    new VariableModel("baseUrl", "https://api.example.com", string.Empty, true),
+                    new VariableModel("token", "env-token", string.Empty, true),
+                }
+            };
+
+            var req = new RequestModel();
+            req.Variables.Add(new VariableModel("token", "req-token", string.Empty, true));
+            req.Variables.Add(new VariableModel("id", "123", string.Empty, true));
+
+            var result = VariableHelper.ApplyVariables(env, req, "${baseUrl}/items/${id}?auth=${token}");
+
+            Assert.Equal("https://api.example.com/items/123?auth=req-token", result);
         }
     }
 }

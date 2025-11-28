@@ -20,11 +20,11 @@ namespace WebMaestro.ViewModels.Explorer
         public CollectionViewModel(CollectionModel collectionModel)
         {
             this.collectionModel = collectionModel;
-            
-            this.Environments = new EnvironmentsViewModel(this.collectionModel.Environments);
+
+            this.Environments = new EnvironmentsViewModel(this.collectionModel);
             this.Variables = new VariablesViewModel(this.collectionModel.Variables);
             this.Requests = new RequestsViewModel(collectionModel);
-            
+
             this.RemoveCommand = new AsyncRelayCommand(Remove);
 
             this.dialogService = Ioc.Default.GetRequiredService<IDialogService>();
@@ -41,7 +41,7 @@ namespace WebMaestro.ViewModels.Explorer
         private async Task Remove()
         {
             var explorer = Ioc.Default.GetRequiredService<ExplorerViewModel>();
-            
+
             var settings = new MessageBoxSettings()
             {
                 Caption = "WebMaestro",

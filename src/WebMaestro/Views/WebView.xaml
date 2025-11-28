@@ -167,7 +167,8 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Style="{StaticResource TitleTextBlockStyle}" Text="Request"/>
+                    
+                    <TextBlock Grid.Row="0" Style="{StaticResource SubtitleTextBlockStyle}" Text="Request"/>
 
                     <Grid Grid.Row="1" Margin="0,8,0,0">
                         <Grid.RowDefinitions>
@@ -585,29 +586,33 @@
                 </Border>
 
                 <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="3"/>
-                <Grid Grid.Column="2" Margin="9,0,3,3">
+                <Border Grid.Column="2" Margin="4,4,4,4" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4">
+
+                    <Grid Margin="9,0,3,3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="42"/>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200" />
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="60" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-                        <Label FontSize="20" VerticalContentAlignment="Center" Padding="0"  Content="History"/>
 
-                        <StackPanel Grid.Column="2" Orientation="Horizontal">
-                            <Button Width="22" Height="22" Command="{Binding ClearHistoryItemsCommand}" ToolTip="Clear requests">
-                                <Image Source="/Resources/Images/ClearWindowContent_16x.png" Width="16" Height="16" />
-                            </Button>
-                        </StackPanel>
-                    </Grid>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="60" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}" Text="History"/>
+
+                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                <Button Width="22" Height="22" Command="{Binding ClearHistoryItemsCommand}" ToolTip="Clear requests">
+                                    <Image Source="/Resources/Images/ClearWindowContent_16x.png" Width="16" Height="16" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
 
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -846,6 +851,7 @@
                         </TabControl>
                     </Grid>
                 </Grid>
+                </Border>
 
             </Grid>
         </ctrls:BusyIndicator>

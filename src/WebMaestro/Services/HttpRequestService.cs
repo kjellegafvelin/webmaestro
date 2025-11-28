@@ -33,13 +33,10 @@ namespace WebMaestro.Services
             try
             {
                 var response = new ResponseModel();
-                //this.Status = "";
-                //this.Elapsed = TimeSpan.MinValue;
-                //this.Size = 0;
 
                 var url = CreateUrl(environment, request);
 
-                AddAuthentication(request, client.DefaultRequestHeaders, ref url);
+                AddAuthentication(environment, request, client.DefaultRequestHeaders, ref url);
 
                 if (!request.HttpsProtocols.UseDefault)
                 {
@@ -89,10 +86,12 @@ namespace WebMaestro.Services
 
                 foreach (var header in request.Headers.Where(x => x.IsEnabled))
                 {
+                    var processedValue = VariableHelper.ApplyVariables(environment, request, header.Value);
+
                     switch (header.Name.ToLower())
                     {
                         case "accept":
-                            client.DefaultRequestHeaders.Accept.ParseAdd(header.Value);
+                            client.DefaultRequestHeaders.Accept.ParseAdd(processedValue);
                             break;
                         case "connection":
                         case "content-length":
@@ -100,25 +99,25 @@ namespace WebMaestro.Services
                             // Values are set automatically
                             break;
                         case "content-type":
-                            contentType = header.Value;
+                            contentType = processedValue;
                             break;
                         case "expect":
-                            client.DefaultRequestHeaders.Expect.ParseAdd(header.Value);
+                            client.DefaultRequestHeaders.Expect.ParseAdd(processedValue);
                             break;
                         case "host":
-                            client.DefaultRequestHeaders.Host = header.Value;
+                            client.DefaultRequestHeaders.Host = processedValue;
                             break;
                         case "if-modified-since":
-                            client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Parse(header.Value);
+                            client.DefaultRequestHeaders.IfModifiedSince = DateTimeOffset.Parse(processedValue);
                             break;
                         case "referer":
-                            client.DefaultRequestHeaders.Referrer = new Uri(header.Value);
+                            client.DefaultRequestHeaders.Referrer = new Uri(processedValue);
                             break;
                         case "user-agent":
-                            client.DefaultRequestHeaders.UserAgent.ParseAdd(header.Value);
+                            client.DefaultRequestHeaders.UserAgent.ParseAdd(processedValue);
                             break;
                         default:
-                            client.DefaultRequestHeaders.Add(header.Name, header.Value);
+                            client.DefaultRequestHeaders.Add(header.Name, processedValue);
                             break;
                     }
                 }
@@ -132,8 +131,9 @@ namespace WebMaestro.Services
 
                     foreach (var cookie in request.Cookies)
                     {
+                        var val = VariableHelper.ApplyVariables(environment, request, cookie.Value);
                         cookiesSB.Append(delimiter);
-                        cookiesSB.Append($"{cookie.Name}={cookie.Value}");
+                        cookiesSB.Append($"{cookie.Name}={val}");
                         delimiter = "; ";
                     }
 
@@ -157,7 +157,7 @@ namespace WebMaestro.Services
                     case HttpMethods.PUT:
                         msg = new HttpRequestMessage(new HttpMethod(request.HttpMethod.ToString()), url)
                         {
-                            Content = CreateContent(request)
+                            Content = CreateContent(environment, request)
                         };
 
                         contentType = msg.Content is StreamContent ? "application/octet-stream" : contentType;
@@ -298,28 +298,15 @@ namespace WebMaestro.Services
         private Uri CreateUrl(EnvironmentModel environment, RequestModel request)
         {
             var url = request.Url;
-
-            url = ApplyVariables(request, url);
-
-            if (environment is not null && Uri.IsWellFormedUriString(url, UriKind.Relative))
+            url = VariableHelper.ApplyVariables(environment, request, url);
+            if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
             {
-                return new(environment.Url + url);
+                throw new Exception("The request URL is not an absolute URL. Use variables to provide a full URL.");
             }
-
             return new Uri(url);
         }
 
-        private string ApplyVariables(RequestModel request, string value)
-        {
-            foreach (var variable in request.Variables.Where(x => x.IsEnabled))
-            {
-                value = value.Replace($"${{{variable.Name}}}", variable.Value, StringComparison.OrdinalIgnoreCase);
-            }
-
-            return value;
-        }
-
-        private HttpContent CreateContent(RequestModel request)
+        private HttpContent CreateContent(EnvironmentModel environment, RequestModel request)
         {
             switch (request.BodyType)
             {
@@ -328,7 +315,7 @@ namespace WebMaestro.Services
                 case RequestBodyType.Raw:
                     var body = request.Body ?? "";
 
-                    body = ApplyVariables(request, body);
+                    body = VariableHelper.ApplyVariables(environment, request, body);
 
                     return new StringContent(body, Encoding.UTF8);
                 case RequestBodyType.Binary:
@@ -339,29 +326,31 @@ namespace WebMaestro.Services
             }
         }
 
-        private void AddAuthentication(RequestModel request, HttpRequestHeaders headers, ref Uri url)
+        private void AddAuthentication(EnvironmentModel environment, RequestModel request, HttpRequestHeaders headers, ref Uri url)
         {
             var auth = request.Authentication;
 
             switch (auth.Type)
             {
                 case AuthenticationTypes.Basic:
-                    var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{auth.Username}:{auth.Password}"));
+                    var username = VariableHelper.ApplyVariables(environment, request, auth.Username);
+                    var password = VariableHelper.ApplyVariables(environment, request, auth.Password);
+                    var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}"));
                     headers.Authorization = new AuthenticationHeaderValue("Basic", credentials);
                     break;
                 case AuthenticationTypes.ApiKey:
                     switch (auth.ApiKeyLocation)
                     {
                         case ApiKeyLocations.Header:
-                            headers.Add(auth.Key, auth.Value);
+                            headers.Add(auth.Key, VariableHelper.ApplyVariables(environment, request, auth.Value));
                             break;
                         case ApiKeyLocations.Querystring:
-                            url = url.AddQueryParam(auth.Key, auth.Value);
+                            url = url.AddQueryParam(auth.Key, VariableHelper.ApplyVariables(environment, request, auth.Value));
                             break;
                     }
                     break;
                 case AuthenticationTypes.BearerToken:
-                    headers.Authorization = new AuthenticationHeaderValue("Bearer", auth.Token);
+                    headers.Authorization = new AuthenticationHeaderValue("Bearer", VariableHelper.ApplyVariables(environment, request, auth.Token));
                     break;
             }
         }

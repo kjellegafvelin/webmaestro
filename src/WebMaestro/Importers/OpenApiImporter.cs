@@ -52,8 +52,9 @@ namespace WebMaestro.Importers
                         var env = new EnvironmentModel()
                         {
                             Name = description ,
-                            Url = url + basePath
                         };
+
+                        env.Variables.Add(new VariableModel("baseUrl", url + basePath, "Base Url for the API"));
 
                         this.Collection.Environments.Add(env);
                     }
@@ -63,8 +64,9 @@ namespace WebMaestro.Importers
                     var env = new EnvironmentModel()
                     {
                         Name = openApi.Info.Title,
-                        Url = baseUrl
                     };
+
+                    env.Variables.Add(new VariableModel("baseUrl", baseUrl, "Base Url for the API"));
 
                     this.Collection.Environments.Add(env);
                 }
@@ -85,7 +87,6 @@ namespace WebMaestro.Importers
                     var env = new EnvironmentModel()
                     {
                         Name = server.Description ?? url,
-                        Url = url
                     };
 
                     foreach ((string key, OpenApiServerVariable value) in server.Variables)
@@ -103,7 +104,6 @@ namespace WebMaestro.Importers
                 var env = new EnvironmentModel()
                 {
                     Name = openApi.Info.Title,
-                    Url = baseUrl
                 };
 
                 this.Collection.Environments.Add(env);

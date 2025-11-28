@@ -3,11 +3,82 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:WebMaestro.ViewModels.Dialogs"
+        xmlns:vm="clr-namespace:WebMaestro.ViewModels.Dialogs" 
+        xmlns:converters="clr-namespace:WebMaestro.Converters"
         mc:Ignorable="d"
-        Title="EnvironmentEditorDialog" Height="450" Width="800"
+        x:Name="root"
+        Title="Environments Editor" Height="600" Width="1024"
         d:DataContext="{d:DesignInstance {x:Type vm:EnvironmentEditorViewModel}}" WindowStartupLocation="CenterOwner">
-    <Grid>
-        
+    <Window.Resources>
+        <converters:NullToBooleanValueConverter x:Key="nullToBool"/>
+    </Window.Resources>
+    <Grid Margin="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <GroupBox Grid.Column="0" Header="Environments">
+            <StackPanel>
+                <ListBox ItemsSource="{Binding Environments}" SelectedItem="{Binding SelectedEnvironment}" MinHeight="200" x:Name="envList">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <StackPanel Orientation="Horizontal" Margin="0,8,0,8">
+                    <TextBlock Text="Name:" VerticalAlignment="Center" Width="60" />
+                    <TextBox Text="{Binding SelectedEnvironment.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="160" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                    <Button Content="Add" Command="{Binding AddEnvironmentCommand}" Width="75" />
+                    <Button Content="Clone" Command="{Binding CloneEnvironmentCommand}" Width="75" Margin="8,0,0,0" />
+                    <Button Content="Remove" Command="{Binding RemoveEnvironmentCommand}" Width="75" Margin="8,0,0,0" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <GroupBox Header="Variables" Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <DataGrid ItemsSource="{Binding SelectedEnvironment.Variables}" SelectedItem="{Binding SelectedVariable, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="200" />
+                            <DataGridTextColumn Header="Value" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*" />
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="200" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" Margin="0,8,0,0">
+                        <Button Content="Add Variable" Command="{Binding AddVariableCommand}" Width="150" />
+                        <Button Content="Remove Variable" Command="{Binding RemoveVariableCommand}" Width="150" Margin="8,0,0,0" 
+                                IsEnabled="{Binding SelectedVariable, Converter={StaticResource nullToBool}, ConverterParameter=true}"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+
+            <TextBlock Grid.Row="1" Text="{Binding ValidationMessage}" Foreground="Red" Margin="0,8,0,0" Visibility="{Binding IsValidationMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+            <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="0,8,0,0">
+                <Button Content="OK" Width="80" Margin="0,0,8,0" Command="{Binding OkCommand}" />
+                <Button Content="Cancel" Width="80" Command="{Binding CancelCommand}" />
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </Window>

@@ -240,58 +240,40 @@ namespace WebMaestro.Models
 
     public class VariableModel : ObservableObject, IEditableObject
     {
-        private bool oldIsEnabled;
         private string oldName;
         private string oldValue;
         private string oldDescription;
         private string value;
         private string name;
-        private bool isEnabled;
         private string description;
 
-        public VariableModel()
-        {
-        }
-
+        public VariableModel() { }
         public VariableModel(string name, string value, string description)
         {
             this.name = name;
             this.value = value;
             this.description = description;
         }
-
-        public VariableModel(string name, string value, string description, bool enabled) : this (name, value, description)
-        {
-            this.isEnabled = enabled;
-        }
-
-        public bool IsEnabled { get => isEnabled; set => this.SetProperty(ref this.isEnabled, value); }
+        public VariableModel(string name, string value, string description, bool enabled) : this(name, value, description) { }
 
         public string Name { get => name; set => this.SetProperty(ref this.name, value); }
-
         public string Value { get => value; set => this.SetProperty(ref this.value, value); }
-
         public string Description { get => this.description; set => this.SetProperty(ref this.description, value); }
 
         public void BeginEdit()
         {
-            oldIsEnabled = IsEnabled;
             oldName ??= Name;
             oldValue ??= Value;
             oldDescription ??= Description;
         }
-
         public void CancelEdit()
         {
-            IsEnabled = oldIsEnabled;
             Name = oldName;
             Value = oldValue;
             Description = oldDescription;
         }
-
         public void EndEdit()
         {
-            oldIsEnabled = false;
             oldName = null;
             oldValue = null;
             oldDescription = null;
