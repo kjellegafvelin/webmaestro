@@ -1,8 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
-using ControlzEx.Theming;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using WebMaestro.Models;
 using WebMaestro.Services;

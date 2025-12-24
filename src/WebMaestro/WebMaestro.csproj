@@ -48,7 +48,6 @@
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="Fluent.Ribbon" Version="11.0.1" />
     <PackageReference Include="GitVersion.MsBuild" Version="6.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -56,6 +55,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-rc.1.25451.107" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0-rc.1.25451.107" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.27" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="MvvmDialogs" Version="9.1.2" />
     <PackageReference Include="OxyPlot.Wpf" Version="2.2.0" />
   </ItemGroup>
