@@ -66,16 +66,12 @@
  - Uses `xunit`, `Verify.Xunit`, and `coverlet.collector`.
  - Resources for tests are in `src/WebMaestro.Tests/Resources` (HTTP samples and WSDL XMLs). Some are marked as `EmbeddedResource`, others copied to output.
 
-## MVVM and WPF guidance
-- Follow existing MVVM patterns. Use `CommunityToolkit.Mvvm` attributes for properties and commands.
-
 ## What to check before submitting a PR
 - Always:
  - Restore, build both projects (Debug or Release as appropriate).
  - Run `dotnet test src/WebMaestro.Tests/WebMaestro.Tests.csproj` and ensure all tests pass or update Verify snapshots when intentional.
  - If you changed UI or MVVM bindings, run the app to smoke-test startup and key views.
-- If you added `ObservableProperty` or `RelayCommand` usages, ensure the containing class is `partial` so source generators can emit the backing members.
-- If you introduced new resources (images, XAML), ensure they are included as `Resource` or `Page` in the `csproj` when needed.
+ - If you introduced new resources (images, XAML), ensure they are included as `Resource` or `Page` in the `csproj` when needed.
 
 ## CI and automation
 - No GitHub Actions workflows are present at the time of writing. Validation is performed via local build and test steps above. If adding CI later, mirror these local steps on a Windows runner with .NET SDK10.
