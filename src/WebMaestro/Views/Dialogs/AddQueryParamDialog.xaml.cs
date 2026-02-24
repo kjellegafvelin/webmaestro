@@ -7,7 +7,7 @@ namespace WebMaestro.Views.Dialogs
     /// <summary>
     /// Interaction logic for AddQueryParamDialog.xaml
     /// </summary>
-    public partial class AddQueryParam : Window
+    public partial class AddQueryParam : DialogWindowBase
     {
         public AddQueryParam()
         {

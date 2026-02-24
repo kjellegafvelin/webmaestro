@@ -17,7 +17,7 @@ namespace WebMaestro.Views.Dialogs
     /// <summary>
     /// Interaction logic for ImportOpenApiRequests.xaml
     /// </summary>
-    public partial class ImportOpenApiRequests : Window
+    public partial class ImportOpenApiRequests : DialogWindowBase
     {
         public ImportOpenApiRequests()
         {

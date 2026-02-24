@@ -1,11 +1,12 @@
 ﻿using System.Windows;
+using WebMaestro.Views.Dialogs;
 
 namespace WebMaestro.Dialogs
 {
     /// <summary>
     /// Interaction logic for AboutDialog.xaml
     /// </summary>
-    public partial class AboutDialog : Window
+    public partial class AboutDialog : DialogWindowBase
     {
         public AboutDialog()
         {

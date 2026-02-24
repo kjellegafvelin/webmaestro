@@ -17,7 +17,7 @@ namespace WebMaestro.Views.Dialogs
     /// <summary>
     /// Interaction logic for SaveRequest.xaml
     /// </summary>
-    public partial class SaveRequest : Window
+    public partial class SaveRequest : DialogWindowBase
     {
         public SaveRequest()
         {

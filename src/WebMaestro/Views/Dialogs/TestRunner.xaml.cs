@@ -17,7 +17,7 @@ namespace WebMaestro.Views.Dialogs
     /// <summary>
     /// Interaction logic for TestRunner.xaml
     /// </summary>
-    public partial class TestRunner : Window
+    public partial class TestRunner : DialogWindowBase
     {
         public TestRunner()
         {

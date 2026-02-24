@@ -1,4 +1,4 @@
-﻿<Window x:Class="WebMaestro.Views.Dialogs.TestRunner"
+﻿<dialogViews:DialogWindowBase x:Class="WebMaestro.Views.Dialogs.TestRunner"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,6 +6,7 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:ctrls="clr-namespace:WebMaestro.Controls"
         xmlns:local="clr-namespace:WebMaestro.Views.Dialogs"
+        xmlns:dialogViews="clr-namespace:WebMaestro.Views.Dialogs"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=dialogs:TestRunnerViewModel}"
         xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:dialogs="clr-namespace:WebMaestro.ViewModels.Dialogs"
@@ -92,4 +93,4 @@
 
         </Grid>
     </ctrls:BusyIndicator>
-</Window>
+</dialogViews:DialogWindowBase>

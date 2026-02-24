@@ -7,7 +7,7 @@ namespace WebMaestro.Views.Dialogs
     /// <summary>
     /// Interaction logic for EscapeJsonTool.xaml
     /// </summary>
-    public partial class EscapeJsonTool : Window
+    public partial class EscapeJsonTool : DialogWindowBase
     {
         private EscapeJsonToolViewModel vm;
 

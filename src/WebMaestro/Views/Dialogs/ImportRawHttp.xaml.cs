@@ -6,7 +6,7 @@ namespace WebMaestro.Views.Dialogs
     /// <summary>
     /// Interaction logic for ImportRawHttp.xaml
     /// </summary>
-    public partial class ImportRawHttp : Window
+    public partial class ImportRawHttp : DialogWindowBase
     {
         private ImportRawHttpViewModel vm;
 

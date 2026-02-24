@@ -7,7 +7,7 @@ namespace WebMaestro.Views.Dialogs
     /// <summary>
     /// Interaction logic for PrettifyTool.xaml
     /// </summary>
-    public partial class PrettifyTool : Window
+    public partial class PrettifyTool : DialogWindowBase
     {
         private PrettifyToolViewModel vm;
 
