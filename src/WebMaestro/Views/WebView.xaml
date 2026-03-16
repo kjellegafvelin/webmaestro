@@ -69,12 +69,13 @@
         <Grid DockPanel.Dock="top" Height="50" Background="#4299E1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="9" />
-                <ColumnDefinition MinWidth="500" MaxWidth="800" />
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="9" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+            <Grid Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95" />
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="80" />
@@ -84,7 +85,10 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <ComboBox Margin="0,0,5,0" Grid.Row="0" FontSize="14px" FontWeight="SemiBold" Grid.Column="0" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" HorizontalAlignment="Left" 
+                <ComboBox Grid.Column="0" Grid.Row="0" Width="80" ItemsSource="{Binding Collection.Environments}" DisplayMemberPath="Name" 
+                          SelectedItem="{Binding SelectedEnvironment}" />
+
+                <ComboBox Margin="0,0,5,0" Grid.Row="0" FontSize="14px" FontWeight="SemiBold" Grid.Column="1" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" HorizontalAlignment="Left" 
                           VerticalAlignment="Top" Width="110" Height="28" SelectedItem="{Binding Request.HttpMethod}" >
                     <!--Style="{StaticResource ComboBoxEnabled}"-->
                     <ComboBox.ItemsSource>
@@ -92,25 +96,19 @@
                     </ComboBox.ItemsSource>
                 </ComboBox>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" >
-                    <ComboBox Visibility="Collapsed" Margin="0,-18,0,0" Width="150" ItemsSource="{Binding Collection.Environments}" DisplayMemberPath="Name" 
-                          SelectedItem="{Binding SelectedEnvironment}" />
+                <ctrls:ExtendedTextBox Grid.Column="2" PlaceHolder="Enter request URL" FontSize="14px" FontWeight="SemiBold" BorderThickness="0,0,0,2" BorderBrush="White" Background="Transparent" Foreground="White" x:Name="txtUrl" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" 
+                            HorizontalAlignment="Stretch"  Margin="0,3,0,0" Height="24" TextWrapping="NoWrap" VerticalAlignment="Top">
+                    <!-- behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding History}" -->
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SendCommand}" />
+                    </TextBox.InputBindings>
+                    <TextBox.Text>
+                        <Binding Path="Request.Url" UpdateSourceTrigger="PropertyChanged">
+                        </Binding>
+                    </TextBox.Text>
+                </ctrls:ExtendedTextBox>
 
-
-                    <ctrls:ExtendedTextBox PlaceHolder="Enter request URL" FontSize="14px" FontWeight="SemiBold" BorderThickness="0,0,0,2" BorderBrush="White" Background="Transparent" Foreground="White" x:Name="txtUrl" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" 
-                             HorizontalAlignment="Stretch" Margin="0,3,0,0" Height="24" TextWrapping="NoWrap" VerticalAlignment="Top">
-                        <!-- behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding History}" -->
-                        <TextBox.InputBindings>
-                            <KeyBinding Key="Enter" Command="{Binding SendCommand}" />
-                        </TextBox.InputBindings>
-                        <TextBox.Text>
-                            <Binding Path="Request.Url" UpdateSourceTrigger="PropertyChanged">
-                            </Binding>
-                        </TextBox.Text>
-                    </ctrls:ExtendedTextBox>
-                </StackPanel>
-
-                <Button Margin="5,0,0,0" Grid.Row="0" Grid.Column="2" Content="Send" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding SendCommand}" 
+                <Button Margin="5,0,0,0" Grid.Row="0" Grid.Column="3" Content="Send" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding SendCommand}" 
                         HorizontalAlignment="Left" VerticalAlignment="Top" >
                     <!--<Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -118,7 +116,7 @@
                         </Style>
                     </Button.Resources>-->
                 </Button>
-                <Button Margin="5,0,0,0" Grid.Row="0" Grid.Column="3" Content="Test" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding TestCommand}" 
+                <Button Margin="5,0,0,0" Grid.Row="0" Grid.Column="4" Content="Test" IsEnabled="{Binding SendCommand.IsRunning, Converter={converters:InverseBooleanConverter}}" Command="{Binding TestCommand}" 
                         HorizontalAlignment="Left" VerticalAlignment="Top" >
                     <!--<Button.Resources>
                         <Style TargetType="{x:Type Border}">

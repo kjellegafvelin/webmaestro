@@ -28,14 +28,16 @@ namespace WebMaestro.Services
                 throw new InvalidOperationException("Collection path is invalid.");
             }
 
-            var filename = Path.Combine(path, request.Name + ".req");
+            // Sanitize the filename by replacing path separators with safe characters
+            var sanitizedName = request.Name.Replace('/', '-').Replace('\\', '-');
+            var filename = Path.Combine(path, sanitizedName + ".req");
 
             await FileHelpers.SaveJsonFileAsync(filename, request);
 
             collection.Files.Add(new()
             {
-                Name = request.Name,
-                FileName = filename,
+                Name = request.Name,  // Keep original name with slashes for display
+                FileName = filename,   // Use sanitized filename for the actual file path
                 Url = request.Url,
                 HttpMethod = request.HttpMethod,
                 Id = id
@@ -101,6 +103,7 @@ namespace WebMaestro.Services
 
         internal async Task SaveTempFileAsync<T>(string filename, T obj)
         {
+            Directory.CreateDirectory(WebMaestroFolderPath);
             var path = Path.Combine(WebMaestroFolderPath, filename);
             await FileHelpers.SaveJsonFileAsync(path, obj);
         }
@@ -118,6 +121,7 @@ namespace WebMaestro.Services
 
         internal async Task SaveAppStateAsync(AppStateModel appState)
         {
+            Directory.CreateDirectory(WebMaestroFolderPath);
             var path = Path.Combine(WebMaestroFolderPath, "appstate.json");
             await FileHelpers.SaveJsonFileAsync(path, appState);
         }

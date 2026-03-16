@@ -156,14 +156,13 @@
             </Grid.RowDefinitions>
             <Grid Margin="8,0,8,4" Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="208.065" />
-                    <ColumnDefinition Width="41.935"/>
+                    <ColumnDefinition MinWidth="200" Width="250" />
                     <ColumnDefinition Width="3" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <views:ExplorerView Grid.Column="0" Grid.ColumnSpan="2"></views:ExplorerView>
+                <views:ExplorerView Grid.Column="0" ></views:ExplorerView>
 
-                <GridSplitter Grid.Column="2" Width="3" Grid.ColumnSpan="2" Margin="0,0,542,0"/>
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="3"/>
 
                 <controls:CloseableTabControl Grid.Column="3" x:Name="tabs" ItemsSource="{Binding ViewModels}" SelectedItem="{Binding SelectedTabItem, Converter={StaticResource tabItem}}" ItemContainerStyleSelector="{StaticResource tabItemStyleSelector}" AllowAddNew="False">
                     <controls:CloseableTabControl.ItemTemplate>

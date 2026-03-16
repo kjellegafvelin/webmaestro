@@ -9,80 +9,85 @@
         d:DataContext="{d:DesignInstance vmd:AddHeaderViewModel}"
         mc:Ignorable="d" ThemeMode="Dark"
         Title="Add Header" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="Height" Width="494">
-    <Grid>
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="80" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Background="#2B2B2B">
-            <Grid HorizontalAlignment="Stretch" Margin="24,25,24,24" FocusManager.FocusedElement="{Binding ElementName=txtName}">
+            <Grid HorizontalAlignment="Stretch" Margin="24,25,24,24">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="49" />
-                    <RowDefinition Height="74" />
-                    <RowDefinition Height="74"/>
-                    <RowDefinition Height="74"/>
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Style="{StaticResource SubtitleTextBlockStyle}">Create new header value</TextBlock>
-                <StackPanel Grid.Row="1">
-                    <Label Content="Name:" VerticalAlignment="Top"/>
+                <TextBlock Grid.Row="0" Style="{StaticResource SubtitleTextBlockStyle}" Text="Create new header value" />-->
+    <dialogViews:DialogShell HeaderText="Create new header value">
 
-                    <ComboBox IsEditable="True" Name="cmbName"
-                              IsEnabled="{Binding IsEdit, Converter={converters:InverseBooleanConverter}}" Text="{Binding Name}">
-                        <ComboBoxItem Content="Accept" />
-                        <ComboBoxItem Content="Accept-Charset" />
-                        <ComboBoxItem Content="Accept-Datetime" />
-                        <ComboBoxItem Content="Accept-Encoding" />
-                        <ComboBoxItem Content="Accept-Language" />
-                        <ComboBoxItem Content="Accept-Ranges" />
-                        <ComboBoxItem Content="Access-Control-Request-Method" />
-                        <ComboBoxItem Content="Access-Control-Request-Headers" />
-                        <ComboBoxItem Content="Authorization" />
-                        <ComboBoxItem Content="Cache-Control" />
-                        <ComboBoxItem Content="Connection" />
-                        <ComboBoxItem Content="Content-Encoding" />
-                        <ComboBoxItem Content="Content-Length" />
-                        <ComboBoxItem Content="Content-Type" />
-                        <ComboBoxItem Content="Cookie" />
-                        <ComboBoxItem Content="Date" />
-                        <ComboBoxItem Content="Expect" />
-                        <ComboBoxItem Content="Forwarded" />
-                        <ComboBoxItem Content="From" />
-                        <ComboBoxItem Content="Host" />
-                        <ComboBoxItem Content="If-Match" />
-                        <ComboBoxItem Content="If-Modified-Since" />
-                        <ComboBoxItem Content="If-None-Match" />
-                        <ComboBoxItem Content="If-Range" />
-                        <ComboBoxItem Content="If-Unmodified-Since" />
-                        <ComboBoxItem Content="Max-Forwards" />
-                        <ComboBoxItem Content="Origin" />
-                        <ComboBoxItem Content="Pragma" />
-                        <ComboBoxItem Content="Prefer" />
-                        <ComboBoxItem Content="Proxy-Authorization" />
-                        <ComboBoxItem Content="Range" />
-                        <ComboBoxItem Content="Referer" />
-                        <ComboBoxItem Content="TE" />
-                        <ComboBoxItem Content="Trailer" />
-                        <ComboBoxItem Content="Transfer-Encoding" />
-                        <ComboBoxItem Content="User-Agent" />
-                        <ComboBoxItem Content="Upgrade" />
-                        <ComboBoxItem Content="Via" />
-                        <Separator />
-                        <ComboBoxItem Content="Ocp-Apim-Subscription-Key" />
-                        <ComboBoxItem Content="Ocp-Apim-Trace" />
-                    </ComboBox>
-                </StackPanel>
-                <StackPanel Grid.Row="2">
-                    <Label Content="Value:" VerticalAlignment="Top"/>
-                    <TextBox Name="txtValue" Text="{Binding Value}" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Grid.Row="3">
-                    <Label Content="Description:" VerticalAlignment="Top"/>
-                    <TextBox Name="txtDescription" Text="{Binding Description}" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Grid>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=txtName}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="74" />
+                        <RowDefinition Height="74" />
+                        <RowDefinition Height="74" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <Label Content="Name:" VerticalAlignment="Top"/>
+
+                        <ComboBox IsEditable="True"
+                                  IsEnabled="{Binding IsEdit, Converter={converters:InverseBooleanConverter}}" Text="{Binding Name}">
+                            <ComboBoxItem Content="Accept" />
+                            <ComboBoxItem Content="Accept-Charset" />
+                            <ComboBoxItem Content="Accept-Datetime" />
+                            <ComboBoxItem Content="Accept-Encoding" />
+                            <ComboBoxItem Content="Accept-Language" />
+                            <ComboBoxItem Content="Accept-Ranges" />
+                            <ComboBoxItem Content="Access-Control-Request-Method" />
+                            <ComboBoxItem Content="Access-Control-Request-Headers" />
+                            <ComboBoxItem Content="Authorization" />
+                            <ComboBoxItem Content="Cache-Control" />
+                            <ComboBoxItem Content="Connection" />
+                            <ComboBoxItem Content="Content-Encoding" />
+                            <ComboBoxItem Content="Content-Length" />
+                            <ComboBoxItem Content="Content-Type" />
+                            <ComboBoxItem Content="Cookie" />
+                            <ComboBoxItem Content="Date" />
+                            <ComboBoxItem Content="Expect" />
+                            <ComboBoxItem Content="Forwarded" />
+                            <ComboBoxItem Content="From" />
+                            <ComboBoxItem Content="Host" />
+                            <ComboBoxItem Content="If-Match" />
+                            <ComboBoxItem Content="If-Modified-Since" />
+                            <ComboBoxItem Content="If-None-Match" />
+                            <ComboBoxItem Content="If-Range" />
+                            <ComboBoxItem Content="If-Unmodified-Since" />
+                            <ComboBoxItem Content="Max-Forwards" />
+                            <ComboBoxItem Content="Origin" />
+                            <ComboBoxItem Content="Pragma" />
+                            <ComboBoxItem Content="Prefer" />
+                            <ComboBoxItem Content="Proxy-Authorization" />
+                            <ComboBoxItem Content="Range" />
+                            <ComboBoxItem Content="Referer" />
+                            <ComboBoxItem Content="TE" />
+                            <ComboBoxItem Content="Trailer" />
+                            <ComboBoxItem Content="Transfer-Encoding" />
+                            <ComboBoxItem Content="User-Agent" />
+                            <ComboBoxItem Content="Upgrade" />
+                            <ComboBoxItem Content="Via" />
+                            <Separator />
+                            <ComboBoxItem Content="Ocp-Apim-Subscription-Key" />
+                            <ComboBoxItem Content="Ocp-Apim-Trace" />
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1">
+                        <Label Content="Value:" VerticalAlignment="Top"/>
+                        <TextBox Text="{Binding Value}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2">
+                        <Label Content="Description:" VerticalAlignment="Top"/>
+                        <TextBox Text="{Binding Description}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+    </dialogViews:DialogShell>
+    <!--</Grid>
         </Border>
         <Grid Grid.Row="1" Margin="24,24,24,24">
             <Grid.ColumnDefinitions>
@@ -94,6 +99,6 @@
                 Command="{Binding OkCommand}" Height="32" Width="220"/>
             <Button Grid.Column="2"  Content="Cancel" HorizontalAlignment="Center" VerticalAlignment="Top" IsCancel="True" Grid.ColumnSpan="2" Height="32" Width="220"/>
         </Grid>
-    </Grid>
+    </Grid>-->
 
 </dialogViews:DialogWindowBase>

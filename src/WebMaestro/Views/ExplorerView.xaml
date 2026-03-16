@@ -198,8 +198,8 @@
                                     </StackPanel.InputBindings>
                                     <StackPanel.ToolTip>
                                         <StackPanel>
-                                            <TextBlock FontWeight="SemiBold" Text="Url"/>
-                                            <TextBlock Text="{Binding Url}"/>
+                                            <TextBlock FontWeight="SemiBold" Text="Description"/>
+                                            <TextBlock Text="{Binding Description}"/>
                                             <TextBlock FontWeight="SemiBold" Text="Filename"/>
                                             <TextBlock Text="{Binding Filename}"/>
                                         </StackPanel>

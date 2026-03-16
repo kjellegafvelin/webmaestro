@@ -214,6 +214,8 @@ namespace WebMaestro.Models
             set { this.SetProperty(ref httpsProtocols, value); }
         }
 
+        public string Description { get; internal set; }
+
         [ObservableProperty]
         private string filename;
 

@@ -129,7 +129,11 @@
     </Compile>
   </ItemGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
+    <Page Update="Views\Dialogs\DialogShell.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Dialogs\AddCookie.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -140,5 +144,5 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
+  </ItemGroup>-->
 </Project>

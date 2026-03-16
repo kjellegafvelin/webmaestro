@@ -74,33 +74,42 @@ namespace WebMaestro.Views
 
         protected override async void OnClosing(CancelEventArgs e)
         {
-            if (!_isSavingState)
+            // If we've already completed saving and are closing for real, don't intercept.
+            if (_isSavingState)
             {
-                e.Cancel = true;
-                _isSavingState = true;
-
-                try
-                {
-                    await SaveApplicationStateAsync();
-                }
-                catch (Exception ex)
-                {
-                    var result = MessageBox.Show(
-                        $"Failed to save application state: {ex.Message}\n\nDo you still want to close the application?",
-                        "Save Error",
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Error);
-
-                    if (result == MessageBoxResult.No)
-                    {
-                        _isSavingState = false;
-                        return;
-                    }
-                }
-
                 base.OnClosing(e);
-                this.Close();
+                return;
             }
+
+            e.Cancel = true;
+            _isSavingState = true;
+
+            try
+            {
+                await SaveApplicationStateAsync();
+            }
+            catch (Exception ex)
+            {
+                var result = MessageBox.Show(
+                    $"Failed to save application state: {ex.Message}\n\nDo you still want to close the application?",
+                    "Save Error",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Error);
+
+                if (result == MessageBoxResult.No)
+                {
+                    _isSavingState = false;
+                    return;
+                }
+            }
+
+            // Schedule close AFTER the current Closing handler unwinds.
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                // Optional: shutdown the app rather than calling Close() on the window
+                // Application.Current.Shutdown();
+                Close();
+            }), System.Windows.Threading.DispatcherPriority.Normal);
         }
 
         private async Task SaveApplicationStateAsync()
