@@ -25,11 +25,7 @@ namespace WebMaestro.ViewModels.Explorer
 
             foreach (var environment in this.environmentModels)
             {
-                this.Environments.Add(new EnvironmentModel()
-                {
-                    Name = environment.Name,
-                    Variables = new ObservableCollection<VariableModel>(environment.Variables.Select(v => new VariableModel(v.Name, v.Value, v.Description)))
-                });
+                this.Environments.Add(CloneEnvironment(environment));
             }
 
             this.dialogService = Ioc.Default.GetRequiredService<IDialogService>();
@@ -52,11 +48,7 @@ namespace WebMaestro.ViewModels.Explorer
             };
 
             this.environmentModels.Add(env);
-            this.Environments.Add(new EnvironmentModel()
-            {
-                Name = env.Name,
-                Variables = new ObservableCollection<VariableModel>(env.Variables.Select(v => new VariableModel(v.Name, v.Value, v.Description)))
-            });
+            this.Environments.Add(CloneEnvironment(env));
         }
 
         public ICommand EditCommand { get; }
@@ -66,11 +58,7 @@ namespace WebMaestro.ViewModels.Explorer
             var explorer = Ioc.Default.GetRequiredService<ExplorerViewModel>();
 
             // Deep clone current environments to edit in dialog
-            var editList = new ObservableCollection<EnvironmentModel>(this.environmentModels.Select(e => new EnvironmentModel()
-            {
-                Name = e.Name,
-                Variables = new ObservableCollection<VariableModel>(e.Variables.Select(v => new VariableModel(v.Name, v.Value, v.Description)))
-            }));
+            var editList = new ObservableCollection<EnvironmentModel>(this.environmentModels.Select(CloneEnvironment));
 
             var dlg = new EnvironmentEditorViewModel(editList);
 
@@ -80,16 +68,41 @@ namespace WebMaestro.ViewModels.Explorer
                 this.environmentModels.Clear();
                 foreach (var e in dlg.Environments)
                 {
-                    this.environmentModels.Add(new EnvironmentModel()
-                    {
-                        Name = e.Name,
-                        Variables = new ObservableCollection<VariableModel>(e.Variables.Select(v => new VariableModel(v.Name, v.Value, v.Description)))
-                    });
+                    this.environmentModels.Add(CloneEnvironment(e));
                 }
 
                 // Save collection
                 _ = this.collectionsService.SaveCollectionAsync(this.collectionModel);
             }
+        }
+
+        private static EnvironmentModel CloneEnvironment(EnvironmentModel source)
+        {
+            return new EnvironmentModel()
+            {
+                Name = source.Name,
+                Variables = new ObservableCollection<VariableModel>(source.Variables.Select(v => new VariableModel(v.Name, v.Value, v.Description))),
+                Authentication = CloneAuthentication(source.Authentication)
+            };
+        }
+
+        private static Authentication CloneAuthentication(Authentication source)
+        {
+            if (source == null)
+            {
+                return new Authentication();
+            }
+
+            return new Authentication()
+            {
+                Type = source.Type,
+                Key = source.Key,
+                Value = source.Value,
+                Username = source.Username,
+                Password = source.Password,
+                ApiKeyLocation = source.ApiKeyLocation,
+                Token = source.Token
+            };
         }
 
         public ObservableCollection<EnvironmentModel> Environments { get; } = new();

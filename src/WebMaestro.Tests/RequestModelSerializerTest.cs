@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Text.Json;
 using WebMaestro.Models;
 using WebMaestro.Serializers;
 using WebMaestro.Services;
@@ -133,6 +134,52 @@ namespace WebMaestro.Tests
             var result = VariableHelper.ApplyVariables(env, req, "${baseUrl}/items/${id}?auth=${token}");
 
             Assert.Equal("https://api.example.com/items/123?auth=req-token", result);
+        }
+
+        [Fact]
+        public void Collection_EnvironmentAuthentication_RoundTrip_Test()
+        {
+            var collection = new CollectionModel
+            {
+                Name = "collection1",
+                Environments = new ObservableCollection<EnvironmentModel>
+                {
+                    new EnvironmentModel
+                    {
+                        Name = "dev",
+                        Authentication = new Authentication
+                        {
+                            Type = AuthenticationTypes.ApiKey,
+                            Key = "x-api-key",
+                            Value = "${apiKey}",
+                            ApiKeyLocation = ApiKeyLocations.Header
+                        }
+                    }
+                }
+            };
+
+            var writeOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+            };
+
+            var readOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            var json = JsonSerializer.Serialize(collection, writeOptions);
+            var roundTripped = JsonSerializer.Deserialize<CollectionModel>(json, readOptions);
+
+            Assert.NotNull(roundTripped);
+            Assert.Single(roundTripped.Environments);
+            Assert.NotNull(roundTripped.Environments[0].Authentication);
+            Assert.Equal(AuthenticationTypes.ApiKey, roundTripped.Environments[0].Authentication.Type);
+            Assert.Equal("x-api-key", roundTripped.Environments[0].Authentication.Key);
+            Assert.Equal("${apiKey}", roundTripped.Environments[0].Authentication.Value);
+            Assert.Equal(ApiKeyLocations.Header, roundTripped.Environments[0].Authentication.ApiKeyLocation);
         }
     }
 }

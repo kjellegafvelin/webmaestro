@@ -85,13 +85,33 @@ namespace WebMaestro.ViewModels.Dialogs
             var clone = new EnvironmentModel()
             {
                 Name = GetUniqueEnvironmentName(src.Name + " - Copy"),
-                Variables = new ObservableCollection<VariableModel>(src.Variables.Select(v => new VariableModel(v.Name, v.Value, v.Description)))
+                Variables = new ObservableCollection<VariableModel>(src.Variables.Select(v => new VariableModel(v.Name, v.Value, v.Description))),
+                Authentication = CloneAuthentication(src.Authentication)
             };
             Environments.Add(clone);
             SelectedEnvironment = clone;
             RegisterHandlersForEnvironment(clone);
             foreach (var v in clone.Variables) CacheVariable(v);
             Validate();
+        }
+
+        private static Authentication CloneAuthentication(Authentication source)
+        {
+            if (source == null)
+            {
+                return new Authentication();
+            }
+
+            return new Authentication()
+            {
+                Type = source.Type,
+                Key = source.Key,
+                Value = source.Value,
+                Username = source.Username,
+                Password = source.Password,
+                ApiKeyLocation = source.ApiKeyLocation,
+                Token = source.Token
+            };
         }
 
         private bool CanCloneEnvironment() => SelectedEnvironment != null;

@@ -8,6 +8,9 @@ namespace WebMaestro.Models
         [ObservableProperty]
         private string name;
 
+        [ObservableProperty]
+        private Authentication authentication = new();
+
         public ObservableCollection<VariableModel> Variables { get; set; } = new();
     }
 }

@@ -2,12 +2,30 @@
   Collection: {
     Environments: [
       {
+        Variables: [
+          {
+            Name: baseUrl,
+            Value: http://www.w3schools.com/xml/tempconvert.asmx,
+            Description: Base URL for the service
+          }
+        ],
         Name: TempConvertSoap,
-        Url: http://www.w3schools.com/xml/tempconvert.asmx
+        Authentication: {
+          IsDirty: false
+        }
       },
       {
+        Variables: [
+          {
+            Name: baseUrl,
+            Value: http://www.w3schools.com/xml/tempconvert.asmx,
+            Description: Base URL for the service
+          }
+        ],
         Name: TempConvertSoap12,
-        Url: http://www.w3schools.com/xml/tempconvert.asmx
+        Authentication: {
+          IsDirty: false
+        }
       }
     ],
     Id: Guid_1,

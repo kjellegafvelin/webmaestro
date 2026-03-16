@@ -35,8 +35,9 @@ namespace WebMaestro.Services
                 var response = new ResponseModel();
 
                 var url = CreateUrl(environment, request);
+                var authentication = ResolveAuthentication(environment, request);
 
-                AddAuthentication(environment, request, client.DefaultRequestHeaders, ref url);
+                AddAuthentication(environment, request, authentication, client.DefaultRequestHeaders, ref url);
 
                 if (!request.HttpsProtocols.UseDefault)
                 {
@@ -326,9 +327,27 @@ namespace WebMaestro.Services
             }
         }
 
-        private void AddAuthentication(EnvironmentModel environment, RequestModel request, HttpRequestHeaders headers, ref Uri url)
+        private static Authentication ResolveAuthentication(EnvironmentModel environment, RequestModel request)
         {
-            var auth = request.Authentication;
+            if (request?.Authentication?.Type != AuthenticationTypes.None)
+            {
+                return request.Authentication;
+            }
+
+            if (environment?.Authentication?.Type != AuthenticationTypes.None)
+            {
+                return environment.Authentication;
+            }
+
+            return request?.Authentication ?? new Authentication();
+        }
+
+        private void AddAuthentication(EnvironmentModel environment, RequestModel request, Authentication auth, HttpRequestHeaders headers, ref Uri url)
+        {
+            if (auth == null)
+            {
+                return;
+            }
 
             switch (auth.Type)
             {

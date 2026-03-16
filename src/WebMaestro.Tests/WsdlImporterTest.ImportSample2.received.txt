@@ -2,8 +2,17 @@
   Collection: {
     Environments: [
       {
+        Variables: [
+          {
+            Name: baseUrl,
+            Value: http://example.com/stockquote,
+            Description: Base URL for the service
+          }
+        ],
         Name: StockQuotePort,
-        Url: http://example.com/stockquote
+        Authentication: {
+          IsDirty: false
+        }
       }
     ],
     Id: Guid_1,
