@@ -8,161 +8,213 @@
         xmlns:dialogViews="clr-namespace:WebMaestro.Views.Dialogs"
         mc:Ignorable="d"
         x:Name="root"
-        Title="Environments Editor" Height="600" Width="1024"
+        Title="Environments Editor" Height="680" Width="1024"
         d:DataContext="{d:DesignInstance {x:Type vm:EnvironmentEditorViewModel}}" WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <converters:NullToBooleanValueConverter x:Key="nullToBool"/>
         <converters:EnumMatchToBooleanConverter x:Key="enumMatchToBool" />
         <converters:EnumMatchToVisibilityConverter x:Key="enumMatchToVisibility" />
+
+        <Style x:Key="CardBorderStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#33000000" />
+            <Setter Property="Padding" Value="12" />
+            <!--<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />-->
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="MinHeight" Value="32" />
+            <Setter Property="Padding" Value="12,4" />
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="MinHeight" Value="30" />
+        </Style>
+
+        <Style x:Key="SectionHeaderText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
     </Window.Resources>
-    <Grid Margin="8">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
-            <ColumnDefinition Width="8" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    <Grid Margin="24,25,24,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="49" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
 
-        <GroupBox Grid.Column="0" Header="Environments">
-            <StackPanel>
-                <ListBox ItemsSource="{Binding Environments}" SelectedItem="{Binding SelectedEnvironment}" MinHeight="200" x:Name="envList">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+        <TextBlock Grid.Row="0" Style="{StaticResource SubtitleTextBlockStyle}" Text="Edit Settings" />
 
-                <StackPanel Orientation="Horizontal" Margin="0,8,0,8">
-                    <TextBlock Text="Name:" VerticalAlignment="Center" Width="60" />
-                    <TextBox Text="{Binding SelectedEnvironment.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="160" />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                    <Button Content="Add" Command="{Binding AddEnvironmentCommand}" Width="75" />
-                    <Button Content="Clone" Command="{Binding CloneEnvironmentCommand}" Width="75" Margin="8,0,0,0" />
-                    <Button Content="Remove" Command="{Binding RemoveEnvironmentCommand}" Width="75" Margin="8,0,0,0" />
-                </StackPanel>
-            </StackPanel>
-        </GroupBox>
-
-        <Grid Grid.Column="2">
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-            <GroupBox Header="Authentication" Grid.Row="0" Margin="0,0,0,8">
+            <Border Grid.Column="0" Style="{StaticResource CardBorderStyle}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="0" Margin="10,8,10,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="75" />
-                            <ColumnDefinition Width="75" />
-                            <ColumnDefinition Width="75" />
-                            <ColumnDefinition Width="100" />
-                        </Grid.ColumnDefinitions>
-                        <RadioButton Grid.Column="0" GroupName="EnvironmentAuth" Content="None"
-                                     IsChecked="{Binding Path=SelectedEnvironment.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=None}" />
-                        <RadioButton Grid.Column="1" GroupName="EnvironmentAuth" Content="Basic"
-                                     IsChecked="{Binding Path=SelectedEnvironment.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=Basic}" />
-                        <RadioButton Grid.Column="2" GroupName="EnvironmentAuth" Content="Api Key"
-                                     IsChecked="{Binding Path=SelectedEnvironment.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=ApiKey}" />
-                        <RadioButton Grid.Column="3" GroupName="EnvironmentAuth" Content="Bearer Token"
-                                     IsChecked="{Binding Path=SelectedEnvironment.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=BearerToken}" />
-                    </Grid>
-
-                    <Grid Margin="10,0,10,10" Grid.Row="1"
-                          Visibility="{Binding SelectedEnvironment.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Basic}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="75" />
-                            <ColumnDefinition Width="300"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="32" />
-                            <RowDefinition Height="32" />
-                        </Grid.RowDefinitions>
-                        <Label Grid.Row="0">Username:</Label>
-                        <TextBox Grid.Row="0" Grid.Column="1" Height="24" Text="{Binding Path=SelectedEnvironment.Authentication.Username, Mode=TwoWay}" />
-
-                        <Label Grid.Row="1">Password:</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1" Height="24" Text="{Binding Path=SelectedEnvironment.Authentication.Password, Mode=TwoWay}" />
-                    </Grid>
-
-                    <Grid Margin="10,0,10,10" Grid.Row="1"
-                          Visibility="{Binding SelectedEnvironment.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=ApiKey}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="75" />
-                            <ColumnDefinition Width="300"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="32" />
-                            <RowDefinition Height="32" />
-                            <RowDefinition Height="32" />
-                        </Grid.RowDefinitions>
-                        <Label Grid.Row="0">Key:</Label>
-                        <TextBox Grid.Row="0" Grid.Column="1" Height="24" Text="{Binding Path=SelectedEnvironment.Authentication.Key, Mode=TwoWay}" />
-
-                        <Label Grid.Row="1">Value:</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1" Height="24" Text="{Binding Path=SelectedEnvironment.Authentication.Value, Mode=TwoWay}" />
-
-                        <Label Grid.Row="2">Set in:</Label>
-                        <ComboBox Grid.Row="2" Grid.Column="1" Height="24" SelectedValuePath="Tag" SelectedValue="{Binding Path=SelectedEnvironment.Authentication.ApiKeyLocation, Mode=TwoWay}">
-                            <ComboBoxItem Tag="Header">Header</ComboBoxItem>
-                            <ComboBoxItem Tag="Querystring">Querystring</ComboBoxItem>
-                        </ComboBox>
-                    </Grid>
-
-                    <Grid Margin="10,0,10,10" Grid.Row="1"
-                          Visibility="{Binding SelectedEnvironment.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=BearerToken}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="75" />
-                            <ColumnDefinition Width="300"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="32" />
-                        </Grid.RowDefinitions>
-                        <Label Grid.Row="0">Token:</Label>
-                        <TextBox Grid.Row="0" Grid.Column="1" Height="24" Text="{Binding Path=SelectedEnvironment.Authentication.Token, Mode=TwoWay}" />
-                    </Grid>
-                </Grid>
-            </GroupBox>
-
-            <GroupBox Header="Variables" Grid.Row="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <DataGrid ItemsSource="{Binding SelectedEnvironment.Variables}" SelectedItem="{Binding SelectedVariable, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="200" />
-                            <DataGridTextColumn Header="Value" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*" />
-                            <DataGridTextColumn Header="Description" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="200" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <TextBlock Grid.Row="0" Text="Environments" Style="{StaticResource SectionHeaderText}" />
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" Margin="0,8,0,0">
-                        <Button Content="Add Variable" Command="{Binding AddVariableCommand}" Width="150" />
-                        <Button Content="Remove Variable" Command="{Binding RemoveVariableCommand}" Width="150" Margin="8,0,0,0" 
-                                IsEnabled="{Binding SelectedVariable, Converter={StaticResource nullToBool}, ConverterParameter=true}"/>
-                    </StackPanel>
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Environments}" SelectedItem="{Binding SelectedEnvironment}" MinHeight="200" x:Name="envList">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" Margin="4,2" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Grid Grid.Row="2" Margin="0,10,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Name" VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBox Grid.Column="1" Text="{Binding SelectedEnvironment.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    </Grid>
+
+                    <UniformGrid Grid.Row="3" Rows="1" Columns="3" HorizontalAlignment="Stretch">
+                        <Button Content="Add" Width="80" Command="{Binding AddEnvironmentCommand}" Margin="0,0,6,0" />
+                        <Button Content="Clone" Width="80" Command="{Binding CloneEnvironmentCommand}" Margin="3,0" />
+                        <Button Content="Remove" Width="80" Command="{Binding RemoveEnvironmentCommand}" Margin="6,0,0,0" />
+                    </UniformGrid>
                 </Grid>
-            </GroupBox>
+            </Border>
 
-            <TextBlock Grid.Row="2" Text="{Binding ValidationMessage}" Foreground="Red" Margin="0,8,0,0" Visibility="{Binding IsValidationMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right" Margin="0,8,0,0">
-                <Button Content="OK" Width="80" Margin="0,0,8,0" Command="{Binding OkCommand}" />
-                <Button Content="Cancel" Width="80" Command="{Binding CancelCommand}" />
-            </StackPanel>
+                <Border Grid.Row="0" Margin="0,0,0,10" Style="{StaticResource CardBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0">
+                            <TextBlock Text="Authentication" Style="{StaticResource SectionHeaderText}" Margin="0,0,0,8" />
+                            <WrapPanel>
+                                <RadioButton GroupName="EnvironmentAuth" Content="None" Margin="0,0,16,0"
+                                         IsChecked="{Binding Path=SelectedEnvironment.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=None}" />
+                                <RadioButton GroupName="EnvironmentAuth" Content="Basic" Margin="0,0,16,0"
+                                         IsChecked="{Binding Path=SelectedEnvironment.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=Basic}" />
+                                <RadioButton GroupName="EnvironmentAuth" Content="Api Key" Margin="0,0,16,0"
+                                         IsChecked="{Binding Path=SelectedEnvironment.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=ApiKey}" />
+                                <RadioButton GroupName="EnvironmentAuth" Content="Bearer Token"
+                                         IsChecked="{Binding Path=SelectedEnvironment.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=BearerToken}" />
+                            </WrapPanel>
+                        </StackPanel>
+
+                        <Grid Margin="0,10,0,0" Grid.Row="1"
+                          Visibility="{Binding SelectedEnvironment.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Basic}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="300" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" VerticalAlignment="Center" Margin="0,0,8,8">Username</TextBlock>
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="0,0,0,8" Text="{Binding Path=SelectedEnvironment.Authentication.Username, Mode=TwoWay}" />
+
+                            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,0,8,0">Password</TextBlock>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=SelectedEnvironment.Authentication.Password, Mode=TwoWay}" />
+                        </Grid>
+
+                        <Grid Margin="0,10,0,0" Grid.Row="1"
+                          Visibility="{Binding SelectedEnvironment.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=ApiKey}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="300" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" VerticalAlignment="Center" Margin="0,0,8,8">Key</TextBlock>
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="0,0,0,8" Text="{Binding Path=SelectedEnvironment.Authentication.Key, Mode=TwoWay}" />
+
+                            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,0,8,8">Value</TextBlock>
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,8" Text="{Binding Path=SelectedEnvironment.Authentication.Value, Mode=TwoWay}" />
+
+                            <TextBlock Grid.Row="2" VerticalAlignment="Center" Margin="0,0,8,0">Set in</TextBlock>
+                            <ComboBox Grid.Row="2" Grid.Column="1" SelectedValuePath="Tag" SelectedValue="{Binding Path=SelectedEnvironment.Authentication.ApiKeyLocation, Mode=TwoWay}">
+                                <ComboBoxItem Tag="Header">Header</ComboBoxItem>
+                                <ComboBoxItem Tag="Querystring">Querystring</ComboBoxItem>
+                            </ComboBox>
+                        </Grid>
+
+                        <Grid Margin="0,10,0,0" Grid.Row="1"
+                          Visibility="{Binding SelectedEnvironment.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=BearerToken}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="300" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" VerticalAlignment="Center" Margin="0,0,8,0">Token</TextBlock>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=SelectedEnvironment.Authentication.Token, Mode=TwoWay}" />
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1" Style="{StaticResource CardBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Variables" Style="{StaticResource SectionHeaderText}" />
+
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedEnvironment.Variables}" SelectedItem="{Binding SelectedVariable, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="False" Margin="0,0,0,10">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="200" />
+                                <DataGridTextColumn Header="Value" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="*" />
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="200" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Left">
+                            <Button Content="Add Variable" Command="{Binding AddVariableCommand}" Width="150" />
+                            <Button Content="Remove Variable" Command="{Binding RemoveVariableCommand}" Width="150" Margin="8,0,0,0" 
+                                IsEnabled="{Binding SelectedVariable, Converter={StaticResource nullToBool}, ConverterParameter=true}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <TextBlock Grid.Row="2" Text="{Binding ValidationMessage}" Foreground="#C42B1C" Margin="0,10,0,0" Visibility="{Binding IsValidationMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+            </Grid>
+
         </Grid>
-
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="OK" Width="90" Margin="0,0,8,0" Command="{Binding OkCommand}" />
+            <Button Content="Cancel" Width="90" Command="{Binding CancelCommand}" />
+        </StackPanel>
     </Grid>
 </dialogViews:DialogWindowBase>
