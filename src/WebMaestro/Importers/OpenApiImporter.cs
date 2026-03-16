@@ -120,7 +120,8 @@ namespace WebMaestro.Importers
 
                     var req = new RequestModel()
                     {
-                        Name = operationInfo.Summary ?? $"{operationType.ToString().ToLowerInvariant()}-{path.Replace('/', '-').ToLowerInvariant()}",
+                        Name = operationInfo.OperationId,
+                        Description = operationInfo.Summary,
                         Url = path.Replace("{", "${"),
                         HttpMethod = ConvertToHttpMethod(operationType)
                     };
