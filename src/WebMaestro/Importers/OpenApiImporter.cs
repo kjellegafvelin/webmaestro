@@ -63,7 +63,7 @@ namespace WebMaestro.Importers
                 {
                     var env = new EnvironmentModel()
                     {
-                        Name = openApi.Info.Title,
+                        Name = "Default",
                     };
 
                     env.Variables.Add(new VariableModel("baseUrl", baseUrl, "Base Url for the API"));
@@ -122,7 +122,7 @@ namespace WebMaestro.Importers
                     {
                         Name = operationInfo.OperationId,
                         Description = operationInfo.Summary,
-                        Url = path.Replace("{", "${"),
+                        Url = $"${{baseUrl}}{path.Replace("{", "${")}",
                         HttpMethod = ConvertToHttpMethod(operationType)
                     };
 
