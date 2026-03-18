@@ -1,10 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
-using WebMaestro.Core;
 using WebMaestro.ViewModels;
 
 namespace WebMaestro.Models
@@ -193,7 +191,7 @@ namespace WebMaestro.Models
 
         public ObservableCollection<VariableModel> Variables { get; set; } = new();
 
-        public ObservableCollection<QueryParamModel> QueryParams { get; } = new();
+        public ObservableCollection<QueryParamModel> QueryParams { get; set; } = new();
 
         [JsonIgnore]
         public ObservableCollection<X509Certificate2> Certificates { get; } = new();

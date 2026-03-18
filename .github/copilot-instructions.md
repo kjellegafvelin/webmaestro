@@ -4,7 +4,7 @@
 - WebMaestro is a Windows desktop HTTP client/workbench (similar to Postman) built with WPF and MVVM. It lets you create, save, and run HTTP requests, organize collections, manage environments/variables, and import requests from OpenAPI and WSDL.
 
 ## High-level repo details
-- Tech stack: C#, WPF, MVVM (CommunityToolkit.Mvvm), Fluent.Ribbon UI, OxyPlot.Wpf for charts, dialogs via MvvmDialogs.
+- Tech stack: C#, WPF, MVVM (CommunityToolkit.Mvvm),  OxyPlot.Wpf for charts, dialogs via MvvmDialogs.
 - Target runtime: .NET10.0 for Windows (`net10.0-windows`), x64 (`win-x64`). This project builds and runs on Windows only.
 - Projects
  - `src/WebMaestro/WebMaestro.csproj` � WPF application.

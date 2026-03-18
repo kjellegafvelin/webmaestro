@@ -159,314 +159,310 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Margin="4,4,4,4" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" Grid.Column="0">
-                <Grid Margin="8,8,8,8">
-                    <Grid.RowDefinitions>
-                        <RowDefinition  Height="40"/>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    
-                    <TextBlock Grid.Row="0" Style="{StaticResource SubtitleTextBlockStyle}" Text="Request"/>
-
-                    <Grid Grid.Row="1" Margin="0,8,0,0">
+                    <Grid Margin="8,8,8,8">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="252"/>
-                            <RowDefinition Height="5" />
+                            <RowDefinition  Height="40"/>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
+
+                        <TextBlock Grid.Row="0" Style="{StaticResource SubtitleTextBlockStyle}" Text="Request"/>
+
+                        <Grid Grid.Row="1" Margin="0,8,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="252"/>
+                                <RowDefinition Height="5" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
                             <TabControl Grid.Row="0" BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}" BorderThickness="1">
-                            <TabItem Header="Headers">
-                                <DockPanel>
-                                    <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-                                        <Button Command="{Binding AddHeaderCommand}" ToolTip="Add header">
-                                            <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
-                                        </Button>
-                                        <Button Command="{Binding RemoveHeaderCommand}" ToolTip="Remove header"
+                                <TabItem Header="Headers">
+                                    <DockPanel>
+                                        <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+                                            <Button Command="{Binding AddHeaderCommand}" ToolTip="Add header">
+                                                <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
+                                            </Button>
+                                            <Button Command="{Binding RemoveHeaderCommand}" ToolTip="Remove header"
                                         IsEnabled="{Binding SelectedRequestHeader, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-                                        <Button Command="{Binding EditHeaderCommand}" ToolTip="Edit header"
+                                                <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                            <Button Command="{Binding EditHeaderCommand}" ToolTip="Edit header"
                                         IsEnabled="{Binding SelectedRequestHeader, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/Edit_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-                                    </ToolBar>
+                                                <Image Source="/Resources/Images/Edit_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                        </ToolBar>
 
-                                    <ListView ItemsSource="{Binding Request.Headers}" SelectedItem="{Binding SelectedRequestHeader}" Style="{StaticResource defaultList}" SelectionMode="Single">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn Width="32">
-                                                    <GridViewColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <CheckBox IsChecked="{Binding IsEnabled}" />
-                                                        </DataTemplate>
-                                                    </GridViewColumn.CellTemplate>
-                                                </GridViewColumn>
-                                                <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
-                                                <GridViewColumn Header="Value" Width="400" DisplayMemberBinding="{Binding Value}" />
-                                                <GridViewColumn Header="Description" Width="400" DisplayMemberBinding="{Binding Description}" />
-                                            </GridView>
-                                        </ListView.View>
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="{x:Type ListViewItem}">
-                                                <Setter Property="ContextMenu">
-                                                    <Setter.Value>
-                                                        <ContextMenu>
-                                                            <MenuItem Header="Duplicate" Command="{Binding DuplicateHeaderCommand}"
+                                        <ListView ItemsSource="{Binding Request.Headers}" SelectedItem="{Binding SelectedRequestHeader}" Style="{StaticResource defaultList}" SelectionMode="Single">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Width="40">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <CheckBox IsChecked="{Binding IsEnabled}" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
+                                                    <GridViewColumn Header="Value" Width="400" DisplayMemberBinding="{Binding Value}" />
+                                                    <GridViewColumn Header="Description" Width="400" DisplayMemberBinding="{Binding Description}" />
+                                                </GridView>
+                                            </ListView.View>
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ListViewItem}">
+                                                    <Setter Property="ContextMenu">
+                                                        <Setter.Value>
+                                                            <ContextMenu>
+                                                                <MenuItem Header="Duplicate" Command="{Binding DuplicateHeaderCommand}"
                                                             CommandParameter="{Binding Parent.DataContext, RelativeSource={RelativeSource Self}}">
-                                                                <MenuItem.Icon>
-                                                                    <Image Source="/Resources/Images/CopyItem_16x.png" Width="16" Height="16" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                        </ContextMenu>
-                                                    </Setter.Value>
-                                                </Setter>
+                                                                    <MenuItem.Icon>
+                                                                        <Image Source="/Resources/Images/CopyItem_16x.png" Width="16" Height="16" />
+                                                                    </MenuItem.Icon>
+                                                                </MenuItem>
+                                                            </ContextMenu>
+                                                        </Setter.Value>
+                                                    </Setter>
 
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-                                    </ListView>
-                                </DockPanel>
-                            </TabItem>
-                            <TabItem Header="Query Params">
-                                <DockPanel>
-                                    <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" >
-                                        <Button Command="{Binding AddQueryParamCommand}" ToolTip="Add query parameter">
-                                            <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
-                                        </Button>
-                                        <Button Command="{Binding RemoveQueryParamCommand}" ToolTip="Remove query parameter"
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                        </ListView>
+                                    </DockPanel>
+                                </TabItem>
+                                <TabItem Header="Query Params">
+                                    <DockPanel>
+                                        <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" >
+                                            <Button Command="{Binding AddQueryParamCommand}" ToolTip="Add query parameter">
+                                                <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
+                                            </Button>
+                                            <Button Command="{Binding RemoveQueryParamCommand}" ToolTip="Remove query parameter"
                                         IsEnabled="{Binding SelectedRequestQueryParam, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-                                        <Button Command="{Binding EditQueryParamCommand}" ToolTip="Edit query parameter"
+                                                <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                            <Button Command="{Binding EditQueryParamCommand}" ToolTip="Edit query parameter"
                                         IsEnabled="{Binding SelectedRequestQueryParam, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/Edit_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
+                                                <Image Source="/Resources/Images/Edit_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
 
-                                    </ToolBar>
-                                    <ListView ItemsSource="{Binding Request.QueryParams}" SelectedItem="{Binding SelectedRequestQueryParam}" Style="{StaticResource defaultList}" SelectionMode="Single">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn Width="32">
-                                                    <GridViewColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <CheckBox IsChecked="{Binding IsEnabled}" />
-                                                        </DataTemplate>
-                                                    </GridViewColumn.CellTemplate>
-                                                </GridViewColumn>
-                                                <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Key}"/>
-                                                <GridViewColumn Header="Value" Width="400" DisplayMemberBinding="{Binding Value}"/>
-                                                <GridViewColumn Header="Description" Width="400" DisplayMemberBinding="{Binding Description}" />
-                                            </GridView>
-                                        </ListView.View>
-                                    </ListView>
-                                </DockPanel>
-                            </TabItem>
-                            <TabItem Header="Cookies">
-                                <DockPanel>
-                                    <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-                                        <Button Command="{Binding AddCookieCommand}" ToolTip="Add cookie">
-                                            <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
-                                        </Button>
-                                        <Button Command="{Binding RemoveCookieCommand}" ToolTip="Remove cookie"
-                                        IsEnabled="{Binding SelectedRequestCookie, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-                                        <Button Command="{Binding EditCookieCommand}" ToolTip="Edit cookie"
-                                        IsEnabled="{Binding SelectedRequestCookie, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/Edit_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-                                    </ToolBar>
-
-                                    <ListView ItemsSource="{Binding Request.Cookies}" SelectedItem="{Binding SelectedRequestCookie}" Style="{StaticResource defaultList}" SelectionMode="Single">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
-                                                <GridViewColumn Header="Value" Width="400" DisplayMemberBinding="{Binding Value}" />
-                                            </GridView>
-                                        </ListView.View>
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="{x:Type ListViewItem}">
-                                                <Setter Property="ContextMenu">
-                                                    <Setter.Value>
-                                                        <ContextMenu>
-                                                            <MenuItem Header="Duplicate" Command="{Binding DuplicateHeaderCommand}"
+                                        </ToolBar>
+                                        <ListView ItemsSource="{Binding Request.QueryParams}" SelectedItem="{Binding SelectedRequestQueryParam}" Style="{StaticResource defaultList}" SelectionMode="Single">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Width="40">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <CheckBox IsChecked="{Binding IsEnabled}" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Key}"/>
+                                                    <GridViewColumn Header="Value" Width="400" DisplayMemberBinding="{Binding Value}"/>
+                                                    <GridViewColumn Header="Description" Width="400" DisplayMemberBinding="{Binding Description}" />
+                                                </GridView>
+                                            </ListView.View>
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ListViewItem}">
+                                                    <Setter Property="ContextMenu">
+                                                        <Setter.Value>
+                                                            <ContextMenu>
+                                                                <MenuItem Header="Duplicate" Command="{Binding DuplicateHeaderCommand}"
                                                             CommandParameter="{Binding Parent.DataContext, RelativeSource={RelativeSource Self}}">
-                                                                <MenuItem.Icon>
-                                                                    <Image Source="/Resources/Images/CopyItem_16x.png" Width="16" Height="16" />
-                                                                </MenuItem.Icon>
-                                                            </MenuItem>
-                                                        </ContextMenu>
-                                                    </Setter.Value>
-                                                </Setter>
+                                                                    <MenuItem.Icon>
+                                                                        <Image Source="/Resources/Images/CopyItem_16x.png" Width="16" Height="16" />
+                                                                    </MenuItem.Icon>
+                                                                </MenuItem>
+                                                            </ContextMenu>
+                                                        </Setter.Value>
+                                                    </Setter>
 
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-                                    </ListView>
-                                </DockPanel>
-                            </TabItem>
-                            <TabItem Header="Client Certificates">
-                                <DockPanel>
-                                    <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-                                        <Button Command="{Binding AddCertificateCommand}" ToolTip="Add client certificate from file">
-                                            <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
-                                        </Button>
-                                        <Button Click="AddCertificateUser" ToolTip="Add client certificate from the personal store for the current user">
-                                            <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
-                                        </Button>
-                                        <Button Click="AddCertificateComputer" ToolTip="Add client certificate from the personal store for the local machine">
-                                            <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
-                                        </Button>
-                                        <Button Command="{Binding RemoveCertificateCommand}" ToolTip="Remove client certificate"
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                        </ListView>
+                                    </DockPanel>
+                                </TabItem>
+                                <TabItem Header="Cookies">
+                                    <DockPanel>
+                                        <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+                                            <Button Command="{Binding AddCookieCommand}" ToolTip="Add cookie">
+                                                <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
+                                            </Button>
+                                            <Button Command="{Binding RemoveCookieCommand}" ToolTip="Remove cookie"
+                                        IsEnabled="{Binding SelectedRequestCookie, ConverterParameter=true, Converter={StaticResource nullToBool}}">
+                                                <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                            <Button Command="{Binding EditCookieCommand}" ToolTip="Edit cookie"
+                                        IsEnabled="{Binding SelectedRequestCookie, ConverterParameter=true, Converter={StaticResource nullToBool}}">
+                                                <Image Source="/Resources/Images/Edit_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                        </ToolBar>
+
+                                        <ListView ItemsSource="{Binding Request.Cookies}" SelectedItem="{Binding SelectedRequestCookie}" Style="{StaticResource defaultList}" SelectionMode="Single">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
+                                                    <GridViewColumn Header="Value" Width="400" DisplayMemberBinding="{Binding Value}" />
+                                                </GridView>
+                                            </ListView.View>
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ListViewItem}">
+                                                    <Setter Property="ContextMenu">
+                                                        <Setter.Value>
+                                                            <ContextMenu>
+                                                                <MenuItem Header="Duplicate" Command="{Binding DuplicateHeaderCommand}"
+                                                            CommandParameter="{Binding Parent.DataContext, RelativeSource={RelativeSource Self}}">
+                                                                    <MenuItem.Icon>
+                                                                        <Image Source="/Resources/Images/CopyItem_16x.png" Width="16" Height="16" />
+                                                                    </MenuItem.Icon>
+                                                                </MenuItem>
+                                                            </ContextMenu>
+                                                        </Setter.Value>
+                                                    </Setter>
+
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                        </ListView>
+                                    </DockPanel>
+                                </TabItem>
+                                <TabItem Header="Client Certificates">
+                                    <DockPanel>
+                                        <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+                                            <Button Command="{Binding AddCertificateCommand}" ToolTip="Add client certificate from file">
+                                                <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
+                                            </Button>
+                                            <Button Click="AddCertificateUser" ToolTip="Add client certificate from the personal store for the current user">
+                                                <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
+                                            </Button>
+                                            <Button Click="AddCertificateComputer" ToolTip="Add client certificate from the personal store for the local machine">
+                                                <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
+                                            </Button>
+                                            <Button Command="{Binding RemoveCertificateCommand}" ToolTip="Remove client certificate"
                                         IsEnabled="{Binding SelectedRequestCertificate, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-                                    </ToolBar>
+                                                <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                        </ToolBar>
 
-                                    <ListView ItemsSource="{Binding Request.Certificates}" SelectedItem="{Binding SelectedRequestCertificate}" Style="{StaticResource defaultList}"  SelectionMode="Single">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn Header="Subject" Width="300" DisplayMemberBinding="{Binding Subject}" />
-                                                <GridViewColumn Header="Issuer" Width="150" DisplayMemberBinding="{Binding Issuer}" />
-                                                <GridViewColumn Header="Expires" Width="80" DisplayMemberBinding="{Binding NotAfter, StringFormat=yyyy-MM-dd}"/>
-                                                <GridViewColumn Header="Thumbprint" Width="300" DisplayMemberBinding="{Binding Thumbprint}"/>
-                                            </GridView>
-                                        </ListView.View>
-                                    </ListView>
-                                </DockPanel>
-                            </TabItem>
-                            <TabItem Header="Authentication">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="40" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <Grid Grid.Row="0" Margin="10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="75" />
-                                            <ColumnDefinition Width="75" />
-                                            <ColumnDefinition Width="75" />
-                                            <ColumnDefinition Width="100" />
-                                        </Grid.ColumnDefinitions>
-                                        <RadioButton Grid.Column="0" GroupName="Auth" Content="None" 
-                                                 IsChecked="{Binding Path=Request.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=None}"/>
-                                        <RadioButton Grid.Column="1" GroupName="Auth" Content="Basic" 
-                                                 IsChecked="{Binding Path=Request.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=Basic}"/>
-                                        <RadioButton Grid.Column="2" GroupName="Auth" Content="Api Key"
-                                                 IsChecked="{Binding Path=Request.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=ApiKey}"/>
-                                        <RadioButton Grid.Column="3" GroupName="Auth" Content="Bearer Token"
-                                                 IsChecked="{Binding Path=Request.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=BearerToken}"/>
-                                    </Grid>
-                                    <!-- Basic Auth -->
-                                    <Grid Margin="10" Grid.Row="1" 
-                                      Visibility="{Binding Request.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Basic}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="75" />
-                                            <ColumnDefinition Width="300"/>
-                                        </Grid.ColumnDefinitions>
+                                        <ListView ItemsSource="{Binding Request.Certificates}" SelectedItem="{Binding SelectedRequestCertificate}" Style="{StaticResource defaultList}"  SelectionMode="Single">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Subject" Width="300" DisplayMemberBinding="{Binding Subject}" />
+                                                    <GridViewColumn Header="Issuer" Width="150" DisplayMemberBinding="{Binding Issuer}" />
+                                                    <GridViewColumn Header="Expires" Width="80" DisplayMemberBinding="{Binding NotAfter, StringFormat=yyyy-MM-dd}"/>
+                                                    <GridViewColumn Header="Thumbprint" Width="300" DisplayMemberBinding="{Binding Thumbprint}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </DockPanel>
+                                </TabItem>
+                                <TabItem Header="Authentication">
+                                    <Grid>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="32" />
-                                            <RowDefinition Height="32" />
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" >Username:</Label>
-                                        <TextBox  Grid.Row="0" Grid.Column="1" Height="24" Text="{Binding Path=Request.Authentication.Username, Mode=TwoWay}"></TextBox>
-
-                                        <Label Grid.Row="1" >Password:</Label>
-                                        <TextBox Grid.Row="1" Grid.Column="1" Height="24" Text="{Binding Path=Request.Authentication.Password, Mode=TwoWay}" ></TextBox>
-                                    </Grid>
-                                    <!-- Api Key -->
-                                    <Grid Margin="10" Grid.Row="1" 
-                                      Visibility="{Binding Request.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=ApiKey}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="75" />
-                                            <ColumnDefinition Width="300"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="32" />
-                                            <RowDefinition Height="32" />
-                                            <RowDefinition Height="32" />
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" >Key:</Label>
-                                        <TextBox Grid.Row="0" Grid.Column="1" Height="24" Text="{Binding Path=Request.Authentication.Key, Mode=TwoWay}"></TextBox>
-
-                                        <Label Grid.Row="1" >Value:</Label>
-                                        <TextBox Grid.Row="1" Grid.Column="1" Height="24" Text="{Binding Path=Request.Authentication.Value, Mode=TwoWay}"></TextBox>
-
-                                        <Label Grid.Row="2" >Set in:</Label>
-                                        <ComboBox Grid.Row="2" Grid.Column="1" Height="24" SelectedValuePath="Tag" SelectedValue="{Binding Path=Request.Authentication.ApiKeyLocation, Mode=TwoWay}">
-                                            <ComboBoxItem Tag="Header">Header</ComboBoxItem>
-                                            <ComboBoxItem Tag="Querystring">Querystring</ComboBoxItem>
-                                        </ComboBox>
-                                    </Grid>
-                                    <!-- Bearer Token -->
-                                    <Grid Margin="10" Grid.Row="1" 
-                                      Visibility="{Binding Request.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=BearerToken}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="75" />
-                                            <ColumnDefinition Width="300"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="32" />
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" >Token:</Label>
-                                        <TextBox  Grid.Row="0" Grid.Column="1" Height="24" Text="{Binding Path=Request.Authentication.Token, Mode=TwoWay}"></TextBox>
-                                    </Grid>
-                                </Grid>
-                            </TabItem>
-                            <TabItem Header="Variables">
-                                <DockPanel>
-                                    <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" >
-                                        <Button Command="{Binding AddVariableCommand}" ToolTip="Add Variable">
-                                            <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
-                                        </Button>
-                                        <Button Command="{Binding RemoveVariableCommand}" ToolTip="Remove Variable"
-                                        IsEnabled="{Binding SelectedRequestVariable, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-                                        <Button Command="{Binding EditVariableCommand}" ToolTip="Edit variable"
-                                        IsEnabled="{Binding SelectedRequestVariable, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/Edit_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-
-                                    </ToolBar>
-                                    <DataGrid ItemsSource="{Binding Request.Variables}" SelectedItem="{Binding SelectedRequestVariable}" BorderThickness="0" AutoGenerateColumns="False" CanUserAddRows="False">
-                                        <DataGrid.Columns>
-                                            <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding IsEnabled}" Width="60"/>
-                                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" Width="150"/>
-                                            <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="250"/>
-                                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="250"/>
-                                        </DataGrid.Columns>
-                                        <d:DataGrid.ItemsSource>
-                                            <x:Array Type="{x:Type model:VariableModel}">
-                                                <model:VariableModel Name="test" Value="val"/>
-                                            </x:Array>
-                                        </d:DataGrid.ItemsSource>
-                                    </DataGrid>
-                                </DockPanel>
-                            </TabItem>
-                            <TabItem Header="Options">
-                                <ScrollViewer>
-                                    <Grid Margin="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="24" />
-                                            <RowDefinition Height="24" />
-                                            <RowDefinition Height="24" />
-                                            <RowDefinition Height="24" />
-                                            <RowDefinition Height="24" />
-                                            <RowDefinition Height="24" />
-                                            <RowDefinition Height="24" />
+                                            <RowDefinition Height="40" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
-                                        <CheckBox Grid.Row="0" IsChecked="{Binding ValidateServerCertificate}" Content="Validate server certificate" VerticalAlignment="Center"/>
-                                        <StackPanel Grid.Row="1" Orientation="Horizontal" >
-                                            <Label Content="Timeout:"/>
-                                            <ComboBox Width="80" Height="22" SelectedValuePath="Value" DisplayMemberPath="Key" SelectedValue="{Binding Request.Timeout, Mode=TwoWay}" ItemsSource="{Binding Timeouts}"/>
-                                        </StackPanel>
-                                        <CheckBox Grid.Row="2" IsChecked="{Binding AllowAutoRedirect}" Content="Allow Automatic Redirects" VerticalAlignment="Center"/>
-                                        <CheckBox Grid.Row="3" IsChecked="{Binding UseSession}" Content="Use session" VerticalAlignment="Center"/>
-                                        <Label Grid.Row="4" Content="SSL Protocols:"/>
-                                        <RadioButton Grid.Row="5" GroupName="protocols" Content="Use system default" IsChecked="{Binding Request.HttpsProtocols.UseDefault}" />
-                                        <RadioButton Grid.Row="6" GroupName="protocols" Content="Use protocols:" />
-                                        <Grid Grid.Row="7" Margin="20,0,0,0">
+                                        <Grid Grid.Row="0" Margin="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="100" />
+                                            </Grid.ColumnDefinitions>
+                                            <RadioButton Grid.Column="0" GroupName="Auth" Content="None" 
+                                                 IsChecked="{Binding Path=Request.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=None}"/>
+                                            <RadioButton Grid.Column="1" GroupName="Auth" Content="Basic" 
+                                                 IsChecked="{Binding Path=Request.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=Basic}"/>
+                                            <RadioButton Grid.Column="2" GroupName="Auth" Content="Api Key"
+                                                 IsChecked="{Binding Path=Request.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=ApiKey}"/>
+                                            <RadioButton Grid.Column="3" GroupName="Auth" Content="Bearer Token"
+                                                 IsChecked="{Binding Path=Request.Authentication.Type, Mode=TwoWay, Converter={StaticResource enumMatchToBool}, ConverterParameter=BearerToken}"/>
+                                        </Grid>
+                                        <!-- Basic Auth -->
+                                        <Grid Margin="10" Grid.Row="1" 
+                                      Visibility="{Binding Request.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Basic}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="300"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="32" />
+                                                <RowDefinition Height="32" />
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.Row="0" >Username:</Label>
+                                            <TextBox  Grid.Row="0" Grid.Column="1" Height="24" Text="{Binding Path=Request.Authentication.Username, Mode=TwoWay}"></TextBox>
+
+                                            <Label Grid.Row="1" >Password:</Label>
+                                            <TextBox Grid.Row="1" Grid.Column="1" Height="24" Text="{Binding Path=Request.Authentication.Password, Mode=TwoWay}" ></TextBox>
+                                        </Grid>
+                                        <!-- Api Key -->
+                                        <Grid Margin="10" Grid.Row="1" 
+                                      Visibility="{Binding Request.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=ApiKey}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="300"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="32" />
+                                                <RowDefinition Height="32" />
+                                                <RowDefinition Height="32" />
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.Row="0" >Key:</Label>
+                                            <TextBox Grid.Row="0" Grid.Column="1" Height="24" Text="{Binding Path=Request.Authentication.Key, Mode=TwoWay}"></TextBox>
+
+                                            <Label Grid.Row="1" >Value:</Label>
+                                            <TextBox Grid.Row="1" Grid.Column="1" Height="24" Text="{Binding Path=Request.Authentication.Value, Mode=TwoWay}"></TextBox>
+
+                                            <Label Grid.Row="2" >Set in:</Label>
+                                            <ComboBox Grid.Row="2" Grid.Column="1" Height="24" SelectedValuePath="Tag" SelectedValue="{Binding Path=Request.Authentication.ApiKeyLocation, Mode=TwoWay}">
+                                                <ComboBoxItem Tag="Header">Header</ComboBoxItem>
+                                                <ComboBoxItem Tag="Querystring">Querystring</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <!-- Bearer Token -->
+                                        <Grid Margin="10" Grid.Row="1" 
+                                      Visibility="{Binding Request.Authentication.Type, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=BearerToken}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="300"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="32" />
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.Row="0" >Token:</Label>
+                                            <TextBox  Grid.Row="0" Grid.Column="1" Height="24" Text="{Binding Path=Request.Authentication.Token, Mode=TwoWay}"></TextBox>
+                                        </Grid>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Variables">
+                                    <DockPanel>
+                                        <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" >
+                                            <Button Command="{Binding AddVariableCommand}" ToolTip="Add Variable">
+                                                <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
+                                            </Button>
+                                            <Button Command="{Binding RemoveVariableCommand}" ToolTip="Remove Variable"
+                                        IsEnabled="{Binding SelectedRequestVariable, ConverterParameter=true, Converter={StaticResource nullToBool}}">
+                                                <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                            <Button Command="{Binding EditVariableCommand}" ToolTip="Edit variable"
+                                        IsEnabled="{Binding SelectedRequestVariable, ConverterParameter=true, Converter={StaticResource nullToBool}}">
+                                                <Image Source="/Resources/Images/Edit_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+
+                                        </ToolBar>
+                                        <DataGrid ItemsSource="{Binding Request.Variables}" SelectedItem="{Binding SelectedRequestVariable}" BorderThickness="0" AutoGenerateColumns="False" CanUserAddRows="False">
+                                            <DataGrid.Columns>
+                                                <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding IsEnabled}" Width="60"/>
+                                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" Width="150"/>
+                                                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="250"/>
+                                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="250"/>
+                                            </DataGrid.Columns>
+                                            <d:DataGrid.ItemsSource>
+                                                <x:Array Type="{x:Type model:VariableModel}">
+                                                    <model:VariableModel Name="test" Value="val"/>
+                                                </x:Array>
+                                            </d:DataGrid.ItemsSource>
+                                        </DataGrid>
+                                    </DockPanel>
+                                </TabItem>
+                                <TabItem Header="Options">
+                                    <ScrollViewer>
+                                        <Grid Margin="10">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="24" />
                                                 <RowDefinition Height="24" />
@@ -474,123 +470,144 @@
                                                 <RowDefinition Height="24" />
                                                 <RowDefinition Height="24" />
                                                 <RowDefinition Height="24" />
+                                                <RowDefinition Height="24" />
+                                                <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
-                                            <CheckBox Grid.Row="0" Content="SSL 2.0"  IsChecked="{Binding Request.HttpsProtocols.UseSsl20}"
+                                            <CheckBox Grid.Row="0" IsChecked="{Binding ValidateServerCertificate}" Content="Validate server certificate" VerticalAlignment="Center"/>
+                                            <StackPanel Grid.Row="1" Orientation="Horizontal" >
+                                                <Label Content="Timeout:"/>
+                                                <ComboBox Width="80" Height="22" SelectedValuePath="Value" DisplayMemberPath="Key" SelectedValue="{Binding Request.Timeout, Mode=TwoWay}" ItemsSource="{Binding Timeouts}"/>
+                                            </StackPanel>
+                                            <CheckBox Grid.Row="2" IsChecked="{Binding AllowAutoRedirect}" Content="Allow Automatic Redirects" VerticalAlignment="Center"/>
+                                            <CheckBox Grid.Row="3" IsChecked="{Binding UseSession}" Content="Use session" VerticalAlignment="Center"/>
+                                            <Label Grid.Row="4" Content="SSL Protocols:"/>
+                                            <RadioButton Grid.Row="5" GroupName="protocols" Content="Use system default" IsChecked="{Binding Request.HttpsProtocols.UseDefault}" />
+                                            <RadioButton Grid.Row="6" GroupName="protocols" Content="Use protocols:" />
+                                            <Grid Grid.Row="7" Margin="20,0,0,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="24" />
+                                                    <RowDefinition Height="24" />
+                                                    <RowDefinition Height="24" />
+                                                    <RowDefinition Height="24" />
+                                                    <RowDefinition Height="24" />
+                                                    <RowDefinition Height="24" />
+                                                </Grid.RowDefinitions>
+                                                <CheckBox Grid.Row="0" Content="SSL 2.0"  IsChecked="{Binding Request.HttpsProtocols.UseSsl20}"
                                               IsEnabled="{Binding Request.HttpsProtocols.UseDefault, Converter={converters:InverseBooleanConverter}}"/>
-                                            <CheckBox Grid.Row="1" Content="SSL 3.0"  IsChecked="{Binding Request.HttpsProtocols.UseSsl30}"
+                                                <CheckBox Grid.Row="1" Content="SSL 3.0"  IsChecked="{Binding Request.HttpsProtocols.UseSsl30}"
                                               IsEnabled="{Binding Request.HttpsProtocols.UseDefault, Converter={converters:InverseBooleanConverter}}"/>
-                                            <CheckBox Grid.Row="2" Content="TLS 1.0"  IsChecked="{Binding Request.HttpsProtocols.UseTls10}"
+                                                <CheckBox Grid.Row="2" Content="TLS 1.0"  IsChecked="{Binding Request.HttpsProtocols.UseTls10}"
                                               IsEnabled="{Binding Request.HttpsProtocols.UseDefault, Converter={converters:InverseBooleanConverter}}"/>
-                                            <CheckBox Grid.Row="3" Content="TLS 1.1"  IsChecked="{Binding Request.HttpsProtocols.UseTls11}"
+                                                <CheckBox Grid.Row="3" Content="TLS 1.1"  IsChecked="{Binding Request.HttpsProtocols.UseTls11}"
                                               IsEnabled="{Binding Request.HttpsProtocols.UseDefault, Converter={converters:InverseBooleanConverter}}"/>
-                                            <CheckBox Grid.Row="4" Content="TLS 1.2"  IsChecked="{Binding Request.HttpsProtocols.UseTls12}"
+                                                <CheckBox Grid.Row="4" Content="TLS 1.2"  IsChecked="{Binding Request.HttpsProtocols.UseTls12}"
                                               IsEnabled="{Binding Request.HttpsProtocols.UseDefault, Converter={converters:InverseBooleanConverter}}"/>
-                                            <CheckBox Grid.Row="5" Content="TLS 1.3"  IsChecked="{Binding Request.HttpsProtocols.UseTls13}"
+                                                <CheckBox Grid.Row="5" Content="TLS 1.3"  IsChecked="{Binding Request.HttpsProtocols.UseTls13}"
                                               IsEnabled="{Binding Request.HttpsProtocols.UseDefault, Converter={converters:InverseBooleanConverter}}"/>
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                                </ScrollViewer>
-                            </TabItem>
+                                    </ScrollViewer>
+                                </TabItem>
 
-                        </TabControl>
+                            </TabControl>
 
-                        <GridSplitter Grid.Row="1" ResizeDirection="Rows" HorizontalAlignment="Stretch" Height="3"/>
+                            <GridSplitter Grid.Row="1" ResizeDirection="Rows" HorizontalAlignment="Stretch" Height="3"/>
 
-                        <Grid Grid.Row="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0" Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
-                                </Grid.ColumnDefinitions>
-                                <RadioButton Grid.Column="0" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=None}" Content="None"/>
-                                <RadioButton IsEnabled="False" Grid.Column="1" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Form}" Content="Form" />
-                                <RadioButton Grid.Column="2" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Raw}" Content="Raw"/>
-                                <RadioButton Grid.Column="3" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Binary}" Content="Binary"/>
-                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="80" />
+                                    </Grid.ColumnDefinitions>
+                                    <RadioButton Grid.Column="0" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=None}" Content="None"/>
+                                    <RadioButton IsEnabled="False" Grid.Column="1" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Form}" Content="Form" />
+                                    <RadioButton Grid.Column="2" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Raw}" Content="Raw"/>
+                                    <RadioButton Grid.Column="3" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Binary}" Content="Binary"/>
+                                </Grid>
 
-                            <TextBlock Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=None}" 
+                                <TextBlock Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=None}" 
                                            Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">This request has an empty body.</TextBlock>
 
-                            <ListView Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Form}" Style="{StaticResource defaultList}">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}"/>
-                                        <GridViewColumn Header="Value" Width="300" DisplayMemberBinding="{Binding Value}"/>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                                <ListView Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Form}" Style="{StaticResource defaultList}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}"/>
+                                            <GridViewColumn Header="Value" Width="300" DisplayMemberBinding="{Binding Value}"/>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
 
-                            <Border Grid.Row="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
-                                <DockPanel Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Raw}" >
-                                    <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True"  Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-                                        <Button ToolTip="Open file" Command="{Binding OpenRequestBodyCommand}">
-                                            <Image Source="/Resources/Images/OpenFile_16x.png" Width="16" Height="16" />
-                                        </Button>
-                                        <Separator/>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Label Margin="8,6,8,0">Content-Type:</Label>
-                                            <ComboBox Name="cboReqContentType" Width="150" Margin="0" SelectionChanged="RequestContentTypeChanged">
-                                                <ComboBoxItem>text/plain</ComboBoxItem>
-                                                <ComboBoxItem>text/xml</ComboBoxItem>
-                                                <ComboBoxItem>application/xml</ComboBoxItem>
-                                                <ComboBoxItem>application/json</ComboBoxItem>
-                                            </ComboBox>
-                                        </StackPanel>
-                                        <Button Name="btnPrettyPrint" ToolTip="Prettify" Command="{Binding PrettifyRequestCommand}">
-                                            <Image Source="/Resources/Images/FormatDocument_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-                                        <Button ToolTip="Word wrap" Click="ReqBodyWordWrap">
-                                            <Image Source="/Resources/Images/WordWrap_16x.png" Width="16" Height="16" />
-                                        </Button>
-                                        <Separator/>
-                                        <Button ToolTip="Search in body" Click="SearchRequestBody">
-                                            <Image Source="/Resources/Images/Search_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}" />
-                                        </Button>
-                                        <Separator/>
-                                        <Button ToolTip="Extract variables" Command="{Binding ExtractVariablesCommand}">
-                                            <Image Source="/Resources/Images/ExtractVariable_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}" />
-                                        </Button>
+                                <Border Grid.Row="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                                    <DockPanel Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Raw}" >
+                                        <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True"  Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+                                            <Button ToolTip="Open file" Command="{Binding OpenRequestBodyCommand}">
+                                                <Image Source="/Resources/Images/OpenFile_16x.png" Width="16" Height="16" />
+                                            </Button>
+                                            <Separator/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label Margin="8,6,8,0">Content-Type:</Label>
+                                                <ComboBox Name="cboReqContentType" Width="150" Margin="0" SelectionChanged="RequestContentTypeChanged">
+                                                    <ComboBoxItem>text/plain</ComboBoxItem>
+                                                    <ComboBoxItem>text/xml</ComboBoxItem>
+                                                    <ComboBoxItem>application/xml</ComboBoxItem>
+                                                    <ComboBoxItem>application/json</ComboBoxItem>
+                                                </ComboBox>
+                                            </StackPanel>
+                                            <Button Name="btnPrettyPrint" ToolTip="Prettify" Command="{Binding PrettifyRequestCommand}">
+                                                <Image Source="/Resources/Images/FormatDocument_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                            <Button ToolTip="Word wrap" Click="ReqBodyWordWrap">
+                                                <Image Source="/Resources/Images/WordWrap_16x.png" Width="16" Height="16" />
+                                            </Button>
+                                            <Separator/>
+                                            <Button ToolTip="Search in body" Click="SearchRequestBody">
+                                                <Image Source="/Resources/Images/Search_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}" />
+                                            </Button>
+                                            <Separator/>
+                                            <Button ToolTip="Extract variables" Command="{Binding ExtractVariablesCommand}">
+                                                <Image Source="/Resources/Images/ExtractVariable_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}" />
+                                            </Button>
 
-                                    </ToolBar>
-                                    <avalonedit:TextEditor x:Name="editRequest" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SyntaxHighlighting="XML" FontFamily="Consolas" ShowLineNumbers="True"/>
-                                </DockPanel>
-                            </Border>
+                                        </ToolBar>
+                                        <avalonedit:TextEditor x:Name="editRequest" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SyntaxHighlighting="XML" FontFamily="Consolas" ShowLineNumbers="True"/>
+                                    </DockPanel>
+                                </Border>
 
-                            <Grid Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Binary}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="201*"/>
-                                    <ColumnDefinition Width="286*"/>
-                                    <ColumnDefinition Width="5*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="34"/>
-                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Binary}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="201*"/>
+                                        <ColumnDefinition Width="286*"/>
+                                        <ColumnDefinition Width="5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="34"/>
+                                    </Grid.RowDefinitions>
 
-                                <StackPanel Margin="0,10,-1,0" Grid.ColumnSpan="3" Orientation="Horizontal">
-                                    <Label Content="File:"/>
-                                    <TextBox Width="500" Text="{Binding Request.Filename}"/>
-                                    <Button Content="Select file" Command="{Binding OpenFileForRequestCommand}"/>
-                                </StackPanel>
+                                    <StackPanel Margin="0,10,-1,0" Grid.ColumnSpan="3" Orientation="Horizontal">
+                                        <Label Content="File:"/>
+                                        <TextBox Width="500" Text="{Binding Request.Filename}"/>
+                                        <Button Content="Select file" Command="{Binding OpenFileForRequestCommand}"/>
+                                    </StackPanel>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
                 </Border>
 
                 <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="3"/>
                 <Border Grid.Column="2" Margin="4,4,4,4" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4">
 
                     <Grid Margin="9,0,3,3">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="42"/>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="42"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
 
                         <Grid Grid.Row="0">
@@ -612,243 +629,243 @@
                             </StackPanel>
                         </Grid>
 
-                    <Grid Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="250"/>
-                            <RowDefinition Height="5" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="250"/>
+                                <RowDefinition Height="5" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
 
-                        <ListView Grid.Row="0" ItemsSource="{Binding HistoryItems}" SelectedItem="{Binding SelectedHistoryItem}" SelectionMode="Single" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Width="24">
-                                        <GridViewColumn.Header>
-                                            <Image Source="/Resources/Images/Lock_8x_16x.png" Width="16" Height="16" />
-                                        </GridViewColumn.Header>
-                                        <GridViewColumn.HeaderContainerStyle>
-                                            <Style>
-                                                <Setter Property="Control.ToolTip" Value="Marked items are kept when clearing history." />
-                                            </Style>
-                                        </GridViewColumn.HeaderContainerStyle>
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Image Source="/Resources/Images/Lock_8x_16x.png" Width="16" Height="16" Visibility="{Binding Keep, Converter={StaticResource boolToVisibility}}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Status" Width="50" DisplayMemberBinding="{Binding Response.Status, Converter={StaticResource enumToInt}}" />
-                                    <GridViewColumn Header="Content-Type" Width="150" DisplayMemberBinding="{Binding Response.ContentType}"/>
-                                    <GridViewColumn Header="Elapsed" Width="100" DisplayMemberBinding="{Binding Response.Elapsed, Converter={StaticResource elapsedTimeSpan}}"/>
-                                    <GridViewColumn Header="Size" Width="75" DisplayMemberBinding="{Binding Response.Size, Converter={StaticResource size}}"/>
-                                    <GridViewColumn Header="Date" Width="150" DisplayMemberBinding="{Binding Date, StringFormat=yyyy-MM-dd HH:mm:ss.fff}"/>
-                                    <GridViewColumn Header="Comment" Width="150" DisplayMemberBinding="{Binding Comment}"/>
-                                </GridView>
-                            </ListView.View>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListViewItem}">
-                                    <Setter Property="FrameworkElement.ToolTip">
-                                        <Setter.Value>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="50" />
-                                                    <ColumnDefinition />
-                                                </Grid.ColumnDefinitions>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition />
-                                                    <RowDefinition />
-                                                    <RowDefinition />
-                                                    <RowDefinition />
-                                                </Grid.RowDefinitions>
-                                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Status: " />
-                                                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Response.Status, Converter={StaticResource enumToInt}}" />
-                                                    <TextBlock Text=" - " />
-                                                    <TextBlock Text="{Binding Response.Status}" />
-                                                </StackPanel>
-                                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Reason:"/>
-                                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Response.Reason}"/>
+                            <ListView Grid.Row="0" ItemsSource="{Binding HistoryItems}" SelectedItem="{Binding SelectedHistoryItem}" SelectionMode="Single" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="24">
+                                            <GridViewColumn.Header>
+                                                <Image Source="/Resources/Images/Lock_8x_16x.png" Width="16" Height="16" />
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.HeaderContainerStyle>
+                                                <Style>
+                                                    <Setter Property="Control.ToolTip" Value="Marked items are kept when clearing history." />
+                                                </Style>
+                                            </GridViewColumn.HeaderContainerStyle>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="/Resources/Images/Lock_8x_16x.png" Width="16" Height="16" Visibility="{Binding Keep, Converter={StaticResource boolToVisibility}}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Status" Width="50" DisplayMemberBinding="{Binding Response.Status, Converter={StaticResource enumToInt}}" />
+                                        <GridViewColumn Header="Content-Type" Width="150" DisplayMemberBinding="{Binding Response.ContentType}"/>
+                                        <GridViewColumn Header="Elapsed" Width="100" DisplayMemberBinding="{Binding Response.Elapsed, Converter={StaticResource elapsedTimeSpan}}"/>
+                                        <GridViewColumn Header="Size" Width="75" DisplayMemberBinding="{Binding Response.Size, Converter={StaticResource size}}"/>
+                                        <GridViewColumn Header="Date" Width="150" DisplayMemberBinding="{Binding Date, StringFormat=yyyy-MM-dd HH:mm:ss.fff}"/>
+                                        <GridViewColumn Header="Comment" Width="150" DisplayMemberBinding="{Binding Comment}"/>
+                                    </GridView>
+                                </ListView.View>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListViewItem}">
+                                        <Setter Property="FrameworkElement.ToolTip">
+                                            <Setter.Value>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="50" />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Status: " />
+                                                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Response.Status, Converter={StaticResource enumToInt}}" />
+                                                        <TextBlock Text=" - " />
+                                                        <TextBlock Text="{Binding Response.Status}" />
+                                                    </StackPanel>
+                                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Reason:"/>
+                                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Response.Reason}"/>
 
-                                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Url:"/>
-                                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Response.Url}"/>
+                                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Url:"/>
+                                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Response.Url}"/>
 
-                                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Http:"/>
-                                                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Response.HttpVersion}"/>
-                                            </Grid>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="ContextMenu">
-                                        <Setter.Value>
-                                            <ContextMenu>
-                                                <MenuItem Header="Open as New Mock API" Command="{Binding OpenServerCommand}" 
+                                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Http:"/>
+                                                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Response.HttpVersion}"/>
+                                                </Grid>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Open as New Mock API" Command="{Binding OpenServerCommand}" 
                                                       CommandParameter="{Binding Parent.DataContext.Response, RelativeSource={RelativeSource Self}}"/>
-                                                <Separator />
-                                                <MenuItem Header="Keep" IsCheckable="True" IsChecked="{Binding Parent.DataContext.Keep, RelativeSource={RelativeSource Self}}" />
-                                                <Separator />
-                                                <MenuItem Header="Save Response to File" IsEnabled="False"
+                                                    <Separator />
+                                                    <MenuItem Header="Keep" IsCheckable="True" IsChecked="{Binding Parent.DataContext.Keep, RelativeSource={RelativeSource Self}}" />
+                                                    <Separator />
+                                                    <MenuItem Header="Save Response to File" IsEnabled="False"
                                                       CommandParameter="{Binding Parent.DataContext.Response, RelativeSource={RelativeSource Self}}">
-                                                    <MenuItem.Icon>
-                                                        <Image Source="/Resources/Images/Save_16x.png" Width="16" Height="16" />
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
-                                                <Separator />
-                                                <MenuItem Header="Delete" Command="{Binding Data.RemoveHistoryItemCommand, Source={StaticResource proxy}}">
-                                                    <MenuItem.Icon>
-                                                        <Image Source="/Resources/Images/Delete_16x.png" Width="16" Height="16" />
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
-                                                <Separator />
-                                                <MenuItem Header="Edit Comment" FontWeight="Bold" Command="{Binding Data.EditCommentCommand, Source={StaticResource proxy}}" >
-                                                    <MenuItem.Icon>
-                                                        <Image Source="/Resources/Images/Comment_16x.png" Width="16" Height="16" />
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
-                                            </ContextMenu>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                        </ListView>
+                                                        <MenuItem.Icon>
+                                                            <Image Source="/Resources/Images/Save_16x.png" Width="16" Height="16" />
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                    <Separator />
+                                                    <MenuItem Header="Delete" Command="{Binding Data.RemoveHistoryItemCommand, Source={StaticResource proxy}}">
+                                                        <MenuItem.Icon>
+                                                            <Image Source="/Resources/Images/Delete_16x.png" Width="16" Height="16" />
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                    <Separator />
+                                                    <MenuItem Header="Edit Comment" FontWeight="Bold" Command="{Binding Data.EditCommentCommand, Source={StaticResource proxy}}" >
+                                                        <MenuItem.Icon>
+                                                            <Image Source="/Resources/Images/Comment_16x.png" Width="16" Height="16" />
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
 
-                        <GridSplitter Grid.Row="1" ResizeDirection="Rows" HorizontalAlignment="Stretch" Height="3"/>
+                            <GridSplitter Grid.Row="1" ResizeDirection="Rows" HorizontalAlignment="Stretch" Height="3"/>
 
-                        <TabControl Grid.Row="2" BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}" BorderThickness="1">
-                            <TabItem Header="Body">
-                                <DockPanel>
-                                    <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-                                        <Label Margin="8,6,8,0" Content="Format:"/>
-                                        <ComboBox x:Name="cboContentType" Width="100" SelectionChanged="ContentTypeChanged"
+                            <TabControl Grid.Row="2" BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}" BorderThickness="1">
+                                <TabItem Header="Body">
+                                    <DockPanel>
+                                        <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+                                            <Label Margin="8,6,8,0" Content="Format:"/>
+                                            <ComboBox x:Name="cboContentType" Width="100" SelectionChanged="ContentTypeChanged"
                                               IsEnabled="{Binding SelectedHistoryItem, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <ComboBoxItem Content="Text"/>
-                                            <ComboBoxItem Content="XML"/>
-                                            <ComboBoxItem Content="JSON"/>
-                                        </ComboBox>
-                                        <ToggleButton x:Name="togPrettyPrint" ToolTip="Prettify" IsChecked="True" Click="PrettyPrint"
+                                                <ComboBoxItem Content="Text"/>
+                                                <ComboBoxItem Content="XML"/>
+                                                <ComboBoxItem Content="JSON"/>
+                                            </ComboBox>
+                                            <ToggleButton x:Name="togPrettyPrint" ToolTip="Prettify" IsChecked="True" Click="PrettyPrint"
                                                   IsEnabled="{Binding SelectedHistoryItem, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/FormatDocument_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </ToggleButton>
-                                        <Button ToolTip="Word wrap" Click="RespBodyWordWrap"
+                                                <Image Source="/Resources/Images/FormatDocument_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </ToggleButton>
+                                            <Button ToolTip="Word wrap" Click="RespBodyWordWrap"
                                                 IsEnabled="{Binding SelectedHistoryItem, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/WordWrap_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-                                        <Separator/>
-                                        <Button ToolTip="Save to file" Command="{Binding SaveResponseBodyCommand}"
+                                                <Image Source="/Resources/Images/WordWrap_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                            <Separator/>
+                                            <Button ToolTip="Save to file" Command="{Binding SaveResponseBodyCommand}"
                                             IsEnabled="{Binding SelectedHistoryItem, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/Save_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}" />
-                                        </Button>
-                                        <Separator/>
-                                        <Button ToolTip="Search in body" Click="SearchResponseBody"
+                                                <Image Source="/Resources/Images/Save_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}" />
+                                            </Button>
+                                            <Separator/>
+                                            <Button ToolTip="Search in body" Click="SearchResponseBody"
                                             IsEnabled="{Binding SelectedHistoryItem, ConverterParameter=true, Converter={StaticResource nullToBool}
                                             }">
-                                            <Image Source="/Resources/Images/Search_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}" />
-                                        </Button>
-                                    </ToolBar>
-                                    <avalonedit:TextEditor x:Name="editResponse" IsReadOnly="True"  HorizontalAlignment="Stretch" 
+                                                <Image Source="/Resources/Images/Search_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}" />
+                                            </Button>
+                                        </ToolBar>
+                                        <avalonedit:TextEditor x:Name="editResponse" IsReadOnly="True"  HorizontalAlignment="Stretch" 
                                                    VerticalAlignment="Stretch" FontFamily="Consolas" 
                                                    ShowLineNumbers="True" />
-                                </DockPanel>
-                            </TabItem>
-                            <TabItem Header="Cookies">
-                                <ListView ItemsSource="{Binding SelectedHistoryItem.Response.Cookies}" Style="{StaticResource defaultList}" SelectionMode="Single">
-                                    <ListView.View>
-                                        <GridView>
-                                            <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}" />
-                                            <GridViewColumn Header="Value" Width="100" DisplayMemberBinding="{Binding Value}" />
-                                            <GridViewColumn Header="Domain" Width="100" DisplayMemberBinding="{Binding Domain}" />
-                                            <GridViewColumn Header="Path" Width="100" DisplayMemberBinding="{Binding Path}" />
-                                            <GridViewColumn Header="Expires" Width="80" DisplayMemberBinding="{Binding Expires, StringFormat=yyyy-MM-dd}" />
-                                            <GridViewColumn Header="HttpOnly" Width="100" DisplayMemberBinding="{Binding HttpOnly}" />
-                                            <GridViewColumn Header="Secure" Width="100" DisplayMemberBinding="{Binding Secure}" />
+                                    </DockPanel>
+                                </TabItem>
+                                <TabItem Header="Cookies">
+                                    <ListView ItemsSource="{Binding SelectedHistoryItem.Response.Cookies}" Style="{StaticResource defaultList}" SelectionMode="Single">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}" />
+                                                <GridViewColumn Header="Value" Width="100" DisplayMemberBinding="{Binding Value}" />
+                                                <GridViewColumn Header="Domain" Width="100" DisplayMemberBinding="{Binding Domain}" />
+                                                <GridViewColumn Header="Path" Width="100" DisplayMemberBinding="{Binding Path}" />
+                                                <GridViewColumn Header="Expires" Width="80" DisplayMemberBinding="{Binding Expires, StringFormat=yyyy-MM-dd}" />
+                                                <GridViewColumn Header="HttpOnly" Width="100" DisplayMemberBinding="{Binding HttpOnly}" />
+                                                <GridViewColumn Header="Secure" Width="100" DisplayMemberBinding="{Binding Secure}" />
 
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
-                            </TabItem>
-                            <TabItem Header="Headers">
-                                <ListView ItemsSource="{Binding SelectedHistoryItem.Response.Headers}" Style="{StaticResource defaultList}" SelectionMode="Single">
-                                    <ListView.View>
-                                        <GridView>
-                                            <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
-                                            <GridViewColumn Header="Value" Width="auto" DisplayMemberBinding="{Binding Value}" />
-                                        </GridView>
-                                    </ListView.View>
-                                    <ListView.ItemContainerStyle>
-                                        <Style TargetType="{x:Type ListViewItem}">
-                                            <Setter Property="ContextMenu">
-                                                <Setter.Value>
-                                                    <ContextMenu>
-                                                        <MenuItem Header="Copy" Command="{Binding Data.CopyHeaderCommand, Source={StaticResource proxy}}"
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </TabItem>
+                                <TabItem Header="Headers">
+                                    <ListView ItemsSource="{Binding SelectedHistoryItem.Response.Headers}" Style="{StaticResource defaultList}" SelectionMode="Single">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
+                                                <GridViewColumn Header="Value" Width="auto" DisplayMemberBinding="{Binding Value}" />
+                                            </GridView>
+                                        </ListView.View>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="{x:Type ListViewItem}">
+                                                <Setter Property="ContextMenu">
+                                                    <Setter.Value>
+                                                        <ContextMenu>
+                                                            <MenuItem Header="Copy" Command="{Binding Data.CopyHeaderCommand, Source={StaticResource proxy}}"
                                                             CommandParameter="{Binding Parent.DataContext, RelativeSource={RelativeSource Self}}">
-                                                            <MenuItem.Icon>
-                                                                <Image Source="/Resources/Images/CopyItem_16x.png" Width="16" Height="16" />
-                                                            </MenuItem.Icon>
-                                                        </MenuItem>
-                                                        <MenuItem Header="Copy Value" Command="{Binding Data.CopyHeaderValueCommand, Source={StaticResource proxy}}"
+                                                                <MenuItem.Icon>
+                                                                    <Image Source="/Resources/Images/CopyItem_16x.png" Width="16" Height="16" />
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                            <MenuItem Header="Copy Value" Command="{Binding Data.CopyHeaderValueCommand, Source={StaticResource proxy}}"
                                                             CommandParameter="{Binding Parent.DataContext, RelativeSource={RelativeSource Self}}">
-                                                        </MenuItem>
-                                                    </ContextMenu>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </ListView.ItemContainerStyle>
-                                </ListView>
+                                                            </MenuItem>
+                                                        </ContextMenu>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                    </ListView>
 
-                            </TabItem>
-                            <TabItem Header="Preview">
-                                <WebBrowser x:Name="previewResponse" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                </WebBrowser>
-                            </TabItem>
-                            <TabItem Header="Server Certificate">
-                                <DockPanel>
-                                    <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-                                        <Button ToolTip="View Certificate" Click="ViewCertificate"
+                                </TabItem>
+                                <TabItem Header="Preview">
+                                    <WebBrowser x:Name="previewResponse" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    </WebBrowser>
+                                </TabItem>
+                                <TabItem Header="Server Certificate">
+                                    <DockPanel>
+                                        <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+                                            <Button ToolTip="View Certificate" Click="ViewCertificate"
                                                 IsEnabled="{Binding SelectedHistoryItem.Response.ServerCertificate, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/Certificate_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-                                        <Button ToolTip="Export Certificate" Command="{Binding ExportCertificateCommand}"
+                                                <Image Source="/Resources/Images/Certificate_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                            <Button ToolTip="Export Certificate" Command="{Binding ExportCertificateCommand}"
                                                 IsEnabled="{Binding SelectedHistoryItem.Response.ServerCertificate, ConverterParameter=true, Converter={StaticResource nullToBool}}">
-                                            <Image Source="/Resources/Images/ExportCertificate_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
-                                        </Button>
-                                    </ToolBar>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="120" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="26"/>
-                                            <RowDefinition Height="26"/>
-                                            <RowDefinition Height="26"/>
-                                            <RowDefinition Height="26"/>
-                                            <RowDefinition Height="26"/>
-                                            <RowDefinition Height="26"/>
-                                            <RowDefinition Height="26"/>
-                                            <RowDefinition Height="26"/>
-                                            <RowDefinition Height="26"/>
-                                            <RowDefinition Height="26"/>
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Content="Subject:"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.Subject}"/>
-                                        <Label Grid.Row="1" Grid.Column="0" Content="Issuer:"/>
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.Issuer}"/>
-                                        <Label Grid.Row="2" Grid.Column="0" Content="Version:"/>
-                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.Version}"/>
-                                        <Label Grid.Row="3" Grid.Column="0" Content="Valid From:"/>
-                                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.NotBefore, StringFormat=yyyy-MM-dd HH:mm}"/>
-                                        <Label Grid.Row="4" Grid.Column="0" Content="Expires After:"/>
-                                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.NotAfter, StringFormat=yyyy-MM-dd HH:mm}"/>
-                                        <Label Grid.Row="5" Grid.Column="0" Content="Thumbprint:"/>
-                                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.Thumbprint}"/>
-                                        <Label Grid.Row="6" Grid.Column="0" Content="Serial Number:"/>
-                                        <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.SerialNumber}"/>
-                                        <Label Grid.Row="7" Grid.Column="0" Content="Key Exchange:"/>
-                                        <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.PublicKey.Key.KeyExchangeAlgorithm}"/>
-                                    </Grid>
-                                </DockPanel>
-                            </TabItem>
-                        </TabControl>
+                                                <Image Source="/Resources/Images/ExportCertificate_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                        </ToolBar>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="26"/>
+                                                <RowDefinition Height="26"/>
+                                                <RowDefinition Height="26"/>
+                                                <RowDefinition Height="26"/>
+                                                <RowDefinition Height="26"/>
+                                                <RowDefinition Height="26"/>
+                                                <RowDefinition Height="26"/>
+                                                <RowDefinition Height="26"/>
+                                                <RowDefinition Height="26"/>
+                                                <RowDefinition Height="26"/>
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.Row="0" Grid.Column="0" Content="Subject:"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.Subject}"/>
+                                            <Label Grid.Row="1" Grid.Column="0" Content="Issuer:"/>
+                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.Issuer}"/>
+                                            <Label Grid.Row="2" Grid.Column="0" Content="Version:"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.Version}"/>
+                                            <Label Grid.Row="3" Grid.Column="0" Content="Valid From:"/>
+                                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.NotBefore, StringFormat=yyyy-MM-dd HH:mm}"/>
+                                            <Label Grid.Row="4" Grid.Column="0" Content="Expires After:"/>
+                                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.NotAfter, StringFormat=yyyy-MM-dd HH:mm}"/>
+                                            <Label Grid.Row="5" Grid.Column="0" Content="Thumbprint:"/>
+                                            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.Thumbprint}"/>
+                                            <Label Grid.Row="6" Grid.Column="0" Content="Serial Number:"/>
+                                            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.SerialNumber}"/>
+                                            <Label Grid.Row="7" Grid.Column="0" Content="Key Exchange:"/>
+                                            <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding SelectedHistoryItem.Response.ServerCertificate.PublicKey.Key.KeyExchangeAlgorithm}"/>
+                                        </Grid>
+                                    </DockPanel>
+                                </TabItem>
+                            </TabControl>
+                        </Grid>
                     </Grid>
-                </Grid>
                 </Border>
 
             </Grid>

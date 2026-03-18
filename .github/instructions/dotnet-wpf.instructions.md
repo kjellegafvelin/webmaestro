@@ -7,6 +7,9 @@ applyTo: '**/*.xaml, **/*.cs'
 
 These instructions guide GitHub Copilot to assist with building high-quality, maintainable, and performant WPF applications using the MVVM pattern. It includes best practices for XAML, data binding, UI responsiveness, and .NET performance.
 
+## Design and layout
+- Use Windows Fluent UI design principles for modern and consistent user interfaces
+
 ## Ideal project types
 
 - Desktop applications using C# and WPF

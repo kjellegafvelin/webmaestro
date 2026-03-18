@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using WebMaestro.Models;
@@ -11,15 +12,8 @@ namespace WebMaestro.Importers
 {
     internal class OpenApiImporter : Importer
     {
-        private readonly string baseUrl;
-
         public OpenApiImporter()
         {
-        }
-
-        public OpenApiImporter(string baseUrl)
-        {
-            this.baseUrl = baseUrl;
         }
 
         public override void Import(Stream stream)
@@ -29,6 +23,8 @@ namespace WebMaestro.Importers
             var isOpenApi2 = diagnostic.SpecificationVersion == Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0;
 
             this.Collection.Name = openApi.Info.Title;
+
+            var baseUrl = openApi.Servers.FirstOrDefault()?.Url ?? string.Empty;
 
             if (isOpenApi2)
             {
@@ -126,7 +122,7 @@ namespace WebMaestro.Importers
                         HttpMethod = ConvertToHttpMethod(operationType)
                     };
 
-                    foreach (var parameter in operationInfo.Parameters)
+                    foreach (var parameter in GetParametersForOperation(pathInfo, operationInfo))
                     {
                         if (parameter.Deprecated)
                         {
@@ -136,7 +132,7 @@ namespace WebMaestro.Importers
                         switch (parameter.In)
                         {
                             case ParameterLocation.Query:
-                                req.QueryParams.Add(new(parameter.Name, string.Empty, parameter.Description));
+                                req.QueryParams.Add(new(parameter.Name, string.Empty, parameter.Description, parameter.Required));
                                 break;
                             case ParameterLocation.Header:
                                 var value = GetDefaultValueForHeader(parameter);
@@ -160,6 +156,23 @@ namespace WebMaestro.Importers
                     base.Requests.Add(req);
                 }
             }
+        }
+
+        private static IEnumerable<OpenApiParameter> GetParametersForOperation(OpenApiPathItem pathInfo, OpenApiOperation operationInfo)
+        {
+            var parameters = new Dictionary<(string Name, ParameterLocation? Location), OpenApiParameter>();
+
+            foreach (var parameter in pathInfo.Parameters)
+            {
+                parameters[(parameter.Name, parameter.In)] = parameter;
+            }
+
+            foreach (var parameter in operationInfo.Parameters)
+            {
+                parameters[(parameter.Name, parameter.In)] = parameter;
+            }
+
+            return parameters.Values;
         }
 
         private static string GetDefaultValueForHeader(OpenApiParameter parameter)

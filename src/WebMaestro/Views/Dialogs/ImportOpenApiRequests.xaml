@@ -19,31 +19,39 @@
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="32" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"></WindowChrome>
     </WindowChrome.WindowChrome>
-    <Grid Margin="24,32,24,24">
+    <Grid Margin="24,25,24,24">
         <StackPanel>
             <StackPanel>
                 <TextBlock Text="Import Open API" Style="{StaticResource SubtitleTextBlockStyle}"/>
             </StackPanel>
             <StackPanel Margin="0,24,0,0">
-                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Height="24">Select source to import from</TextBlock>
-                <RadioButton GroupName="import" Content="Import from URL" IsChecked="{Binding IsUrl}" FontSize="14" Height="24"/>
-                <TextBox Text="{Binding Url}" IsEnabled="{Binding IsUrl}" Margin="20,0,0,10" Height="24" FontSize="14"/>
-                <RadioButton GroupName="import" Content="Import from file" FontSize="14" Height="24"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" IsEnabled="{Binding IsUrl, Converter={StaticResource inverseBool}}">
-                    <TextBox Text="{Binding Path}" Width="500" Margin="20,0,0,0"/>
-                    <Button FontSize="14" Height="24" Margin="8,0,0,0" Width="24" Command="{Binding BrowseForFileCommand}">...</Button>
-                </StackPanel>
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,8">Select source to import from</TextBlock>
+                <RadioButton GroupName="import" Content="Import from URL" IsChecked="{Binding IsUrl}"/>
+                <TextBox Text="{Binding Url}" IsEnabled="{Binding IsUrl}" Margin="20,0,0,10" HorizontalAlignment="Stretch"/>
+                <RadioButton GroupName="import" Content="Import from file"/>
+                <Grid Margin="20,0,0,0" IsEnabled="{Binding IsUrl, Converter={StaticResource inverseBool}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding Path}"/>
+                    <Button Grid.Column="1" Margin="8,0,0,0" Command="{Binding BrowseForFileCommand}">...</Button>
+                </Grid>
             </StackPanel>
             <StackPanel Margin="0,24,0,0">
-                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Height="24">Location to save collection</TextBlock>
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Text="{Binding Location}" Width="520" />
-                    <Button Margin="8,0,0,0" Width="24" FontSize="14" Height="24" ToolTip="Browse" Command="{Binding BrowseForFolderCommand}">...</Button>
-                </StackPanel>
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,8">Location to save collection</TextBlock>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding Location}" />
+                    <Button Grid.Column="1" Margin="8,0,0,0" ToolTip="Browse" Command="{Binding BrowseForFolderCommand}">...</Button>
+                </Grid>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,48,0,0">
-                <Button IsDefault="True" Command="{Binding OkCommand}" Width="80" FontSize="14" Height="24">OK</Button>
-                <Button IsCancel="True" Margin="8,0,0,0" Width="80" FontSize="14" Height="24">Cancel</Button>
+                <Button IsDefault="True" Command="{Binding OkCommand}" Width="80">OK</Button>
+                <Button IsCancel="True" Margin="8,0,0,0" Width="80">Cancel</Button>
             </StackPanel>
         </StackPanel>
     </Grid>

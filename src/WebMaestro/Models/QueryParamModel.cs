@@ -10,15 +10,28 @@ namespace WebMaestro.Models
         private string value;
         private string description;
 
+        public QueryParamModel()
+        {
+            this.key = string.Empty;
+            this.value = string.Empty;
+            this.description = string.Empty;
+        }
+
         public QueryParamModel(string key, string value)
         {
             this.key = key;
             this.value = value;
+            this.description = string.Empty;
         }
 
         public QueryParamModel(string key, string value, string description) : this(key, value)
         {
             this.description = description;
+        }
+
+        public QueryParamModel(string key, string value, string description, bool isEnabled) : this(key, value, description)
+        {
+            this.isEnabled = isEnabled;
         }
 
         public string Key { get => this.key; set => this.SetProperty(ref this.key, value); }

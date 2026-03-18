@@ -127,9 +127,7 @@ namespace WebMaestro.ViewModels.Explorer
 
                     stream = await client.GetStreamAsync(vm.Url);
 
-                    var url = new Uri(vm.Url);
-                    var baseUrl = $"{ url.Scheme }://{ url.DnsSafeHost }";
-                    importer = new OpenApiImporter(baseUrl);
+                    importer = new OpenApiImporter();
                 }
                 else
                 {

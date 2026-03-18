@@ -7,6 +7,9 @@ using WebMaestro.Serializers;
 using WebMaestro.Services;
 using Xunit;
 using System.Collections.ObjectModel;
+using System;
+using WebMaestro.Helpers;
+using WebMaestro.ViewModels;
 
 namespace WebMaestro.Tests
 {
@@ -180,6 +183,40 @@ namespace WebMaestro.Tests
             Assert.Equal("x-api-key", roundTripped.Environments[0].Authentication.Key);
             Assert.Equal("${apiKey}", roundTripped.Environments[0].Authentication.Value);
             Assert.Equal(ApiKeyLocations.Header, roundTripped.Environments[0].Authentication.ApiKeyLocation);
+        }
+
+        [Fact]
+        public async Task Request_RoundTrip_Should_Persist_Headers_And_QueryParams()
+        {
+            var request = new RequestModel
+            {
+                Name = "test",
+                Url = "https://api.example.com/items",
+                HttpMethod = HttpMethods.GET,
+            };
+
+            request.Headers.Add(new HeaderModel("X-Test", "header-value", "header"));
+            request.QueryParams.Add(new QueryParamModel("q", "query-value", "query"));
+
+            var fileName = Path.Combine(Path.GetTempPath(), $"wm-{Guid.NewGuid():N}.req");
+            try
+            {
+                await FileHelpers.SaveJsonFileAsync(fileName, request);
+                var roundTripped = await FileHelpers.ReadJsonFileAsync<RequestModel>(fileName);
+
+                Assert.NotNull(roundTripped);
+                Assert.Single(roundTripped.Headers);
+                Assert.Single(roundTripped.QueryParams);
+                Assert.Equal("X-Test", roundTripped.Headers[0].Name);
+                Assert.Equal("q", roundTripped.QueryParams[0].Key);
+            }
+            finally
+            {
+                if (File.Exists(fileName))
+                {
+                    File.Delete(fileName);
+                }
+            }
         }
     }
 }
