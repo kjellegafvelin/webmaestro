@@ -334,7 +334,7 @@ namespace WebMaestro.Services
                 return request.Authentication;
             }
 
-            if (environment?.Authentication?.Type != AuthenticationTypes.None)
+            if (environment is not null && environment.Authentication!.Type != AuthenticationTypes.None)
             {
                 return environment.Authentication;
             }

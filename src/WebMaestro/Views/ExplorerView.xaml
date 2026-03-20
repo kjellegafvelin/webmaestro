@@ -61,8 +61,6 @@
                             <HierarchicalDataTemplate DataType="{x:Type vm:CollectionViewModel}" >
                                 <HierarchicalDataTemplate.ItemsSource>
                                     <MultiBinding Converter="{StaticResource compositeConverter}">
-                                        <Binding Path="Environments" />
-                                        <Binding Path="Variables" />
                                         <Binding Path="Requests" />
                                     </MultiBinding>
                                 </HierarchicalDataTemplate.ItemsSource>
@@ -70,6 +68,11 @@
                                 <StackPanel Orientation="Horizontal" Style="{StaticResource itemStyle}">
                                     <StackPanel.ContextMenu>
                                         <ContextMenu>
+                                            <MenuItem Header="Edit Environments" Command="{Binding EditCommand}">
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/Images/CreatePhysicalEnvironment_16x.png" Width="16" Height="16" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
                                             <MenuItem Header="Remove Collection" Command="{Binding RemoveCommand}">
                                                 <MenuItem.Icon>
                                                     <Image Source="/Resources/Images/DeleteCollection_16x.png" Width="16" Height="16" />
@@ -81,86 +84,6 @@
                                     <TextBlock Text="{Binding Name}" Style="{StaticResource BodyTextBlockStyle}" />
                                 </StackPanel>
                             </HierarchicalDataTemplate>
-
-                            <HierarchicalDataTemplate DataType="{x:Type vm:EnvironmentsViewModel}" ItemsSource="{Binding Environments}">
-                                <StackPanel Orientation="Horizontal"  Style="{StaticResource itemStyle}">
-                                    <StackPanel.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Edit Environments" Command="{Binding EditCommand}">
-                                                <MenuItem.Icon>
-                                                    <Image Source="/Resources/Images/CreatePhysicalEnvironment_16x.png" Width="16" Height="16" />
-                                                </MenuItem.Icon>
-                                            </MenuItem>
-                                        </ContextMenu>
-                                    </StackPanel.ContextMenu>
-
-                                    <Image Source="/Resources/Images/Environment_16x.png" Margin="0,0,5,0" />
-                                    <TextBlock Text="Environments" Style="{StaticResource BodyTextBlockStyle}" />
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
-
-                            <DataTemplate DataType="{x:Type vm:EnvironmentViewModel}">
-                                <StackPanel Orientation="Horizontal"  Style="{StaticResource itemStyle}">
-                                    <StackPanel.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Set as Active" Command="{Binding DeleteCommand}" IsCheckable="True">
-                                                <MenuItem.Icon>
-                                                    <Image Source="/Resources/Images/Delete_16x.png" Width="16" Height="16" />
-                                                </MenuItem.Icon>
-                                            </MenuItem>
-                                            <Separator />
-                                            <MenuItem Header="Delete" Command="{Binding DeleteCommand}">
-                                                <MenuItem.Icon>
-                                                    <Image Source="/Resources/Images/Delete_16x.png" Width="16" Height="16" />
-                                                </MenuItem.Icon>
-                                            </MenuItem>
-                                        </ContextMenu>
-                                    </StackPanel.ContextMenu>
-
-                                    <Image Source="/Resources/Images/Environment_16x.png" Margin="0,0,5,0" />
-                                    <TextBlock Text="{Binding Name}"/>
-                                </StackPanel>
-                            </DataTemplate>
-
-                            <HierarchicalDataTemplate DataType="{x:Type vm:VariablesViewModel}" ItemsSource="{Binding Variables}">
-                                <StackPanel Orientation="Horizontal" Style="{StaticResource itemStyle}">
-                                    <StackPanel.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Add Variable..." Command="{Binding AddCommand}">
-                                                <MenuItem.Icon>
-                                                    <Image Source="/Resources/Images/AddVariable_16x.png" Width="16" Height="16" />
-                                                </MenuItem.Icon>
-                                            </MenuItem>
-                                        </ContextMenu>
-                                    </StackPanel.ContextMenu>
-
-                                    <Image Source="/Resources/Images/Variables_16x.png" Margin="0,0,5,0" />
-                                    <TextBlock Text="Variables" Style="{StaticResource BodyTextBlockStyle}" />
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
-
-                            <DataTemplate DataType="{x:Type vm:VariableViewModel}">
-                                <StackPanel Orientation="Horizontal" Style="{StaticResource itemStyle}">
-                                    <StackPanel.InputBindings>
-                                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding EditCommand}"/>
-                                    </StackPanel.InputBindings>
-                                    <StackPanel.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Delete" Command="{Binding DeleteCommand}">
-                                                <MenuItem.Icon>
-                                                    <Image Source="/Resources/Images/Delete_16x.png" Width="16" Height="16" />
-                                                </MenuItem.Icon>
-                                            </MenuItem>
-                                        </ContextMenu>
-                                    </StackPanel.ContextMenu>
-
-                                    <Image Source="/Resources/Images/Variable_16x.png" Margin="0,0,5,0" />
-                                    <TextBlock Text="{Binding Name}" />
-                                    <TextBlock Text=" - &quot;" />
-                                    <TextBlock Text="{Binding Value}" />
-                                    <TextBlock Text="&quot;" />
-                                </StackPanel>
-                            </DataTemplate>
 
                             <HierarchicalDataTemplate DataType="{x:Type vm:RequestsViewModel}">
                                 <HierarchicalDataTemplate.ItemsSource>
