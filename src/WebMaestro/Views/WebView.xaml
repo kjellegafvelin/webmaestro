@@ -136,7 +136,7 @@
                         <StackPanel Margin="12">
                             <ProgressBar Width="140" Height="15" IsIndeterminate="True"/>
                         </StackPanel>
-                        <Button Content="Cancel" HorizontalAlignment="Center" Margin="0 4 0 0" Height="20" Width="80" Click="Button_Click">
+                        <Button Content="Cancel" HorizontalAlignment="Center" Margin="0 4 0 0" Height="32" Width="80" Click="Button_Click">
                             <Button.Resources>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="CornerRadius" Value="5"/>
