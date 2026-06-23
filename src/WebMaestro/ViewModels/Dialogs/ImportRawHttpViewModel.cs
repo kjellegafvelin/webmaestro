@@ -7,6 +7,7 @@ using System;
 using WebMaestro.Models;
 using System.Windows;
 using WebMaestro.Serializers;
+using WebMaestro.Importers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -31,7 +32,14 @@ namespace WebMaestro.ViewModels.Dialogs
         {
             try
             {
-                this.Requests = await RequestModelSerializer.DeserializeAsync(this.Source);
+                if (this.Source.TrimStart().StartsWith("curl", StringComparison.OrdinalIgnoreCase))
+                {
+                    this.Requests = [CurlParser.Parse(this.Source)];
+                }
+                else
+                {
+                    this.Requests = await RequestModelSerializer.DeserializeAsync(this.Source);
+                }
                 this.DialogResult = true;
             }
             catch(Exception)

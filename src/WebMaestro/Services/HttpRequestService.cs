@@ -15,6 +15,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using WebMaestro.Models;
 using WebMaestro.ViewModels;
 
@@ -163,7 +164,8 @@ namespace WebMaestro.Services
 
                         contentType = msg.Content is StreamContent ? "application/octet-stream" : contentType;
 
-                        if (!string.IsNullOrWhiteSpace(contentType))
+                        // Skip content-type override for Form body type; let FormUrlEncodedContent/MultipartFormDataContent set it
+                        if (!string.IsNullOrWhiteSpace(contentType) && request.BodyType != RequestBodyType.Form)
                         {
                             msg.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         }
@@ -307,11 +309,46 @@ namespace WebMaestro.Services
             return new Uri(url);
         }
 
-        private HttpContent CreateContent(EnvironmentModel environment, RequestModel request)
+        internal HttpContent CreateContent(EnvironmentModel environment, RequestModel request)
         {
             switch (request.BodyType)
             {
                 case RequestBodyType.Form:
+                    if (request.FormEncoding == FormEncoding.UrlEncoded)
+                    {
+                        var pairs = new List<KeyValuePair<string, string>>();
+                        foreach (var field in request.FormData.Where(x => x.IsEnabled && !x.IsFile))
+                        {
+                            var value = VariableHelper.ApplyVariables(environment, request, field.Value);
+                            pairs.Add(new KeyValuePair<string, string>(field.Name, value));
+                        }
+                        return new FormUrlEncodedContent(pairs);
+                    }
+                    else if (request.FormEncoding == FormEncoding.Multipart)
+                    {
+                        var content = new MultipartFormDataContent();
+                        foreach (var field in request.FormData.Where(x => x.IsEnabled))
+                        {
+                            if (field.IsFile)
+                            {
+                                if (string.IsNullOrWhiteSpace(field.FilePath) || !File.Exists(field.FilePath))
+                                {
+                                    throw new InvalidOperationException($"File not found: {field.FilePath}");
+                                }
+
+                                var fileStream = File.OpenRead(field.FilePath);
+                                var fileContent = new StreamContent(fileStream);
+                                fileContent.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(field.FilePath));
+                                content.Add(fileContent, field.Name, Path.GetFileName(field.FilePath));
+                            }
+                            else
+                            {
+                                var value = VariableHelper.ApplyVariables(environment, request, field.Value);
+                                content.Add(new StringContent(value), field.Name);
+                            }
+                        }
+                        return content;
+                    }
                     return null;
                 case RequestBodyType.Raw:
                     var body = request.Body ?? "";
@@ -409,6 +446,25 @@ namespace WebMaestro.Services
             }
 
             return result;
+        }
+
+        private static string GetMimeType(string filePath)
+        {
+            return Path.GetExtension(filePath).ToLowerInvariant() switch
+            {
+                ".txt" => "text/plain",
+                ".htm" => "text/html",
+                ".html" => "text/html",
+                ".json" => "application/json",
+                ".xml" => "application/xml",
+                ".csv" => "text/csv",
+                ".jpg" => "image/jpeg",
+                ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                ".pdf" => "application/pdf",
+                _ => "application/octet-stream"
+            };
         }
 
         internal static void OnError(string msg)

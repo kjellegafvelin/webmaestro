@@ -48,6 +48,12 @@ namespace WebMaestro.ViewModels
         Binary
     }
 
+    public enum FormEncoding
+    {
+        UrlEncoded = 0,
+        Multipart
+    }
+
     public partial class WebViewModel : TabItemViewModel
     {
         private readonly object historyLock = new();
@@ -135,6 +141,9 @@ namespace WebMaestro.ViewModels
 
         [ObservableProperty]
         private QueryParamModel selectedRequestQueryParam;
+
+        [ObservableProperty]
+        private FormDataModel selectedFormField;
 
         [ObservableProperty]
         private bool validateServerCertificate = true;
@@ -348,6 +357,50 @@ namespace WebMaestro.ViewModels
         }
 
         [RelayCommand]
+        private void RemoveFormField()
+        {
+            this.Request.FormData.Remove(this.SelectedFormField);
+        }
+
+        [RelayCommand]
+        private void AddFormField()
+        {
+            var field = new FormDataModel();
+            this.Request.FormData.Add(field);
+            this.SelectedFormField = field;
+        }
+
+        [RelayCommand]
+        private void RemoveFormFieldItem(FormDataModel field)
+        {
+            if (field != null)
+            {
+                this.Request.FormData.Remove(field);
+            }
+        }
+
+        [RelayCommand]
+        private void BrowseFormFieldFile(FormDataModel field)
+        {
+            if (field == null)
+            {
+                return;
+            }
+
+            var settings = new OpenFileDialogSettings()
+            {
+                Filter = "All files (*.*)|*.*",
+                Title = "Select file"
+            };
+
+            if (this.dialogService.ShowOpenFileDialog(this, settings) == true)
+            {
+                field.FilePath = settings.FileName;
+                field.Value = string.Empty;
+            }
+        }
+
+        [RelayCommand]
         private void EditComment()
         {
             var vm = new EditCommentViewModel()
@@ -540,16 +593,24 @@ namespace WebMaestro.ViewModels
 
         private void Request_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-        if (e.PropertyName == nameof(this.Request.Url))
-        {
-            try
+            if (e.PropertyName == nameof(this.Request.Url))
             {
-                this.SendCommand.NotifyCanExecuteChanged();
-                
-                ParseQueryString(this.Request);
+                try
+                {
+                    this.SendCommand.NotifyCanExecuteChanged();
+
+                    ParseQueryString(this.Request);
+                }
+                catch (Exception) { }
             }
-            catch (Exception) { }
-        }
+
+            if (e.PropertyName == nameof(this.Request.FormEncoding) && this.Request.FormEncoding == FormEncoding.UrlEncoded)
+            {
+                if (this.Request.FormData.Any(x => x.IsEnabled && x.IsFile))
+                {
+                    this.dialogService.ShowMessageBox(this, "Switching to URL Encoded will ignore file parts. File entries will remain in the list but will not be sent.", "File Parts Will Be Ignored", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
         }
 
         [RelayCommand]

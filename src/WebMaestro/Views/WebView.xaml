@@ -55,6 +55,10 @@
 
             </Style>
             <converters:BindingProxy x:Key="proxy" Data="{Binding}"/>
+            <Style x:Key="RowButton" TargetType="Button">
+                <Setter Property="Width" Value="32" />
+                <Setter Property="Height" Value="32" />
+            </Style>
             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                 <Setter Property="FontSize" Value="14px"/>
                 <Setter Property="FontWeight" Value="SemiBold" />
@@ -526,7 +530,7 @@
                                         <ColumnDefinition Width="80" />
                                     </Grid.ColumnDefinitions>
                                     <RadioButton Grid.Column="0" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=None}" Content="None"/>
-                                    <RadioButton IsEnabled="False" Grid.Column="1" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Form}" Content="Form" />
+                                    <RadioButton IsEnabled="True" Grid.Column="1" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Form}" Content="Form" />
                                     <RadioButton Grid.Column="2" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Raw}" Content="Raw"/>
                                     <RadioButton Grid.Column="3" GroupName="BodyType" IsChecked="{Binding Request.BodyType, Converter={StaticResource enumMatchToBool}, ConverterParameter=Binary}" Content="Binary"/>
                                 </Grid>
@@ -534,14 +538,97 @@
                                 <TextBlock Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=None}" 
                                            Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">This request has an empty body.</TextBlock>
 
-                                <ListView Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Form}" Style="{StaticResource defaultList}">
-                                    <ListView.View>
-                                        <GridView>
-                                            <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}"/>
-                                            <GridViewColumn Header="Value" Width="300" DisplayMemberBinding="{Binding Value}"/>
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
+                                <Border Grid.Row="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Form}">
+                                    <DockPanel>
+                                        <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top" ToolBarTray.IsLocked="True" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+                                            <Button Command="{Binding AddFormFieldCommand}" ToolTip="Add field">
+                                                <Image Source="/Resources/Images/Add_16x.png" Width="16" Height="16" />
+                                            </Button>
+                                            <Button Command="{Binding RemoveFormFieldItemCommand}" ToolTip="Remove Field"
+                                                    CommandParameter="{Binding SelectedFormField}"
+                                                    IsEnabled="{Binding SelectedFormField, ConverterParameter=true, Converter={StaticResource nullToBool}}">
+                                                <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                            </Button>
+                                            <Separator/>
+                                            <Label Content="Encoding:" VerticalAlignment="Center"/>
+                                            <RadioButton GroupName="FormEncoding" Content="URL Encoded" Margin="5,0" VerticalAlignment="Center"
+                                                     IsChecked="{Binding Request.FormEncoding, Converter={StaticResource enumMatchToBool}, ConverterParameter=UrlEncoded}"/>
+                                            <RadioButton GroupName="FormEncoding" Content="Multipart" Margin="5,0" VerticalAlignment="Center"
+                                                     IsChecked="{Binding Request.FormEncoding, Converter={StaticResource enumMatchToBool}, ConverterParameter=Multipart}"/>
+                                        </ToolBar>
+                                        <DataGrid ItemsSource="{Binding Request.FormData}" SelectedItem="{Binding SelectedFormField}" 
+                                                CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False"
+                                                Margin="0,0,0,0">
+                                            <DataGrid.Columns>
+                                                <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding IsEnabled}" Width="60"/>
+                                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150"/>
+                                                <DataGridTemplateColumn Header="Value / File" Width="*">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <TextBlock Text="{Binding Value}">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsFile}" Value="True">
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                                <TextBlock Text="{Binding FilePath}">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsFile}" Value="True">
+                                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                                        <DataTemplate>
+                                                            <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTemplateColumn Width="70">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Button Style="{StaticResource RowButton}" Margin="0,0,4,0"
+                                                                        Command="{Binding Data.BrowseFormFieldFileCommand, Source={StaticResource proxy}}"
+                                                                        CommandParameter="{Binding}" Padding="0"
+                                                                        ToolTip="Attach file"
+                                                                        IsEnabled="{Binding Data.Request.FormEncoding, Source={StaticResource proxy}, Converter={StaticResource enumMatchToBool}, ConverterParameter=Multipart}">
+                                                                    <Image Source="/Resources/Images/OpenFile_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                                                </Button>
+                                                                <Button Style="{StaticResource RowButton}"
+                                                                        Command="{Binding Data.RemoveFormFieldItemCommand, Source={StaticResource proxy}}"
+                                                                        CommandParameter="{Binding}"
+                                                                        ToolTip="Delete field">
+                                                                    <Image Source="/Resources/Images/Remove_16x.png" Width="16" Height="16" Style="{StaticResource ImageEnabled}"/>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                            <d:DataGrid.ItemsSource>
+                                                <x:Array Type="{x:Type model:FormDataModel}">
+                                                    <model:FormDataModel Name="test" Value="val"/>
+                                                </x:Array>
+                                            </d:DataGrid.ItemsSource>
+                                        </DataGrid>
+                                    </DockPanel>
+                                </Border>
 
                                 <Border Grid.Row="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                                     <DockPanel Grid.Row="1" Visibility="{Binding Request.BodyType, Converter={StaticResource enumMatchToVisibility}, ConverterParameter=Raw}" >

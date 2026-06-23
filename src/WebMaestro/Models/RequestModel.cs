@@ -193,6 +193,8 @@ namespace WebMaestro.Models
 
         public ObservableCollection<QueryParamModel> QueryParams { get; set; } = new();
 
+        public ObservableCollection<FormDataModel> FormData { get; set; } = new();
+
         [JsonIgnore]
         public ObservableCollection<X509Certificate2> Certificates { get; } = new();
 
@@ -219,6 +221,9 @@ namespace WebMaestro.Models
 
         [ObservableProperty]
         private RequestBodyType bodyType = RequestBodyType.None;
+
+        [ObservableProperty]
+        private FormEncoding formEncoding = FormEncoding.Multipart;
 
         [ObservableProperty]
         public int timeout = 120;
